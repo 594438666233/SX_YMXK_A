@@ -12,6 +12,7 @@
 
 @property (nonatomic, copy) NSString *thumbnailUrl;
 @property (nonatomic, copy) NSString *sourceName;
+@property (nonatomic, assign) NSInteger sourceId;
 @property (nonatomic, assign) NSInteger cnt;
 
 @end

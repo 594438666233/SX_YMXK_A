@@ -52,7 +52,7 @@ UICollectionViewDelegate
     NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/twoGameList" body:str block:^(id result) {
         NSArray *array = [result objectForKey:@"result"];
-        if (_dataArray.count != 0 && pageIndex == 1) {
+        if (pageIndex == 1) {
             [_dataArray removeAllObjects];
         }
         

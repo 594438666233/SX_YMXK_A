@@ -45,6 +45,11 @@ UIScrollViewDelegate
     
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBar.subviews.firstObject.alpha = 1;
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithRed:1.0 green:0.9468 blue:0.7594 alpha:1.0];
@@ -57,6 +62,7 @@ UIScrollViewDelegate
     // 导航栏左按钮
     UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_OptionButton_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:nil];
     self.navigationItem.leftBarButtonItem = leftBarButtonItem;
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
     // 导航栏中间菜单
     [self createNavigationCollectionView];
     // 导航栏右按钮

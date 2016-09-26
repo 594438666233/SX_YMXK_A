@@ -83,7 +83,7 @@ UIScrollViewDelegate
     _pageControl.numberOfPages = huandengNewsResult.childElements.count;
     for (int i = 0; i < huandengNewsResult.childElements.count; i++) {
         SX_NewsChildElements *newsChildElements = huandengNewsResult.childElements[i];
-        UIImageView *myImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.contentView.frame.size.width * i, 0, self.contentView.frame.size.width, self.contentView.frame.size.height)];
+        UIImageView *myImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.contentView.frame.size.width * i, 0, _scrollView.frame.size.width, _scrollView.frame.size.height)];
         [myImageView sd_setImageWithURL:(NSURL *)newsChildElements.thumbnailURLs[0]];
         [_scrollView addSubview:myImageView];
         [_array addObject:newsChildElements.title];

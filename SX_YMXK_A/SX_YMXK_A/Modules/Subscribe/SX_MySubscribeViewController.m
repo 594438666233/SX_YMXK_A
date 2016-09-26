@@ -12,6 +12,7 @@
 #import "SX_CollectionViewCell.h"
 #import "MySubscribeTableViewCell.h"
 #import "MJRefresh.h"
+#import "SX_SubscribeDetailViewController.h"
 
 static NSString * const collectionViewIdentifier = @"collectionCell";
 static NSString * const tableViewIdentifier = @"tableViewCell";
@@ -53,7 +54,6 @@ UIScrollViewDelegate
     NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/subscribe" body:str block:^(id result) {
         NSArray *array = [result objectForKey:@"result"];
-        NSLog(@"%@", array);
         if (_tableViewDataArray.count != 0) {
             [_tableViewDataArray removeAllObjects];
         }
@@ -70,10 +70,10 @@ UIScrollViewDelegate
 - (void)createNavigationCollectionView {
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     flowLayout.minimumLineSpacing = 10;
-    flowLayout.itemSize = CGSizeMake(self.view.frame.size.width / 6, 44);
+    flowLayout.itemSize = CGSizeMake(self.view.frame.size.width / 8, 44);
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     
-    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, 160, 44) collectionViewLayout:flowLayout];
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, 170, 44) collectionViewLayout:flowLayout];
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
     _collectionView.backgroundColor = [UIColor colorWithRed:0.995 green:0.8961 blue:0.9789 alpha:0.0];
@@ -93,13 +93,12 @@ UIScrollViewDelegate
 }
 
 - (void)createTableView {
-    for (int i = 0; i < _NCVDataArray.count; i++) {
+    for (int i = 0; i < _NCVDataArray.count - 1; i++) {
         UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(_scrollView.frame.size.width * i, 0, _scrollView.frame.size.width, _scrollView.frame.size.height)];
         //            tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gsAppHTMLTemplate_ImgBoxer_Background"]];
         tableView.delegate = self;
         tableView.dataSource = self;
         [tableView registerClass:[MySubscribeTableViewCell class] forCellReuseIdentifier:tableViewIdentifier];
-        
         tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(pullRefresh)];
         
         
@@ -111,11 +110,14 @@ UIScrollViewDelegate
     [self getTableViewSource:_pageCount];
 
 }
+
 - (void)pullRefresh {
     [self getTableViewSource:_pageCount];
     [_currentTableView.mj_header endRefreshing];
 }
-
+- (void)viewWillAppear:(BOOL)animated {
+    self.navigationController.navigationBar.subviews.firstObject.alpha = 1;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -132,6 +134,7 @@ UIScrollViewDelegate
     // 导航栏左按钮
     UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
     self.navigationItem.leftBarButtonItem= leftBarButtonItem;
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
     // 导航栏中间菜单
     [self createNavigationCollectionView];
     // 导航栏右按钮
@@ -146,7 +149,7 @@ UIScrollViewDelegate
 }
 
 - (void)leftBarButtonItemAction {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)rightBarButtonItemAction {
     
@@ -156,8 +159,8 @@ UIScrollViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     if ([scrollView isEqual:_scrollView]) {
         NSInteger currentPage = scrollView.contentOffset.x / self.view.frame.size.width;
-        _currentTableView = _tableViewArray[currentPage];
-        if (currentPage <= 2) {
+        if (currentPage < 2) {
+            _currentTableView = _tableViewArray[currentPage];
             _pageCount = currentPage;
             [_currentTableView.mj_header beginRefreshing];
         }
@@ -184,6 +187,13 @@ UIScrollViewDelegate
     cell.subscribeResult = subscribeResult;
     return cell;
 }
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    SX_SubscribeDetailViewController *subscribeDetailVC = [[SX_SubscribeDetailViewController alloc] init];
+    SX_SubscribeResult *result = _tableViewDataArray[indexPath.row];
+    subscribeDetailVC.subsribeResult = result;
+    [self.navigationController pushViewController:subscribeDetailVC animated:YES];
+}
+
 
 
 // collectionView方法
@@ -201,8 +211,8 @@ UIScrollViewDelegate
     cell.textFont = 17;
     
     _scrollView.contentOffset = CGPointMake(_scrollView.frame.size.width * indexPath.item, 0);
-    _currentTableView = _tableViewArray[indexPath.item];
-    if (indexPath.item <= 2) {
+    if (indexPath.item < 2) {
+        _currentTableView = _tableViewArray[indexPath.item];
         _pageCount = indexPath.item;
         [_currentTableView.mj_header beginRefreshing];
     }

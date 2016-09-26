@@ -77,7 +77,7 @@
     _subscribeResult = subscribeResult;
     [_myImageView sd_setImageWithURL:(NSURL *)subscribeResult.thumbnailUrl];
     _titleLabel.text = subscribeResult.sourceName;
-    _cntLabel.text = [NSString stringWithFormat:@"%ld订阅",subscribeResult.cnt];
+    _cntLabel.text = [NSString stringWithFormat:@"%ld人订阅",subscribeResult.cnt];
 }
 
 @end

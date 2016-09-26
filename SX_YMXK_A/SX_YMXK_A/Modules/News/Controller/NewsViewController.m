@@ -16,6 +16,7 @@
 #import "SX_xinwenTableViewCell.h"
 #import "SX_NavigationResult.h"
 #import <MJRefresh.h>
+#import "SX_NewsDetailViewController.h"
 
 static NSString * const santuIdentifier = @"santu";
 static NSString * const xinwenIdentifier = @"xinwen";
@@ -63,7 +64,7 @@ UICollectionViewDelegate
     NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/AllChannelList" body:str block:^(id result) {
         NSArray *array = [result objectForKey:@"result"];
-        if (_dataArray.count != 0 && pageIndex == 1) {
+        if (pageIndex == 1) {
             [_dataArray removeAllObjects];
         }
         
@@ -198,12 +199,9 @@ UICollectionViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     if ([scrollView isEqual:_scrollView]) {
         NSInteger currentPage = scrollView.contentOffset.x / self.view.frame.size.width;
-        NSLog(@"%f", scrollView.contentOffset.x);
-        NSLog(@"%f", _scrollView.frame.size.width);
         SX_NavigationResult *result = _collectionDataArray[currentPage];
         _currentNodeId = result.nodeId;
-        NSLog(@"----------%ld", _currentNodeId);
-        NSLog(@"-------%ld", currentPage);
+        
         _currenttableView = _tableViewArray[currentPage];
         [_currenttableView.mj_header beginRefreshing];
         /**
@@ -215,22 +213,7 @@ UICollectionViewDelegate
     }
 }
 
-// 加载刷新
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-//    if ([scrollView isEqual:_currenttableView]) {
-//        NSLog(@"%f", scrollView.contentOffset.y);
-//        NSLog(@"%f", _currenttableView.contentSize.height);
-//        NSLog(@"%f", _scrollView.frame.size.height);
-//        if (_currenttableView.contentOffset.y > _currenttableView.contentSize.height - _scrollView.frame.size.height + 10) {
-//            _pageCount++;
-//            [self getTableViewSource:_pageCount nodeIds:_currentNodeId];
-//        }
-//        if (_currenttableView.contentOffset.y < -30) {
-//            _pageCount = 1;
-//            [self getTableViewSource:_pageCount nodeIds:_currentNodeId];
-//        }
-//    }
-//}
+
 
 // tableView相关方法
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -246,7 +229,6 @@ UICollectionViewDelegate
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSLog(@"%ld", _dataArray.count);
     return _dataArray.count;
 }
 
@@ -272,6 +254,13 @@ UICollectionViewDelegate
     cell.xinwenNewsResult = newsResult;
 
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    SX_NewsDetailViewController *newsDetailVC = [[SX_NewsDetailViewController alloc] init];
+    SX_NewsResult *result = _dataArray[indexPath.row];
+    newsDetailVC.contentId = result.contentId;
+    [self.navigationController pushViewController:newsDetailVC animated:YES];
 }
 
 // collectionView相关方法

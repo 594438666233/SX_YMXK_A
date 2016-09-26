@@ -18,6 +18,8 @@
 		49AD5E3F1D93FA0400332869 /* SX_NavigationResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 49AD5E3E1D93FA0400332869 /* SX_NavigationResult.m */; };
 		49BD41001D928ABC007B04AC /* SX_NewsResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BD40FF1D928ABC007B04AC /* SX_NewsResult.m */; };
 		49BD41031D928BE4007B04AC /* SX_NewsChildElements.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BD41021D928BE4007B04AC /* SX_NewsChildElements.m */; };
+		49C8C3941D98BAD80069CF0D /* SX_NewsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C8C3931D98BAD80069CF0D /* SX_NewsDetailViewController.m */; };
+		49C8C3D01D990DB30069CF0D /* SX_ArticleResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C8C3CF1D990DB30069CF0D /* SX_ArticleResult.m */; };
 		49C8F6B91D961A630066B356 /* SX_MySubscribeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C8F6B81D961A630066B356 /* SX_MySubscribeViewController.m */; };
 		49C8F6BC1D961B770066B356 /* MySubscribeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C8F6BB1D961B770066B356 /* MySubscribeTableViewCell.m */; };
 		49C8F6BF1D9657040066B356 /* SX_SubscribeResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C8F6BE1D9657040066B356 /* SX_SubscribeResult.m */; };
@@ -41,6 +43,7 @@
 		49EBFAC61D94D61600A25B8A /* SX_GameListCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 49EBFAC51D94D61600A25B8A /* SX_GameListCollectionViewCell.m */; };
 		49EBFAC91D95022000A25B8A /* SX_GameListResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 49EBFAC81D95022000A25B8A /* SX_GameListResult.m */; };
 		49EBFACC1D955CBC00A25B8A /* SX_GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49EBFACB1D955CBC00A25B8A /* SX_GameViewController.m */; };
+		49F8DC581D97732200A7534C /* SX_SubscribeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49F8DC571D97732200A7534C /* SX_SubscribeDetailViewController.m */; };
 		E46752A9A40D1BEAD64F028B /* libPods-SX_YMXK_A.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2086797920415488F06DC6E /* libPods-SX_YMXK_A.a */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +69,10 @@
 		49BD40FF1D928ABC007B04AC /* SX_NewsResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_NewsResult.m; sourceTree = "<group>"; };
 		49BD41011D928BE4007B04AC /* SX_NewsChildElements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_NewsChildElements.h; sourceTree = "<group>"; };
 		49BD41021D928BE4007B04AC /* SX_NewsChildElements.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_NewsChildElements.m; sourceTree = "<group>"; };
+		49C8C3921D98BAD80069CF0D /* SX_NewsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_NewsDetailViewController.h; sourceTree = "<group>"; };
+		49C8C3931D98BAD80069CF0D /* SX_NewsDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_NewsDetailViewController.m; sourceTree = "<group>"; };
+		49C8C3CE1D990DB30069CF0D /* SX_ArticleResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_ArticleResult.h; sourceTree = "<group>"; };
+		49C8C3CF1D990DB30069CF0D /* SX_ArticleResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_ArticleResult.m; sourceTree = "<group>"; };
 		49C8F6B71D961A630066B356 /* SX_MySubscribeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_MySubscribeViewController.h; sourceTree = "<group>"; };
 		49C8F6B81D961A630066B356 /* SX_MySubscribeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_MySubscribeViewController.m; sourceTree = "<group>"; };
 		49C8F6BA1D961B770066B356 /* MySubscribeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySubscribeTableViewCell.h; sourceTree = "<group>"; };
@@ -116,6 +123,8 @@
 		49EBFAC81D95022000A25B8A /* SX_GameListResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_GameListResult.m; sourceTree = "<group>"; };
 		49EBFACA1D955CBC00A25B8A /* SX_GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_GameViewController.h; sourceTree = "<group>"; };
 		49EBFACB1D955CBC00A25B8A /* SX_GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_GameViewController.m; sourceTree = "<group>"; };
+		49F8DC561D97732200A7534C /* SX_SubscribeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_SubscribeDetailViewController.h; sourceTree = "<group>"; };
+		49F8DC571D97732200A7534C /* SX_SubscribeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_SubscribeDetailViewController.m; sourceTree = "<group>"; };
 		54B7517CA81118CD2820F42A /* Pods-SX_YMXK_A.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SX_YMXK_A.release.xcconfig"; path = "Pods/Target Support Files/Pods-SX_YMXK_A/Pods-SX_YMXK_A.release.xcconfig"; sourceTree = "<group>"; };
 		E2086797920415488F06DC6E /* libPods-SX_YMXK_A.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SX_YMXK_A.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE617D863541078DDCD52C2E /* Pods-SX_YMXK_A.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SX_YMXK_A.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SX_YMXK_A/Pods-SX_YMXK_A.debug.xcconfig"; sourceTree = "<group>"; };
@@ -248,6 +257,8 @@
 				499A39871D8FD1B00048321B /* SubscribeViewController.m */,
 				49C8F6B71D961A630066B356 /* SX_MySubscribeViewController.h */,
 				49C8F6B81D961A630066B356 /* SX_MySubscribeViewController.m */,
+				49F8DC561D97732200A7534C /* SX_SubscribeDetailViewController.h */,
+				49F8DC571D97732200A7534C /* SX_SubscribeDetailViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -316,6 +327,10 @@
 				499A398D1D9002600048321B /* MyTabBarController.m */,
 				49CB084E1D90D85E0023D2AF /* SX_CollectionViewCell.h */,
 				49CB084F1D90D85E0023D2AF /* SX_CollectionViewCell.m */,
+				49C8C3921D98BAD80069CF0D /* SX_NewsDetailViewController.h */,
+				49C8C3931D98BAD80069CF0D /* SX_NewsDetailViewController.m */,
+				49C8C3CE1D990DB30069CF0D /* SX_ArticleResult.h */,
+				49C8C3CF1D990DB30069CF0D /* SX_ArticleResult.m */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -548,7 +563,9 @@
 				499A397F1D8FD1440048321B /* NewsViewController.m in Sources */,
 				49EBFAC61D94D61600A25B8A /* SX_GameListCollectionViewCell.m in Sources */,
 				49E3A7001D9152E1008AAD4B /* SX_DataRequest.m in Sources */,
+				49C8C3941D98BAD80069CF0D /* SX_NewsDetailViewController.m in Sources */,
 				499A396B1D8FCFCE0048321B /* AppDelegate.m in Sources */,
+				49F8DC581D97732200A7534C /* SX_SubscribeDetailViewController.m in Sources */,
 				49E3A6C51D913204008AAD4B /* SX_huandengTableViewCell.m in Sources */,
 				49BD41001D928ABC007B04AC /* SX_NewsResult.m in Sources */,
 				49E3A6BC1D912CB3008AAD4B /* SX_ChildViewController.m in Sources */,
@@ -561,6 +578,7 @@
 				49E3A6CB1D91323A008AAD4B /* SX_hengtuTableViewCell.m in Sources */,
 				49AD5E3F1D93FA0400332869 /* SX_NavigationResult.m in Sources */,
 				49CB08501D90D85E0023D2AF /* SX_CollectionViewCell.m in Sources */,
+				49C8C3D01D990DB30069CF0D /* SX_ArticleResult.m in Sources */,
 				49C8F6BC1D961B770066B356 /* MySubscribeTableViewCell.m in Sources */,
 				499A39681D8FCFCE0048321B /* main.m in Sources */,
 				49CB083A1D90C7DC0023D2AF /* UIButton+VTMagic.m in Sources */,
