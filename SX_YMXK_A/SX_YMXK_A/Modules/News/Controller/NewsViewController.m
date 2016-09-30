@@ -17,6 +17,7 @@
 #import "SX_NavigationResult.h"
 #import <MJRefresh.h>
 #import "SX_NewsDetailViewController.h"
+#import "SX_MenuViewController.h"
 
 static NSString * const santuIdentifier = @"santu";
 static NSString * const xinwenIdentifier = @"xinwen";
@@ -42,12 +43,15 @@ UICollectionViewDelegate
 @property (nonatomic, assign) NSInteger currentNodeId;
 @property (nonatomic, retain) NSMutableArray *dataArray;
 @property (nonatomic, retain) NSMutableArray *collectionDataArray;
+@property (nonatomic, assign) NSInteger currentPage;
 
-@property (nonatomic, assign) CGFloat currentY;
+@property (nonatomic, assign) BOOL isMenuShow;
 
 @end
 
 @implementation NewsViewController
+
+
 
 - (void)getTableViewSource:(NSInteger)pageIndex nodeIds:(NSInteger)nodeIds{
     NSDictionary *dic = @{@"deviceType":@"iPhone6,2",
@@ -73,6 +77,8 @@ UICollectionViewDelegate
             [_dataArray addObject:newsResult];
         }
         [_currenttableView reloadData];
+        [_currenttableView.mj_header endRefreshing];
+        [_currenttableView.mj_footer endRefreshing];
     }];
 }
 
@@ -125,13 +131,11 @@ UICollectionViewDelegate
 - (void)pullRefresh {
     _pageCount = 1;
     [self getTableViewSource:_pageCount nodeIds:_currentNodeId];
-    [_currenttableView.mj_header endRefreshing];
 }
 
 - (void)pullLoading {
     _pageCount++;
     [self getTableViewSource:_pageCount nodeIds:_currentNodeId];
-    [_currenttableView.mj_footer endRefreshing];
 }
 
 
@@ -156,16 +160,19 @@ UICollectionViewDelegate
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
+    _currentPage = 0;
+    _isMenuShow = NO;
     _pageCount = 1;
     _currentNodeId = 0;
     self.dataArray = [NSMutableArray array];
     self.collectionDataArray = [NSMutableArray array];
     self.tableViewArray = [NSMutableArray array];
     
+    
     self.view.backgroundColor = [UIColor colorWithRed:1.0 green:0.4953 blue:0.5155 alpha:1.0];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
     // 导航栏左按钮
-    UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_OptionButton_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:nil];
+    UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_OptionButton_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(menuAction)];
     self.navigationItem.leftBarButtonItem = leftBarButtonItem;
     
     // 导航栏右按钮
@@ -192,18 +199,35 @@ UICollectionViewDelegate
     
 }
 
-
+- (void)menuAction {
+    if (_isMenuShow == NO) {
+        [UIView animateWithDuration:0.5f animations:^{
+            self.tabBarController.view.transform = CGAffineTransformMakeTranslation(self.view.frame.size.width - 100, 0);
+        }];
+        _scrollView.userInteractionEnabled = NO;
+    }
+    else {
+        [UIView animateWithDuration:0.5f animations:^{
+            self.tabBarController.view.transform = CGAffineTransformIdentity;
+        }];
+        _scrollView.userInteractionEnabled = YES;
+    }
+    _isMenuShow = !_isMenuShow;
+}
 
 
 // 翻页
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     if ([scrollView isEqual:_scrollView]) {
         NSInteger currentPage = scrollView.contentOffset.x / self.view.frame.size.width;
-        SX_NavigationResult *result = _collectionDataArray[currentPage];
-        _currentNodeId = result.nodeId;
         
-        _currenttableView = _tableViewArray[currentPage];
-        [_currenttableView.mj_header beginRefreshing];
+        if (currentPage != _currentPage) {
+            SX_NavigationResult *result = _collectionDataArray[currentPage];
+            _currentPage = currentPage;
+            _currentNodeId = result.nodeId;
+            _currenttableView = _tableViewArray[currentPage];
+            [_currenttableView.mj_header beginRefreshing];
+        }
         /**
          *  预留实现保存页面位置
          */
@@ -219,13 +243,13 @@ UICollectionViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     SX_NewsResult *newsResult = _dataArray[indexPath.row];
     if ([newsResult.type isEqualToString:@"huandeng"]) {
-        return 250;
+        return self.view.frame.size.height / 3;
     } else if ([newsResult.type isEqualToString:@"santu"]) {
-        return 180;
+        return (self.view.frame.size.width - 40) / 3 / 4 * 3 + 80;
     } else if ([newsResult.type isEqualToString:@"hengtu"]) {
-        return 180;
+        return self.view.frame.size.height / 3.5;
     }
-    return 100;
+    return 90;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -259,8 +283,10 @@ UICollectionViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     SX_NewsDetailViewController *newsDetailVC = [[SX_NewsDetailViewController alloc] init];
     SX_NewsResult *result = _dataArray[indexPath.row];
-    newsDetailVC.contentId = result.contentId;
-    [self.navigationController pushViewController:newsDetailVC animated:YES];
+    if (result.contentId) {
+        newsDetailVC.contentId = result.contentId;
+        [self.navigationController pushViewController:newsDetailVC animated:YES];
+    }
 }
 
 // collectionView相关方法
@@ -295,8 +321,6 @@ UICollectionViewDelegate
     cell.textFont = 15;
 }
 
-
-
 // 导航栏右按钮事件
 - (void)rightBarButtonItemAction:(UIButton *)button {
     button.selected = !button.selected;
@@ -309,21 +333,9 @@ UICollectionViewDelegate
     }];
 }
 
-
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

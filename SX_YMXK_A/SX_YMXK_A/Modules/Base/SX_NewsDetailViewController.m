@@ -23,6 +23,10 @@ UIWebViewDelegate
 
 @implementation SX_NewsDetailViewController
 
+- (void)dealloc {
+    _webView.delegate = nil;
+}
+
 - (void)getSource {
     NSDictionary *dic = @{@"deviceType":@"iPhone6,2",
                               @"deviceId":@"E88673B2-DFA0-4D08-A3BD-F7E8CE5F88C1",
@@ -57,7 +61,7 @@ UIWebViewDelegate
     titleLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:titleLabel];
     
-    UILabel *subTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, 30)];
+    UILabel *subTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, 40)];
     subTitleLabel.text = _data.subTitle;
     subTitleLabel.numberOfLines = 2;
     subTitleLabel.font = [UIFont systemFontOfSize:15];
@@ -69,17 +73,36 @@ UIWebViewDelegate
 }
 
 - (void)getWebView {
-    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 80, self.view.frame.size.width, self.view.frame.size.height - 80)];
-//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:_data.originURL]];
-//    [_webView loadRequest:request];
-//    NSString *str = [NSString stringWithFormat:@"<head><style>img{max-width:%fpx !important;}</style></head>", self.view.frame.size.width - 20]; 
+    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 90, self.view.frame.size.width, self.view.frame.size.height - 90)];
+
+    NSString *str = [NSString stringWithFormat:@"<head><style>img{max-width:%fpx !important;}</style></head>", self.view.frame.size.width - 20];
+    
     NSMutableString *tempStr = [NSMutableString stringWithString:_data.mainBody];
-//    [tempStr insertString:str atIndex:0];
+    [tempStr insertString:str atIndex:0];
+//    NSLog(@"%@", tempStr);
     [_webView loadHTMLString:tempStr baseURL:nil];
-    _webView.scalesPageToFit = YES;
+//    NSLog(@"%@", _data.mainBody);
     _webView.dataDetectorTypes = UIDataDetectorTypeAll;
+    _webView.delegate = self;
+    _webView.allowsInlineMediaPlayback = YES;
+    _webView.mediaPlaybackRequiresUserAction = NO;
+    
     [self.view addSubview:_webView];
 }
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    NSURL *requestURL = [request URL];
+    if (([[requestURL scheme] isEqualToString:@"http"] || [[requestURL scheme] isEqualToString:@"https"] || [[requestURL scheme] isEqualToString:@"mailto"]) && (navigationType == UIWebViewNavigationTypeLinkClicked)) {
+        return  ![[UIApplication sharedApplication] openURL:requestURL];
+    }
+    return YES;
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+
+}
+
+
 
 - (void)viewWillAppear:(BOOL)animated {
     self.navigationController.navigationBar.subviews.firstObject.alpha = 1;

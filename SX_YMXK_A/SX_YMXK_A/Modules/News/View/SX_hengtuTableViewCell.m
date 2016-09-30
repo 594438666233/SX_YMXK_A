@@ -57,7 +57,12 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     _label.frame = CGRectMake(10, 10, self.contentView.frame.size.width - 20, 20);
-    _myImageView.frame = CGRectMake(10, 40, self.contentView.frame.size.width - 20, 100);
+    [_myImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.contentView.mas_left).offset(10);
+        make.right.equalTo(self.contentView.mas_right).offset(-10);
+        make.top.equalTo(self.contentView.mas_top).offset(40);
+        make.bottom.equalTo(self.contentView.mas_bottom).offset(-40);
+    }];
     [_iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(@31);
         make.right.equalTo(self.contentView.mas_right).offset(-10);

@@ -10,6 +10,7 @@
 #import "NewsViewController.h"
 #import "GameListViewController.h"
 #import "SubscribeViewController.h"
+#import "SX_MenuViewController.h"
 
 @interface AppDelegate ()
 
@@ -41,18 +42,21 @@
     subscribeVC.tabBarItem.image = [[UIImage imageNamed:@"common_Button_DingYue_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     subscribeVC.tabBarItem.selectedImage = [[UIImage imageNamed:@"common_Button_DingYue_Selected_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     UINavigationController *subscribeNC = [[UINavigationController alloc] initWithRootViewController:subscribeVC];
+    
 
+    
+    
     
     UITabBarController *rootTC = [[UITabBarController alloc] init];
     rootTC.viewControllers = @[newsNC, gameListNC, subscribeNC];
     rootTC.tabBar.barTintColor = [UIColor colorWithRed:1.0 green:0.9983 blue:0.9951 alpha:1.0];
-    _window.rootViewController = rootTC;
     
+    SX_MenuViewController *menuVC = [[SX_MenuViewController alloc] init];
+    [menuVC addChildViewController:rootTC];
+    [menuVC.view addSubview:rootTC.view];
+    UINavigationController *menuNC = [[UINavigationController alloc] initWithRootViewController:menuVC];
     
-    
-    
-    
-    
+    _window.rootViewController = menuNC;
     
     
     

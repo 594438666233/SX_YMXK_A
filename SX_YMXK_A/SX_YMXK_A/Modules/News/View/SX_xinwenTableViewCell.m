@@ -9,6 +9,7 @@
 #import "SX_xinwenTableViewCell.h"
 #import "SX_NewsResult.h"
 #import "UIImageView+WebCache.h"
+#import "Masonry.h"
 
 @interface SX_xinwenTableViewCell ()
 
@@ -54,14 +55,37 @@
 
 
 - (void)layoutSubviews {
-    _myImageView.frame = CGRectMake(10, 10, (self.contentView.frame.size.height - 20) / 3 * 4, self.contentView.frame.size.height - 20);
-    _label.frame = CGRectMake(20 + (self.contentView.frame.size.height - 20) / 3 * 4, 10, self.contentView.frame.size.width - 30 - (self.contentView.frame.size.height - 20) / 3 * 4, (self.contentView.frame.size.height - 20) / 2);
-    _commentLabel.frame = CGRectMake(self.contentView.frame.size.width - 100, self.contentView.frame.size.height - 40, 90, 20);
+    [_myImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView.mas_top).offset(10);
+        make.bottom.equalTo(self.contentView.mas_bottom).offset(-10);
+        make.left.equalTo(self.contentView.mas_left).offset(10);
+        make.width.equalTo(@(70 / 3 * 4) );
+    }];
+    
+    [_label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView.mas_top).offset(10);
+        make.right.equalTo(self.contentView.mas_right).offset(-10);
+        make.left.equalTo(_myImageView.mas_right).offset(10);
+        make.height.equalTo(@40);
+    }];
+    
+    [_commentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_label.mas_bottom).offset(10);
+        make.right.equalTo(self.contentView.mas_right).offset(-10);
+        make.width.equalTo(@100);
+        make.height.equalTo(@40);
+    }];
 }
 
 - (void)setXinwenNewsResult:(SX_NewsResult *)xinwenNewsResult {
     _xinwenNewsResult = xinwenNewsResult;
-    [_myImageView sd_setImageWithURL:(NSURL *)xinwenNewsResult.thumbnailURLs[0]];
+    if (xinwenNewsResult.thumbnailURLs.count > 0) {
+        [_myImageView sd_setImageWithURL:(NSURL *)xinwenNewsResult.thumbnailURLs[0]];
+    }
+    else {
+        _myImageView.frame = CGRectMake(0, 0, 0, 0);
+        _label.frame = CGRectMake(10, 10, self.contentView.frame.size.width, (self.contentView.frame.size.height - 20) / 2);
+    }
     _label.text = xinwenNewsResult.title;
     _commentLabel.text = [NSString stringWithFormat:@"%@评论", xinwenNewsResult.commentsCount];
 }

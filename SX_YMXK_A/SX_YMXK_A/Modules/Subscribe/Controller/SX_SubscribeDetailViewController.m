@@ -102,9 +102,7 @@ UITableViewDelegate
 
     self.navigationItem.title = self.subsribeResult.sourceName;
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-    
-//    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-//    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
     
     _pageCount = 1;
     

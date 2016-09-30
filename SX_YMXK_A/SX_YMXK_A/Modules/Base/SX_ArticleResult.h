@@ -17,5 +17,6 @@
 @property (nonatomic, assign) NSInteger pageCount;
 @property (nonatomic, copy) NSString *mainBody;
 @property (nonatomic, copy) NSString *originURL;
+@property (nonatomic, copy) NSString *templateURL;
 
 @end

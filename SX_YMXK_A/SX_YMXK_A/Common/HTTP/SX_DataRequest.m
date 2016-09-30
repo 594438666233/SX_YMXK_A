@@ -40,7 +40,9 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             if (!error) {
                 id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-                block(result);
+                if (block != nil) {
+                    block(result);
+                }
             }
         });
     }];

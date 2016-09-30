@@ -64,15 +64,41 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    _label.frame = CGRectMake(10, 10, self.contentView.frame.size.width - 20, 20);
+
+    [_label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView.mas_top).offset(10);
+        make.left.equalTo(self.contentView.mas_left).offset(10);
+        make.right.equalTo(self.contentView.mas_right).offset(-10);
+        make.height.equalTo(@20);
+    }];
     
-    _imageView1.frame = CGRectMake(10, 40, (self.contentView.frame.size.width - 40) / 3, self.contentView.frame.size.height - 80);
+    [_imageView1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_label.mas_bottom).offset(10);
+        make.bottom.equalTo(self.contentView.mas_bottom).offset(-40);
+        make.left.equalTo(self.contentView.mas_left).offset(10);
+        make.width.equalTo(@((self.contentView.frame.size.width - 40) / 3));
+    }];
     
-    _imageView2.frame = CGRectMake(20 + (self.contentView.frame.size.width - 40) / 3, 40, (self.contentView.frame.size.width - 40) / 3, self.contentView.frame.size.height - 80);
+    [_imageView2 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_label.mas_bottom).offset(10);
+        make.bottom.equalTo(self.contentView.mas_bottom).offset(-40);
+        make.left.equalTo(_imageView1.mas_right).offset(10);
+        make.width.equalTo(@((self.contentView.frame.size.width - 40) / 3));
+    }];
     
-    _imageView3.frame = CGRectMake(30 + 2 * (self.contentView.frame.size.width - 40) / 3, 40, (self.contentView.frame.size.width - 40) / 3, self.contentView.frame.size.height - 80);
+    [_imageView3 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_label.mas_bottom).offset(10);
+        make.bottom.equalTo(self.contentView.mas_bottom).offset(-40);
+        make.left.equalTo(_imageView2.mas_right).offset(10);
+        make.width.equalTo(@((self.contentView.frame.size.width - 40) / 3));
+    }];
     
-    _commentLabel.frame = CGRectMake(self.contentView.frame.size.width - 100, self.contentView.frame.size.height - 40, 90, 20);
+    [_commentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_imageView1.mas_bottom).offset(10);
+        make.bottom.equalTo(self.contentView.mas_bottom).offset(-10);
+        make.right.equalTo(self.contentView.mas_right).offset(-10);
+        make.width.equalTo(@100);
+    }];
 }
 
 - (void)setSantuNewsResult:(SX_NewsResult *)santuNewsResult {
