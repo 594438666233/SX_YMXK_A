@@ -1,5 +1,5 @@
 //
-//  NewsViewController.h
+//  SubscribeViewController.h
 //  SX_YMXK_A
 //
 //  Created by dllo on 16/9/19.
@@ -8,7 +8,6 @@
 
 #import "SX_ViewController.h"
 
-@interface NewsViewController : SX_ViewController
-
+@interface SubscribeViewController : SX_ViewController
 
 @end

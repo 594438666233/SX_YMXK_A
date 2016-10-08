@@ -10,6 +10,7 @@
 #import "SX_DataRequest.h"
 #import "SX_ArticleResult.h"
 #import <JavaScriptCore/JavaScriptCore.h>
+#import "SX_CommentViewController.h"
 
 @interface SX_NewsDetailViewController ()
 <
@@ -45,43 +46,62 @@ UIWebViewDelegate
 //            }
         self.data = [SX_ArticleResult modelWithDic:dic];
         NSLog(@"%@", _data);
-        [self createTitle];
         [self getWebView];
     }];
 }
 
-
-- (void)createTitle {
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
-    titleLabel.text = _data.title;
-    titleLabel.font = [UIFont systemFontOfSize:20];
-    titleLabel.numberOfLines = 2;
-    titleLabel.backgroundColor = [UIColor whiteColor];
-    titleLabel.textColor = [UIColor blackColor];
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:titleLabel];
+- (void)createView {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 40 - 64, self.view.frame.size.width, 40)];
+    view.backgroundColor = [UIColor colorWithRed:0.9425 green:0.9425 blue:0.9425 alpha:1.0];
+    [self.view addSubview:view];
     
-    UILabel *subTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, 40)];
-    subTitleLabel.text = _data.subTitle;
-    subTitleLabel.numberOfLines = 2;
-    subTitleLabel.font = [UIFont systemFontOfSize:15];
-    subTitleLabel.backgroundColor = [UIColor whiteColor];
-    subTitleLabel.textAlignment = NSTextAlignmentCenter;
-    subTitleLabel.textColor = [UIColor grayColor];
-    [self.view addSubview:subTitleLabel];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(10, 5, view.frame.size.width * 3 / 5, 30);
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [button setBackgroundColor:[UIColor whiteColor]];
+    button.titleLabel.font = [UIFont systemFontOfSize:15];
+    button.clipsToBounds = YES;
+    button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    button.contentEdgeInsets = UIEdgeInsetsMake(0,10, 0, 0);
+    [button addTarget:self action:@selector(buttonAction) forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:@"评论/查看评论" forState:UIControlStateNormal];
+    [view addSubview:button];
     
 }
 
-- (void)getWebView {
-    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 90, self.view.frame.size.width, self.view.frame.size.height - 90)];
+- (void)buttonAction {
+    SX_CommentViewController *commentVC = [[SX_CommentViewController alloc] init];
+    commentVC.data = _data;
+    [self.navigationController pushViewController:commentVC animated:YES];
+}
 
-    NSString *str = [NSString stringWithFormat:@"<head><style>img{max-width:%fpx !important;}</style></head>", self.view.frame.size.width - 20];
+//- (void)getWebView {
+//    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 90, self.view.frame.size.width, self.view.frame.size.height - 90)];
+//
+//    NSString *str = [NSString stringWithFormat:@"<head><style>img{max-width:%fpx !important;}</style></head>", self.view.frame.size.width - 20];
+//    
+//    NSMutableString *tempStr = [NSMutableString stringWithString:_data.mainBody];
+//    [tempStr insertString:str atIndex:0];
+//    [_webView loadHTMLString:tempStr baseURL:nil];
+//    _webView.dataDetectorTypes = UIDataDetectorTypeAll;
+//    _webView.delegate = self;
+//    _webView.allowsInlineMediaPlayback = YES;
+//    _webView.mediaPlaybackRequiresUserAction = NO;
+//    
+//    [self.view addSubview:_webView];
+//}
+
+- (void)getWebView {
+    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 40)];
+
     
-    NSMutableString *tempStr = [NSMutableString stringWithString:_data.mainBody];
-    [tempStr insertString:str atIndex:0];
-//    NSLog(@"%@", tempStr);
-    [_webView loadHTMLString:tempStr baseURL:nil];
-//    NSLog(@"%@", _data.mainBody);
+    NSString *html = [[NSBundle mainBundle] pathForResource:@"gsAppHTMLTemplate_News" ofType:@"html"];
+    NSMutableString *htmlCont = [NSMutableString stringWithContentsOfFile:html encoding:NSUTF8StringEncoding error:nil];
+    [htmlCont replaceOccurrencesOfString:@"#文章正文#" withString:_data.mainBody options:NSCaseInsensitiveSearch range:NSMakeRange(0, htmlCont.length)];
+    [htmlCont replaceOccurrencesOfString:@"#文章标题#" withString:_data.title options:NSCaseInsensitiveSearch range:NSMakeRange(0, htmlCont.length)];
+    [htmlCont replaceOccurrencesOfString:@"#文章副标题#" withString:_data.subTitle options:NSCaseInsensitiveSearch range:NSMakeRange(0, htmlCont.length)];
+
+    [_webView loadHTMLString:htmlCont baseURL:nil];
     _webView.dataDetectorTypes = UIDataDetectorTypeAll;
     _webView.delegate = self;
     _webView.allowsInlineMediaPlayback = YES;
@@ -89,6 +109,7 @@ UIWebViewDelegate
     
     [self.view addSubview:_webView];
 }
+
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     NSURL *requestURL = [request URL];
@@ -98,16 +119,15 @@ UIWebViewDelegate
     return YES;
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
-
-}
-
-
+//- (void)webViewDidFinishLoad:(UIWebView *)webView {
+//    NSString *html = [[NSBundle mainBundle] pathForResource:@"gsAppHTMLTemplate" ofType:@"js"];
+//
+//    [_webView stringByEvaluatingJavaScriptFromString:html];
+//}
 
 - (void)viewWillAppear:(BOOL)animated {
     self.navigationController.navigationBar.subviews.firstObject.alpha = 1;
 }
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -118,6 +138,7 @@ UIWebViewDelegate
     self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
     
     [self getSource];
+    [self createView];
 }
 
 - (void)leftBarButtonItemAction {
@@ -130,14 +151,5 @@ UIWebViewDelegate
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -8,6 +8,7 @@
 
 #import "SX_xinwenTableViewCell.h"
 #import "SX_NewsResult.h"
+#import "SX_GameNewsResult.h"
 #import "UIImageView+WebCache.h"
 #import "Masonry.h"
 
@@ -55,6 +56,7 @@
 
 
 - (void)layoutSubviews {
+    [super layoutSubviews];
     [_myImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView.mas_top).offset(10);
         make.bottom.equalTo(self.contentView.mas_bottom).offset(-10);
@@ -89,7 +91,17 @@
     _label.text = xinwenNewsResult.title;
     _commentLabel.text = [NSString stringWithFormat:@"%@评论", xinwenNewsResult.commentsCount];
 }
-
+- (void)setGameNewsResult:(SX_GameNewsResult *)gameNewsResult {
+    _gameNewsResult = gameNewsResult;
+    if (gameNewsResult.thumbnailUrl != nil) {
+        [_myImageView sd_setImageWithURL:(NSURL *)gameNewsResult.thumbnailUrl];
+    }
+    else {
+        [_myImageView sd_setImageWithURL:(NSURL *)_defaultImg];
+    }
+    _label.text = gameNewsResult.title;
+    _commentLabel.frame = CGRectZero;
+}
 
 
 @end

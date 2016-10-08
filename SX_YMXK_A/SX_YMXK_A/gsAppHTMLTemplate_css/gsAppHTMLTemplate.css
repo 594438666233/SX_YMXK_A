@@ -1,0 +1,655 @@
+/*------------------------------------------------ -x68
+	字体
+------------------------------------------------ -x68*/
+.PageFontSize_Min {font-size:17px;}
+.PageFontSize_Middle {font-size:20px;}
+.PageFontSize_Max {font-size:24px;}
+.PageFontSize_MinForBigScreen {font-size:17px;}
+.PageFontSize_MiddleForBigScreen {font-size:20px;}
+.PageFontSize_MaxForBigScreen {font-size:24px;}
+/*------------------------------------------------ -x68
+	主体
+------------------------------------------------ -x68*/
+html{}
+body
+{
+    overflow-x:hidden;
+    margin:0;
+    padding:8px 0px 0px 0px;
+    background-color:#f7f7f7;
+    color:#333;	
+    text-align:justify;
+	word-break:break-all;
+    -webkit-tap-highlight-color:transparent;
+	/*禁止选中内容, 禁止弹出内容菜单*/
+    -webkit-touch-callout:none;
+	/*
+	-webkit-user-select:none;
+	*/
+}
+	.PageColorMode_Day body {background:#f7f7f7; color:#333;}
+	.PageColorMode_Night body {background-color:#17181a;color:#576476;}
+/*------------------------------------------------ -x68
+	基础元素
+------------------------------------------------ -x68*/
+img {border:0;}
+a {color:#3871c8;text-decoration:none;}
+a:focus{outline:none;}
+	.PageColorMode_Day a{}
+	.PageColorMode_Night a{color:#3e6bb6;}
+div,ul,li {overflow:hidden;}
+ul {margin:0;padding:0;list-style-type:none;}
+li {list-style-type:none;vertical-align:middle;}
+h1{font-size:24px;}
+.heading {margin:0 10px; padding:4px; top:22px; line-height:28px; color:#333;}
+	.PageColorMode_Day .heading {color:#333;}
+	.PageColorMode_Night .heading {color:#966122;}
+.bar {margin:10px 10px 0; width:auto; height:1px;}
+	.PageColorMode_Day .bar {background-color:#eaeaea;}
+	.PageColorMode_Night .bar {background-color:#2a2e38;}
+.adnone {display:none;}
+.info{margin:0 10px; padding:0px 4px; line-height:22px; color:gray; font-size:14px; color:#848484;}
+	.PageColorMode_Day .info {color:#848484;}
+	.PageColorMode_Night .info {color:#464950;}
+/*------------------------------------------------ -x68
+	表格样式
+------------------------------------------------ -x68*/
+table {color:#ccc;}
+.table2 {margin:0 auto; width:98%; border:1.0px solid #555; border-collapse:collapse; background-color:#333; cursor:default;}
+.table2 td {padding:4px; border:1.0px solid #555;}
+.tr2 {text-align:center; background-color:#000;}
+/*游民评测*/
+/*橙色版本*/
+.review_Table1 {width:100%; height:194px; border:0; border-collapse:collapse; background:#282a2d;}
+.review_Table1 .review_td1 {width:100%; height:25px; background:url(../gsAppHTMLTemplate_image/reviewTable_Background.gif);}
+.review_Table1 .review_td2 {width:20%; background-color:#171717; line-height:56px; font-size:40px; color:#fff; text-align:center;}
+.review_Table1 .review_td3 {width:80%; height:16px; padding:8px 0 0 8px; background-color:#d8602e; vertical-align:top; font-size:16px; font-weight:bold; text-align:left; color:#fff;}
+.review_Table1 .review_td4 {width:80%; height:20px; background-color:#d8602e; padding-left:8px; font-size:12px; text-align:left; color:#fff;}
+.review_Table1 .review_td5 {width:20%; height:auto;}
+.review_Table1 .review_td6 {width:80%; height:70px; padding:8px 4px 0 0; line-height:22px; font-size:14px; text-indent:2em; color:#ccc;}
+.review_Table1 .review_td7 {writing-mode:tb-rl; padding-bottom:5px; font-size:28px; font-weight:bold; text-align:center; line-height:28px; color:#EC7339;}
+.review_Table1 .review_td8 {width:100%; height:25px; background:url(../gsAppHTMLTemplate_image/reviewTable_Background.gif);}
+.review_Table2 {border:0; border-bottom:3px solid #c75028; width:100%; height:auto; background-color:#282a2d;}
+.review_Table2 .review_td1,
+.review_Table2 .review_td2,
+.review_Table2 .review_td3,
+.review_Table2 .review_td4 {padding-bottom:4px; width:50%; height:auto; text-align:left; vertical-align:top; color:#ccc;}
+.review_Table2 .review_td1,
+.review_Table2 .review_td2 {background:url(../gsAppHTMLTemplate_image/reviewTable_Good.gif) center center no-repeat;}
+.review_Table2 .review_td3,
+.review_Table2 .review_td4 {background-image:url(../gsAppHTMLTemplate_image/reviewTable_Bad.gif) center center no-repeat;}
+
+.review_Table2 .review_td1,
+.review_Table2 .review_td3 {background-position:8px 0; padding-left:32px;}
+.review_Table2 .review_td2,
+.review_Table2 .review_td4 {background-position:0 0; padding-left:26px;}
+.review_Table2 .review_td5 {width:auto; height:14px; background:url(../gsAppHTMLTemplate_image/reviewTable_Background10.jpg) no-repeat; padding-right:8px;}
+.review_Table2 .review_td6 {width:100%; height:5px;}
+/*蓝色版本*/
+.review_blue_Table1 {border:0; border-collapse:collapse; width:100%; height:194px; background:#282a2d;}
+.review_blue_Table1 .review_td1 {width:100%; height:25px; background:url(../gsAppHTMLTemplate_image/reviewTable_Background.gif);}
+.review_blue_Table1 .review_td2 {width:20%; background-color:#171717; line-height:56px; text-align:center; font-size:40px; font-family:Arial, Helvetica, sans-serif; color:#fff;}
+.review_blue_Table1 .review_td3 {padding:8px 0 0 8px; width:80%; height:16px; background-color:#059dc2; vertical-align:top; text-align:left; font-size:16px; font-weight:bold; color:#fff;}
+.review_blue_Table1 .review_td4 {width:80%; height:20px; padding-left:8px; background-color:#059dc2; font-size:12px; text-align:left; color:#fff;}
+.review_blue_Table1 .review_td5 {width:20%; height:auto;}
+.review_blue_Table1 .review_td6 {width:80%; height:70px; padding:8px 4px 0px 0px; line-height:22px; text-indent:2em; font-size:14px; color:#ccc;}
+.review_blue_Table1 .review_td7 {writing-mode:tb-rl; padding-bottom:5px; line-height:28px; text-align:center; font-size:28px; font-weight:bold; color:#059dc2;}
+.review_blue_Table1 .review_td8 {width:100%; height:25px; background:url(../gsAppHTMLTemplate_image/reviewTable_Background.gif);}
+.review_blue_Table2 {border:0; border-bottom:3px solid #059dc2; width:100%; height:auto; background-color:#282a2d;}
+.review_blue_Table2 .review_td1,
+.review_blue_Table2 .review_td2,
+.review_blue_Table2 .review_td3,
+.review_blue_Table2 .review_td4 {padding-bottom:4px; width:50%; height:auto; text-align:left; vertical-align:top; color:#ccc;}
+.review_blue_Table2 .review_td1,
+.review_blue_Table2 .review_td2 {background-image:url(../gsAppHTMLTemplate_image/reviewTable_Good.gif) center center no-repeat;}
+.review_blue_Table2 .review_td3,
+.review_blue_Table2 .review_td4 {background:url(../gsAppHTMLTemplate_image/reviewTable_Bad.gif) center center no-repeat;}
+.review_blue_Table2 .review_td1,
+.review_blue_Table2 .review_td3 {background-position:8px 0px; padding-left:32px;}
+.review_blue_Table2 .review_td2,
+.review_blue_Table2 .review_td4 {padding-left:26px; background-position:0 0;}
+.review_blue_Table2 .review_td5 {padding-right:8px; width:auto; height:14px; background:url(../gsAppHTMLTemplate_image/reviewTable_Background10.jpg) no-repeat;}
+.review_blue_Table2 .review_td6 {width:100%; height:5px;}
+/*内容*/
+.content {margin:0 10px; width:auto; height:auto; line-height:150%;}
+/*------------------------------------------------ -x68
+@.Mid2L_con, 2015年7月9日 14:00 新增
+新增原因:属于新增的CSS样式,类名,对象名和从前不同
+用途：文章里显示链接下边的下划线
+------------------------------------------------ -x68*/
+.content .n1 {text-decoration:underline; color:#3871c8;}
+	.PageColorMode_Day .content .n1 {color:#3e6bb6;}
+	.PageColorMode_Night .content .n1 {color:#3e6bb6;}
+.content a:hover.n1 {text-decoration:underline}
+	.PageColorMode_Day .content a:hover.n1 {}
+	.PageColorMode_Night .content a:hover.n1 {}
+/*------------------------------------------------ -x68
+	图片容器
+------------------------------------------------ -x68*/
+.ImgBoxer {display:inline-block; float:none; text-align:center;}
+.ImgBoxer img {float:left;}
+.ImgBoxerStatusBar
+{
+	display:inline;
+	visibility: hidden;
+	float:left;
+	margin:-44px 0px 0px 0px;
+	width:100%;
+	height:44px;
+	line-height:40px;
+	text-align:right;
+}
+.ImgBoxerStatusBar .ImgSetLogo
+{
+	float:right;
+	/*margin:10px 0px 0px 0px;*/
+    margin: 0px;
+	/*width:auto;*/
+    width: 100%;
+	height: 44px;
+	background-image: url(../gsAppHTMLTemplate_image/imgSet_BottomBarBackground@2x.png);
+	background-size: 350px 44px;
+	background-repeat: no-repeat;
+	background-position: center top;
+    /*padding: 0px 10px 0px 10px;*/
+    padding: 0px;
+	line-height: 44px;
+	text-align: center;
+	font-size: 18px;
+	font-weight: bold;
+	color: #fff;
+}
+.ImgBoxerStatusBar .ImgSetLogo .Icon
+{
+    background-image: url(../gsAppHTMLTemplate_image/imgSet_ExpandIcon@2x.png);
+    background-size: 25px 20px;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+.ImgBoxerStatusBar .ImgSetLogo .Caption
+{
+    font-size: 16px;
+    color: #ffffff;
+}
+.ImgBoxerStatusBar .GIFLogo
+{
+	float:right;
+	margin:7px 0px 0px 0px;
+	width:60px;
+	height:37px;
+	background-image:url(../gsAppHTMLTemplate_image/img_Badge_GIF@2x.png);
+	background-size:100% 100%;
+}
+.ImgSetBoxer {margin:0px 10px 10px 2px; box-shadow:0px 0px 1px #000;}
+.ImgSetBoxer img{width:100%;}
+.ImgSetWhitePage {margin:0px 10px 0px 0px; box-shadow:0px 0px 1px #000;}
+	.PageColorMode_Day .ImgSetWhitePage {background-color:#eee}
+	.PageColorMode_Night .ImgSetWhitePage {background-color:#2c2c2c}
+.GSTemplateImageLoader {display:none;}
+#gsTemplateContent_MainBody {line-height:150%;}
+#gsTemplateContent_MainBody p {display:block;}
+#gsTemplateContent_MainBody img {display:none; visibility:hidden;}
+#gsTemplateContent_MainBody #youkuplayer0 img {display:inherit; visibility:visible;}
+
+#gsTemplateContent_RelatedReading {display:none;}
+#gsTemplateContent_RelatedReadingContent {margin-left:-10px; margin-right:-10px;}
+#gsTemplateContent_RelatedReadingContent .Row {padding:0px;}
+#gsTemplateContent_RelatedReadingContent .Row div {margin:0px 10px 0px 10px; white-space:nowrap; text-overflow:ellipsis;}
+#gsTemplateContent_RelatedReadingContent .Button {text-align:center; color:#888;}
+	.PageColorMode_Day #gsTemplateContent_RelatedReadingContent .Button {color:#888;}
+	.PageColorMode_Night #gsTemplateContent_RelatedReadingContent .Button {color:#5a5a60;}
+/*------------------------------------------------ -x68
+	专栏作者信息
+------------------------------------------------ -x68*/
+.section {width:96%; padding:12px 2%; height:auto; background-color:#F4F4F4; overflow:hidden;}
+	.PageColorMode_Day .section {background-color:#F4F4F4;}
+	.PageColorMode_Night .section {background-color:#272730;}
+.section .art {margin-bottom:8px; width:100%-10px; height:auto; overflow:hidden;}
+.section .art .head1 {float:left; width:64px; height:64px; margin-right:10px; overflow:hidden; border-radius:5px; margin:0 6px;}
+.section .art .head1 img {width:64px; height:64px;}
+.section .art .wubta .head2 .tit {display:block; float:left; display:block; width:auto; color:#666; overflow:hidden;}
+	.PageColorMode_Day .section .art .wubta .head2 .tit {color:#666;}
+	.PageColorMode_Night .section .art .wubta .head2 .tit {color:#5f5f69;}
+.section .art .wubta .head2 .wlaut {}
+	.PageColorMode_Day .section .art .wubta .head2 .wlaut {color:#FD7F41;}
+	.PageColorMode_Night .section .art .wubta .head2 .wlaut {color:#d26217;}
+.section .art .wubta .head2 .author {display:block; width:auto; min-width:138px; height:auto; color:#FD7F41;}
+	.PageColorMode_Day .section .art .wubta .head2 .author {color:#FD7F41;}
+	.PageColorMode_Night .section .art .wubta .head2 .author {color:#d26217;}
+.section .art .wubta .head2_coed .wlaut_coed {}
+	.PageColorMode_Day .section .art .wubta .head2_coed .wlaut_coed {color:#FD7F41;}
+	.PageColorMode_Night .section .art .wubta .head2_coed .wlaut_coed {color:#d26217;}
+.section .art .wubta .head2_coed .author_coed {display:block; width:auto; min-width:138px; height:auto; color:#FD7F41;}
+	.PageColorMode_Day .section .art .wubta .head2_coed .author_coed {color:#FD7F41;}
+	.PageColorMode_Night .section .art .wubta .head2_coed .author_coed {color:#d26217;}
+.section .art .wubta .head2_coed .tit_coed {width:auto; height:20px; overflow:hidden; float:left;}
+.section .art .wubta .head2_coed .coed {margin-top:5px;}
+.section .head1 .mask {width:0px; height:0px; position:absolute; left:0; top:0; z-index:-9999; background:none;}
+.section .art .wubta .head2_coed .more,.section .art .wubta .head2 .more {display:none;}
+.section .art .wubta { /*width:75%;*/ height:64px;}
+.section .art .wubta tr { height:auto; width:75%;}
+.section .art .wubta tr td { height:auto; }
+.section .art .head3 {margin-top:10px; border-top:solid 1px #E2E2E2; width:auto; min-width:200px; height:auto; padding-top:10px; clear:both; font-size:16px; color:#333;}
+.PageColorMode_Day .section .art .head3 {border-top:solid 1px #E2E2E2; color:#333;}
+.PageColorMode_Night .section .art .head3 {border-top:solid 1px #201f25; color:#5f5f69;}
+/*
+------------------------------------------------ -x68
+@作者信息栏, 2015年7月2日 10:00 新增
+新增原因:属于新增的CSS样式,类名,对象名和从前不同
+------------------------------------------------ -x68
+*/
+.Author_column {}
+	.PageColorMode_Day .Author_column {background-color:#e8e8e8;}
+	.PageColorMode_Night .Author_column {background-color:#1d1c20;}
+.Author_column div.tit {white-space:nowrap; text-overflow:ellipsis; }
+.Author_column div.txt {white-space:nowrap; text-overflow:ellipsis; }
+div.ac1 {-webkit-box-flex:0; float:left; width:45px; height:48px; padding:6.0px 7.5px 6.0px 7.5px; background:#dbdbdb;}
+	.PageColorMode_Day div.ac1 {background:#dbdbdb;}
+	.PageColorMode_Night div.ac1 {background:#1d1c21;}
+div.ac1 .ImgBoxer {border-radius:22.5px; box-shadow:0 2px 5px 0 rgba(120,120,120,1);}
+	.PageColorMode_Day div.ac1 .ImgBoxer {box-shadow:0 2px 5px 0 rgba(120,120,120,1);}
+	.PageColorMode_Night div.ac1 .ImgBoxer {box-shadow:0 2px 5px 0 rgba(0,0,0,1);}
+div.ac1 img {width:45px; height:45px;}
+div.ac2 {line-height:30px; padding-left:4px;}
+.ac2 .like {display:none;}
+/*
+------------------------------------------------ -x68
+@游戏评测栏, 2015年7月9日 14:00 新增
+新增原因:属于新增的CSS样式,类名,对象名和从前不同
+------------------------------------------------ -x68
+*/
+/*游戏评测 新版*/
+.pingce {width:100%; height:auto; border-bottom:1px solid #cecece;}
+.pingce .pc1 {width:100%; height:55px; display:-webkit-box;}
+.pingce .pc1 .pc1_num {width:60px; height:55px; line-height:55px; text-align:center; color:#f2f2f3; font-size:30px; font-family:Arial; background:#f26723;}
+.pingce .pc1 .pc1_num {text-shadow:0 3px 10px rgba(0,0,0,0.5);}
+.pingce .pc1 .pc1_tit {-webkit-box-flex:1; padding:10px 0 0 10px; width:auto; height:55px; background:#202020 url("http://image.gamersky.com/webimg15/pcbg.gif") right 0 no-repeat; background-size:auto 55px;}
+.pingce .pc1 .pc1_tit .t1 {width:auto; height:18px; line-height:18px; color:#f2f2f3; font-size:16px; font-family:'Microsoft YaHei';}
+.pingce .pc1 .pc1_tit .t2 {width:auto; height:14px; line-height:14px; color:#999; font-size:12px;}
+.pingce .pc2 {width:100%; height:auto; display:-webkit-box;}
+.pingce .pc2 .pc2_L {padding:15px 10px; width:40px; height:auto; text-align:center; color:#ef511c; font-size:16px; font-family:'Microsoft YaHei'; background:#f0f0f0;}
+.pingce .pc2 .pc2_L {text-shadow:1px 1px 1px #fff; _filter:DropShadow(Color=#ffffff,OffX=1,OffY=1,Positive=1);}
+.pingce .pc2 .pc2_R {-webkit-box-flex:1; padding:15px 15px 5px; width:auto; height:auto; background:#f9f9fb; border-left:1px solid #f5f5f5;}
+.pingce .pc2 .pc2_R .txt {margin-bottom:5px; width:100%; height:auto; line-height:25px; font-size:14px;}
+.pingce .pc2 .pc2_R .like {margin-bottom:5px; padding:5px 0; width:100%; height:auto;}
+.pingce .pc2 .pc2_R .like span {margin:0 30px 5px 0; display:inline-block; width:100%; height:26px; line-height:26px; text-indent:25px; font-size:14px;}
+.pingce .pc2 .pc2_R .like span {background:#f2f2f3 url("http://image.gamersky.com/webimg15/jj.gif") no-repeat;}
+.pingce .pc2 .pc2_R .like span.jia {color:#e03800; background-position:7px 0;}
+.pingce .pc2 .pc2_R .like span.jian {color:#262626; background-position:7px -26px;}
+
+
+.PageColorMode_Night .pingce {background-color:#c02c02; border-color:#28262f;}
+.PageColorMode_Night .pingce .pc1 .pc1_num {background-color:#c02c02; color:#a3a3a3;}
+.PageColorMode_Night .pingce .pc1 .pc1_tit .t1 {color:#a3a3a3;}
+.PageColorMode_Night .pingce .pc2 {background-color:#2d2b35;}
+.PageColorMode_Night .pingce .pc2 .pc2_L {text-shadow:1px 1px 1px #000;}
+.PageColorMode_Night .pingce .pc2 .pc2_R {border-color:#28262f; background-color:#32303b; color:#605f65;}
+.PageColorMode_Night .pingce .pc2 .pc2_R .tuijian {border-bottom:1px dotted #656565;}
+.PageColorMode_Night .pingce .pc2 .pc2_R .like .jia {background-color:#38363f; color:c22c00;}
+.PageColorMode_Night .pingce .pc2 .pc2_R .like .jian {background-color:#38363f; color:1c1c1c;}
+
+/*
+------------------------------------------------ -x68
+@手游下载栏, 2015年10月26日 18:00 新增
+新增原因:手游栏目,下载模块的新样式
+------------------------------------------------ -x68
+*/
+.Mid2 {width:970px; height:auto;}
+
+.Mid2_L {float:left; margin-right:40px; padding-left:10px; width:620px; height:auto; position:relative;}
+.Mid2L_crumb {width:auto; height:14px; line-height:14px; color:#888; font-size:12px; font-family:SimSun;}
+.Mid2L_crumb a {color:#888;}
+.Mid2L_crumb a:hover {color:#ff5400;}
+.Mid2L_title {width:620px; height:auto; text-align:center; border-bottom:1px solid #eee;}
+.Mid2L_title h1 {margin:0; padding:20px 0; width:620px; height:auto; line-height:30px; color:#3b3b3b; font-size:24px;}
+.Mid2L_title .detail {width:620px; height:28px; line-height:14px; color:#888; font-size:12px; font-family:SimSun;}
+.Mid2L_title .detail span.txt {padding:3px;}
+.Mid2L_title .detail span.txt.pl a {color:#f03c18;}
+/*下载*/
+.Mid2L_down {margin:-10px 0 10px; padding:6px 5px 0 12px; width:603px; height:118px; background:#f5f5f5;}
+.Mid2L_down .img {float:left; padding-top:11px; width:102px; height:90px;}
+.Mid2L_down .img img {float:left; width:90px; height:90px; border-radius:10px;}
+.Mid2L_down .con {float:left; padding-top:11px; width:292px; height:90px;}
+.Mid2L_down .con .tit {width:292px; height:40px; line-height:40px; color:#e62b2b; font-size:18px; font-weight:bold;}
+.Mid2L_down .con .txt {width:292px; height:22px; line-height:22px; color:#666; font-size:14px;}
+.Mid2L_down .con .txt a {color:#666;}
+.Mid2L_down .con .txt a:hover {color:#d3222a;}
+.Mid2L_down .dow {float:right; width:auto; height:118px;}
+.Mid2L_down .dow .code {float:left; margin-left:-101px; width:100px; height:116px; background:#fff; border:1px solid #ddd; position:absolute;}
+.Mid2L_down .dow .code div {width:100px; text-align:center;}
+.Mid2L_down .dow .code div.pic {height:100px;}
+.Mid2L_down .dow .code div.txt {height:16px; line-height:14px; color:#666; font-size:12px; font-family:SimSun;}
+.Mid2L_down .dow .btn {float:left; padding-top:8px; width:auto; min-width:157px; max-width:209px; height:104px; position:relative;}
+.Mid2L_down .dow .btn .btna {width:auto; height:52px}
+.Mid2L_down .dow .btn a {float:left; display:block; height:44px; line-height:44px; font-size:14px;}
+.Mid2L_down .dow .btn a.link1 {margin-right:2px; padding-left:15px; width:140px;}
+.Mid2L_down .dow .btn a.Android {margin:0 2px 8px 0; padding-left:15px; width:140px;}
+.Mid2L_down .dow .btn a.Android span {display:block; text-indent:43px; color:#fff; background:#31ac2f url("http://image.gamersky.com/webimg13/shouyou/new/ico2.png") 11px 0 no-repeat;}
+.Mid2L_down .dow .btn a.iOS {margin:0 2px 8px 0; padding-left:15px; width:140px;}
+.Mid2L_down .dow .btn a.iOS span {display:block; text-indent:43px; color:#fff; background:#007ebd url("http://image.gamersky.com/webimg13/shouyou/new/ico2.png") 11px -44px no-repeat;}
+.Mid2L_down .dow .btn a.Android.cur,
+.Mid2L_down .dow .btn a.iOS.cur,
+.Mid2L_down .dow .btn a.Android:hover,
+.Mid2L_down .dow .btn a.iOS:hover {background:url("http://image.gamersky.com/webimg13/shouyou/new/ar.png") 0 center no-repeat;}
+.Mid2L_down .dow .btn a.link2 {width:52px; line-height:44px; text-align:center; color:#fff; font-size:12px; font-family:SimSun; background:#494949;}
+.Mid2L_down .dow .btn a.link2:hover {background:#515151;}
+
+.Mid2L_con {padding-top:10px; width:620px; height:auto; line-height:28px; color:#333; font-size:16px;}
+.Mid2L_con p {margin:0 auto; padding:10px 0;}
+.Mid2L_con .tc {color:#d3222a;}
+.Mid2L_con .n1 {color:#0066cb;}
+
+
+.PageColorMode_Night .Mid2_L .Mid2L_crumb a:hover {color:#fff;}
+.PageColorMode_Night .Mid2L_title {border-bottom:1px solid #444;}
+.PageColorMode_Night .Mid2L_title h1 {color:#ff9b1f;}
+.PageColorMode_Night .Mid2L_title .detail span.txt.pl a {color:#ff9b1f;}
+
+/*下载*/
+.PageColorMode_Night .Mid2L_down {background:#2d2d2d;}
+
+.PageColorMode_Night .Mid2L_con {color:#ababab;}
+.PageColorMode_Night .Mid2L_con .tc{color:#0066cb;}
+
+
+/*针对移动端的优化*/
+.Mid2L_down {width:100%; height:auto; padding:0px;}
+.Mid2L_down .img {float:left; margin:0px; width:auto; height:auto; padding:0px;}
+.Mid2L_down .con {float:left; margin-left:10px; width:auto; height:auto; padding:0px;}
+.Mid2L_down .con .tit {width:100%; height:30px; padding:0px; line-height:30px;}
+.Mid2L_down .con .txt {width:100%;}
+.Mid2L_down .dow {display:none;}
+
+/*------------------------------------------------ -x68
+        公共操作样式
+------------------------------------------------ -x68*/
+.Button {/*禁止选中内容, 禁止弹出内容菜单*/-webkit-touch-callout:none; -webkit-user-select:none;}
+.TouchStart {background-color:rgba(221, 221, 221, 0.5); box-shadow: inset 0px 2px 4px rgba(0,0,0,0.2);}
+/*------------------------------------------------ -x68
+	相关阅读
+------------------------------------------------ -x68*/
+.list {display:block; width:auto; height:auto; border-radius:2px; border:1.0px solid #e0e0e0; border-top:7px solid #ddd; border-bottom:1px solid #bbb; padding:10px 10px 0 10px;  background:#f7f7f7;}
+	.PageColorMode_Day .list {border:1.0px solid #e0e0e0; border-top:7px solid #ddd; border-bottom:1px solid #bbb; background:#f7f7f7;}
+	.PageColorMode_Night .list {border:1.0px solid #1d1c21; border-top:7px solid #0e0e0e; border-bottom:1px solid #040404; background:#17181a;}
+.list .tit {margin:0 0 10px -10px; padding-left:5px; width:auto; height:20px; line-height:20px; font-weight:bold;}
+	.PageColorMode_Day .list .tit {color:#333;}
+	.PageColorMode_Night .list .tit {color:#576476;}
+.list .txtlist {display:block; width:auto; height:auto;}
+.list .txtlist a {display:block;}
+.list .txtlist .Row {display:block; width:100%; height:40px; line-height:40px; font-size:14px; white-space:nowrap; text-overflow:ellipsis;}
+.PageColorMode_Day .list .txtlist .Row {border-top:1.0px solid #e0e0e0; color:#333;}
+.PageColorMode_Night .list .txtlist .Row {border-top:1.0px solid #2a2e38; color:#576476;}
+.list .more {display:block; border-top:1.0px solid #2a2e38; width:100%; font-size:14px; height:40px; line-height:40px; text-align:center; color:#5f5f69;}
+.PageColorMode_Day .list .more {border-top:1.0px solid #e0e0e0; color:#333;}
+.PageColorMode_Night .list .more {border-top:1.0px solid #2a2e38; color:#5f5f69;}
+.list .more a {display:block;}
+
+.PageColorMode_Day .list .tit.red {border-left:5px solid #f22f09;}
+.PageColorMode_Night .list .tit.red {border-left:5px solid #812c25;}
+.PageColorMode_Day .list .tit.yellow {border-left:5px solid #ffc600;}
+.PageColorMode_Night .list .tit.yellow {border-left:5px solid #867025;}
+.PageColorMode_Day .list .tit.blue {border-left:5px solid #3fa5ee;}
+.PageColorMode_Night .list .tit.blue {border-left:5px solid #477399;}
+
+/*------------------------------------------------ -x68
+	相关专题
+------------------------------------------------ -x68*/
+#gsTemplateContent_RelatedTopic {display:none;-webkit-user-select:none;}
+#gsTemplateContent_RelatedTopicContent {display:block; width:100%; height:auto; padding:0px;}
+#gsTemplateContent_RelatedTopicContent table {margin-bottom:10px; border:1.0px solid #d3d3d3; width:100%; height:74px;}
+	.PageColorMode_Day #gsTemplateContent_RelatedTopicContent table {border:1.0px solid #d3d3d3;}
+	.PageColorMode_Night #gsTemplateContent_RelatedTopicContent table {border:1.0px solid #222b38;}
+#gsTemplateContent_RelatedTopicContent .Content img {float:left; margin:0px 6px 0px 6px; width:94px; height:54px;}
+#gsTemplateContent_RelatedTopicContent .Content .Title {float:none; width:auto; height:34px; line-height:54px; font-size:16px;}
+	.PageColorMode_Day #gsTemplateContent_RelatedTopicContent .Content .Title {color:#333;}
+	.PageColorMode_Night #gsTemplateContent_RelatedTopicContent .Content .Title {color:#576476;}
+#gsTemplateContent_RelatedTopicContent .Content .Subtitle {float:none; width:auto; height:20px; line-height:20px; font-size:14px;}
+	.PageColorMode_Day #gsTemplateContent_RelatedTopicContent .Content .Subtitle {color:#a5a5a5;}
+	.PageColorMode_Night #gsTemplateContent_RelatedTopicContent .Content .Subtitle {color:#464950;}
+#gsTemplateContent_RelatedTopicContent .ButtonArea {width:74px;}
+#gsTemplateContent_RelatedTopicContent .Button {border-radius:2px; width:54px; height:30px; line-height:30px; text-align:center; font-size:12px;}
+	.PageColorMode_Day #gsTemplateContent_RelatedTopicContent .Button {background:#ee5449; color:#f7f7f7;}
+	.PageColorMode_Night #gsTemplateContent_RelatedTopicContent .Button {background:#812c25; color:#c6a09d;}
+#gsTemplateContent_RelatedTopicContent .Readed {}
+	.PageColorMode_Day #gsTemplateContent_RelatedTopicContent .Readed {background:#6699ff;}
+	.PageColorMode_Night #gsTemplateContent_RelatedTopicContent .Readed {background:#336699;}
+
+/*------------------------------------------------ -x68
+	广告1
+------------------------------------------------ -x68*/
+
+#gsTemplateContent_AD1 {display:block; border-bottom:1px solid #bbb; width:auto; height:auto; padding:6px; font-size:19px;}
+#gsTemplateContent_AD1 .right #title {float:left; width:0px; white-space:nowrap; text-overflow:ellipsis;}
+#gsTemplateContent_AD1 .right #tuiGuangBadge {float:right; margin:0px; width:32px; height:16px; color:transparent;}
+#gsTemplateContent_AD1 .right #content {}
+
+#gsTemplateContent_AD1 a {display:-webkit-box; border-radius:2.0; background:#f7f7f7; border:1.0px solid #e0e0e0; padding:6px;}
+	.PageColorMode_Day #gsTemplateContent_AD1 {border-bottom:1px solid #bbb;}
+	.PageColorMode_Day #gsTemplateContent_AD1 a {background:#f7f7f7; border-color:#e0e0e0;}
+	.PageColorMode_Night #gsTemplateContent_AD1 {border-bottom:1px solid #1d1c21;}
+	.PageColorMode_Night #gsTemplateContent_AD1 a {background:#1a1d24; border-color:#222b38;}
+#gsTemplateContent_AD1 .Icon {width:64px; height:64px;}
+	.PageColorMode_Day #gsTemplateContent_AD1 .Icon {opacity:1.0}
+	.PageColorMode_Night #gsTemplateContent_AD1 .Icon {opacity:0.5}
+#gsTemplateContent_AD1 .Title {font-size:16px; color:#171717;}
+	.PageColorMode_Day #gsTemplateContent_AD1 .Title {color:#171717;}
+	.PageColorMode_Night #gsTemplateContent_AD1 .Title {color:#576476;}
+#gsTemplateContent_AD1 .Badge {width:28px; height:30px;}
+#gsTemplateContent_AD1 .Badge div {border-radius:2.0; border:1.0px solid #f22f09; width:28px; height:15px; line-height:15px; text-align:center; font-size:10px; color:#f22f09;}
+	.PageColorMode_Day #gsTemplateContent_AD1 .Badge div {border-color:#af4f29; background-color:#f7f7f7; color:#f22f09;}
+	.PageColorMode_Night #gsTemplateContent_AD1 .Badge div {border-color:#af4f29; background-color:#27282f; color:#af4f29;}
+#gsTemplateContent_AD1 .Subtitle {font-size:13px; color:#787878;}
+	.PageColorMode_Day #gsTemplateContent_AD1 .Subtitle {color:#787878;}
+	.PageColorMode_Night #gsTemplateContent_AD1 .Subtitle {color:#464950;}
+/*------------------------------------------------ -x68
+	广告2
+------------------------------------------------ -x68*/
+.ad2 {display:block; border-radius:2px; border:1.0px solid #e0e0e0; border-top:7px solid #ddd; width:auto; border-bottom:12px solid #e0e0e0; height:auto; background:#f7f7f7;}
+	.PageColorMode_Day .ad2 {background:#f7f7f7; border:1.0px solid #e0e0e0; border-top:7px solid #ddd; border-bottom:12px solid #e0e0e0;}
+	.PageColorMode_Night .ad2 {background:#272730; border:1.0px solid #1d1c21; border-top:7px solid #0e0e0e; border-bottom:12px solid #1d1c21;}
+.ad2 a {display:inline-block;}
+.ad2 a .top {width:100%; height:auto; border-radius:2px 2px 0 0;}
+.ad2 a .top img {border-radius:2px 2px 0 0;}
+.ad2 a .bot {display:-webkit-box; padding:0px; width:auto; height:auto;}
+.ad2 a .bot .tit {width:40px; height:auto;}
+.ad2 a .bot .tit span {float:left; display:inline-block; width:32px; height:16px; text-indent:-9999px; /*1.2.5新增*/ margin-left:4px; margin-top:7px;}
+.ad2 a .bot .txt {-webkit-box-flex:1; width:1px; height:30px;white-space:nowrap; text-overflow:ellipsis; line-height:30px; font-size:16px; color:#333;}
+	.PageColorMode_Day .ad2 a .bot .txt {color:#333;}
+	.PageColorMode_Night .ad2 a .bot .txt {color:#576476;}
+#gsTemplateContent_AD2 {display:none; padding:10px 10px 0px 10px;}
+#gsTemplateContent_AD2 table {}
+#gsTemplateContent_AD2 .Icon {}
+#gsTemplateContent_AD2 .Icon img {border-radius:2px; width:100%; height:auto;}
+#gsTemplateContent_AD2 .Badge {width:40px; height:30px;}
+#gsTemplateContent_AD2 .Badge div {margin-top:6px; border-radius:2px; border:1px solid #f22f09; width:28px; height:15px; line-height:16px; text-align:center; font-size:10px; color:#f22f09;}
+#gsTemplateContent_AD2 .Title {line-height:30px; font-size:14px; color:#333;}
+/*------------------------------------------------ -x68
+	评论
+------------------------------------------------ -x68*/
+ul.Comment {display:block; margin-bottom:10px; width:100%; height:auto;}
+	.PageColorMode_Day ul.Comment {border-top:1.0px solid #d3d3d3;}
+	.PageColorMode_Night ul.Comment {border-top:1.0px solid #3f3f47;}
+
+ul.Comment li.li {border-top:1.0px solid #d3d3d3; width:100%; height:auto;}
+	.PageColorMode_Day ul.Comment li.li {border-top:1.0px solid #d3d3d3;}
+	.PageColorMode_Night ul.Comment li.li {border-top:1.0px solid #3f3f47;}
+
+.comment-header {padding:10px 0px 0px 0px; display:block; width:auto; height:auto;}
+.comment-header .header-wrap {overflow:visible; float:left; width:auto; height:30px;}
+.comment-header .header-wrap .box-pic {float:left; border-radius:15px; width:30px; height:30px;}
+.comment-header .header-wrap .box-pic {background:url("../gsAppHTMLTemplate_image/user_DefaultHeadImage@2x.png") no-repeat; background-size:30px 30px;}
+.comment-header .header-wrap .box-msg {overflow:visible; float:left; padding-left:5px; width:auto; height:30px;}
+.comment-header .header-wrap .box-msg .msg-name {width:auto; height:20px; line-height:14px; font-size:14px;}
+	.PageColorMode_Day .comment-header .header-wrap .box-msg .msg-name {color:#1e90db;}
+	.PageColorMode_Night .comment-header .header-wrap .box-msg .msg-name {color:#4c7ca5;}
+.comment-header .header-wrap .box-msg .msg-time {width:auto; height:12px; line-height:12px; font-size:14px;}
+	.PageColorMode_Day .comment-header .header-wrap .box-msg .msg-time {color:#888;}
+	.PageColorMode_Night .comment-header .header-wrap .box-msg .msg-time {color:#5a5a60;}
+.comment-header .header-praise {float:right; padding:10px 10px 10px 10px; width:auto; height:18px;}
+.comment-header .header-praise .Label {float:left; width:auto; height:18px; line-height:24px; font-size:13px;}
+	.PageColorMode_Day .comment-header .header-praise .Label {color:#c6c6c6;}
+	.PageColorMode_Night .comment-header .header-praise .Label {color:#576476;}
+.comment-header .header-reply {float:right; width:auto; height:18px; padding:10px 10px 10px 10px; line-height:20px; font-size:13px;}
+	.PageColorMode_Day .comment-header .header-reply {color:#888;}
+	.PageColorMode_Night .comment-header .header-reply {color:#464950;}
+.comment-header .header-praise .Icon {float:left; margin:1px 4px 0px 0px; width:16px; height:16px;}
+	.PageColorMode_Day .comment-header .header-praise .Icon {background-image:url(../gsAppHTMLTemplate_image/icon_Praise_UIMode_Day@2x.png); background-size:100% 100%;}
+	.PageColorMode_Night .comment-header .header-praise .Icon {background:url(../gsAppHTMLTemplate_image/icon_Praise_UIMode_Night@2x.png) no-repeat; background-size:100% 100%;}
+.comment-header .header-praise .IconSelected {float:left; margin:1px 4px 0px 0px; width:16px; height:16px;}
+	.PageColorMode_Day .comment-header .header-praise .IconSelected {background-image:url(../gsAppHTMLTemplate_image/icon_Praised_UIMode_Day@2x.png); background-size:100% 100%;}
+	.PageColorMode_Night .comment-header .header-praise .IconSelected{background-image:url(../gsAppHTMLTemplate_image/icon_Praised_UIMode_Night@2x.png); background-size:100% 100%;}
+.comment-inner {padding:5px; display:block; width:auto; height:auto;}
+	.PageColorMode_Day .comment-inner {background-color:#ededed;}
+	.PageColorMode_Night .comment-inner {background-color:#272730;}
+ul.Comment-reply {display:block; width:100%; height:auto;}
+ul.Comment-reply li.li-reply {margin-top:-1px; width:100%; height:auto;}
+	.PageColorMode_Day ul.Comment-reply li.li-reply {border-top:1.0px solid #d2d2d2;}
+	.PageColorMode_Night ul.Comment-reply li.li-reply {border-top:1.0px solid #3f3f47;}
+ul.Comment-reply li.li-reply .comment-header-reply {padding:5px 0; display:block; width:auto; height:auto;}
+ul.Comment-reply li.li-reply .comment-header-reply .reply-name { float:left; width:auto; height:18px; line-height:14px; font-size:14px; font-weight:bold;}
+	.PageColorMode_Day ul.Comment-reply li.li-reply .comment-header-reply .reply-name {color:#333;}
+	.PageColorMode_Night ul.Comment-reply li.li-reply .comment-header-reply .reply-name {color:#576476;}
+ul.Comment-reply li.li-reply .comment-header-reply .reply-number { float:right; padding-right:5px; width:auto; height:18px; line-height:18px; font-size:14px;}
+	.PageColorMode_Day ul.Comment-reply li.li-reply .comment-header-reply .reply-number {color:#c6c6c6;}
+	.PageColorMode_Night ul.Comment-reply li.li-reply .comment-header-reply .reply-number {color:#5a5a60;}
+ul.Comment-reply li.li-reply .comment-cont-reply {padding:5px 0; display:block; width:auto; height:auto; line-height:20px; font-size:14px;}
+ul.Comment-reply li.li-reply .comment-cont-reply p {margin:0; padding:3px 0;}
+.comment-cont {padding:5px 0px 5px 35px; display:block; width:auto; height:auto; line-height:22px; font-size:14px;}
+.comment-cont p {margin:0; padding:5px 0;}
+.More {width:100%; height:34px; line-height:34px; text-align:center; font-size:16px;}
+	.PageColorMode_Day .More {border-top: 1.0px solid #ee5449;};
+	.PageColorMode_Night .More {border-top: 1.0px solid #812c25;};
+.More a {display:block;}
+	.PageColorMode_Day .More a {color:#999;}
+	.PageColorMode_Night .More a {color:#5a5a60;}
+	
+#gsTemplateContent_Comments {display:none; -webkit-user-select:none;}
+#gsTemplateContent_Comments .More {margin-left:-10px; padding-left:10px; padding-right:10px;};
+#gsTemplateContent_Comments .ReplyComments {margin-bottom:5px; line-height:22px; font-size:14px;}
+	.PageColorMode_Day #gsTemplateContent_Comments .ReplyComments {border:1.0px solid #d3d3d3; background-color:#f2f2f2;}
+	.PageColorMode_Night #gsTemplateContent_Comments .ReplyComments {border:1.0px solid #222b38; background-color:#1a1d24;}
+#gsTemplateContent_Comments .ReplyCommentTitle {padding:6px 6px 0px 6px;}
+	.PageColorMode_Day #gsTemplateContent_Comments .ReplyCommentTitle {color:#1e90db;}
+	.PageColorMode_Night #gsTemplateContent_Comments .ReplyCommentTitle {color:#4c7ca5;}
+#gsTemplateContent_Comments .ReplyCommentFloorIndex {float:right;}
+	.PageColorMode_Day #gsTemplateContent_Comments .ReplyCommentFloorIndex {color:#888;}
+	.PageColorMode_Night #gsTemplateContent_Comments .ReplyCommentFloorIndex {color:#464950;}
+#gsTemplateContent_Comments .ReplyCommentContent {padding:6px;}
+#gsTemplateContent_Comments .LastReplyCommentContent {padding:6px;}
+
+#gsTemplateContent_Comments .ReplyCommentContentOperateBar {margin-top:-2px; border-bottom:1.0px solid #d3d3d3; height:30px;}
+	.PageColorMode_Day #gsTemplateContent_Comments .ReplyCommentContentOperateBar {color:#888;}
+	.PageColorMode_Night #gsTemplateContent_Comments .ReplyCommentContentOperateBar {color:#464950;}
+#gsTemplateContent_Comments .ReplyCommentContentOperateBar div {float:left;}
+
+#gsTemplateContent_Comments .ReplyCommentContentOperateBar .PraiseButton .Icon {float:left; margin:5px 4px 0px 8px; width:16px; height:16px; background-position:center center; background-size:100% 100%; background-repeat:no-repeat;}
+	.PageColorMode_Day #gsTemplateContent_Comments .ReplyCommentContentOperateBar .PraiseButton .Icon {background-image:url(../gsAppHTMLTemplate_image/icon_Praise_UIMode_Day@2x.png);}
+	.PageColorMode_Night #gsTemplateContent_Comments .ReplyCommentContentOperateBar .PraiseButton .Icon {background-image:url(../gsAppHTMLTemplate_image/icon_Praise_UIMode_Night@2x.png);}
+#gsTemplateContent_Comments .ReplyCommentContentOperateBar .PraiseButton .IconSelected {float:left; margin:5px 4px 0px 8px; width:16px; height:16px; background-position:center center; background-size:100% 100%; background-repeat:no-repeat;}
+	.PageColorMode_Day #gsTemplateContent_Comments .ReplyCommentContentOperateBar .PraiseButton .IconSelected {background-image:url(../gsAppHTMLTemplate_image/icon_Praised_UIMode_Day@2x.png);}
+	.PageColorMode_Night #gsTemplateContent_Comments .ReplyCommentContentOperateBar .PraiseButton .IconSelected {background-image:url(../gsAppHTMLTemplate_image/icon_Praised_UIMode_Night@2x.png);}
+#gsTemplateContent_Comments .ReplyCommentContentOperateBar .PraiseButton .Label {float:left; padding:4px 0px 4px 0px;}
+#gsTemplateContent_Comments .ReplyCommentContentOperateBar .ReplyButton {padding:4px 10px 4px 10px;}
+#gsTemplateContent_Comments .LastReplyCommentContentOperateBar {border:none;}
+
+#gsTemplateContent_Comments .ShowOriginContentButton {float:right; font-weight:bold; color:#ee5449;}
+	.PageColorMode_Day #gsTemplateContent_Comments .ShowOriginContentButton {color:#ee5449;} 
+	.PageColorMode_Night #gsTemplateContent_Comments .ShowOriginContentButton {color:#812c25;} 
+
+#gsTemplateContent_Comments .ShowMoreFloorsButton {border-bottom:1.0px solid #d3d3d3; height:30px; line-height:30px; text-align:center; font-weight:bold; color:#ee5449;}
+	.PageColorMode_Day #gsTemplateContent_Comments .ShowMoreFloorsButton {border-bottom:1.0px solid #d3d3d3;color:#ee5449;}
+	.PageColorMode_Night #gsTemplateContent_Comments .ShowMoreFloorsButton {border-bottom:1.0px solid #3f3f47;color:#812c25;}
+/*------------------------------------------------ -x68
+	视频
+------------------------------------------------ -x68*/
+.GSTemplateContent_VideoBoxer {background-position:center center; background-repeat:no-repeat; background-size: 177px 49px; background-image:url(../gsAppHTMLTemplate_image/gsAppHTMLTemplate_Video_Background@2x.png);}
+	.PageColorMode_Day .GSTemplateContent_VideoBoxer {background-color: #eeeeee;}
+	.PageColorMode_Night .GSTemplateContent_VideoBoxer {background-color: #1B1A1F;}
+
+.GSTemplateContent_VideoBoxer .PlayButtonBackground
+{
+	float:none;
+	border-radius:40px;
+	width:80px;
+	height:80px;
+	background-position:center center;
+	background-repeat:no-repeat;
+	-webkit-filter:blur(4px);
+}
+.GSTemplateContent_VideoBoxer .PlayButton
+{
+	float:none;
+	margin-top:-80px;
+	border-radius:40px;
+	width:80px;
+	height:80px;
+	background-repeat:no-repeat;
+	background-position:center center;
+	background-size:80px 80px;
+	background-image:url(../gsAppHTMLTemplate_image/gsAppHTMLTemplate_Video_PlayButton@2x.png);
+	-webkit-filter:hue-rotate(0deg);
+}
+/*------------------------------------------------ -x68
+	评测文章图集样式,去除网页中的评测文章图集效果.
+------------------------------------------------ -x68*/
+
+.Slides
+{
+	width:100%;
+	height:auto;
+	background: transparent;
+}
+.Slides ul.Bimg li
+{
+    display: inline-block;
+}
+.Slides ul.Bimg li a div.mask
+{
+    display: none;
+}
+.Slides ul.Bimg li a div.txt
+{
+    position: relative;
+    margin-top: -40px;
+    width: 100%;
+    height: 40px;
+    background: url("http://image.gamersky.com/webimg15/mk3.png") 0px 0px repeat-x;
+    padding-left: 10px;
+    line-height: 40px;
+    text-shadow: 1px 1px 1px #000;
+    font-family: 'Microsoft YaHei';
+    font-size: 18px;
+    font-weight: bold;
+    color: #f2f2f3;
+}
+.Slides .focus-num
+{
+	display: none;
+}
+.Slides a.btn
+{
+	display: none;
+}
+
+/*------------------------------------------------ -x68
+	评测文章子节点标题样式.
+------------------------------------------------ -x68*/
+p .fc
+{
+	text-align: center;
+	font-size: 14px;
+	color: #666;
+}
+.title1
+{
+	margin:30px 0 10px;
+	width:auto;
+	height:38px;
+	line-height:38px;
+	text-indent:20px;
+	font-size:20px;
+	font-weight:bold;
+	background:#e5e5e5;
+	border-left:9px solid #e23703;
+	border-radius:0 4px 4px 0;
+}

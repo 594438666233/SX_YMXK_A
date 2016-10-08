@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh-cn" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="format-detection" content="email=no"/>
+    <meta name="format-detection" content="adress=no"/>
+    <title></title>
+	<link type="text/css" rel="stylesheet" href="gsAppHTMLTemplate_css/gsAppHTMLTemplate.css?version=1.6.1"/>
+    <script type="text/javascript" src="gsAppHTMLTemplate_js/gsAppHTMLTemplate.js?version=1.6.1"></script>
+</head>
+<body quick-markup_injected="true">
+<GSAppHTMLTemplate version="1.6.1"></GSAppHTMLTemplate>
+<img class="GSTemplateImageLoader" src="gsAppHTMLTemplate_image/gsAppHTMLTemplate_ImgBoxer_BackgroundProgress0.png" />
+<img class="GSTemplateImageLoader" src="gsAppHTMLTemplate_image/gsAppHTMLTemplate_ImgBoxer_BackgroundProgress10.png" />
+<img class="GSTemplateImageLoader" src="gsAppHTMLTemplate_image/gsAppHTMLTemplate_ImgBoxer_BackgroundProgress20.png" />
+<img class="GSTemplateImageLoader" src="gsAppHTMLTemplate_image/gsAppHTMLTemplate_ImgBoxer_BackgroundProgress30.png" />
+<img class="GSTemplateImageLoader" src="gsAppHTMLTemplate_image/gsAppHTMLTemplate_ImgBoxer_BackgroundProgress40.png" />
+<img class="GSTemplateImageLoader" src="gsAppHTMLTemplate_image/gsAppHTMLTemplate_ImgBoxer_BackgroundProgress50.png" />
+<img class="GSTemplateImageLoader" src="gsAppHTMLTemplate_image/gsAppHTMLTemplate_ImgBoxer_BackgroundProgress60.png" />
+<img class="GSTemplateImageLoader" src="gsAppHTMLTemplate_image/gsAppHTMLTemplate_ImgBoxer_BackgroundProgress70.png" />
+<img class="GSTemplateImageLoader" src="gsAppHTMLTemplate_image/gsAppHTMLTemplate_ImgBoxer_BackgroundProgress80.png" />
+<img class="GSTemplateImageLoader" src="gsAppHTMLTemplate_image/gsAppHTMLTemplate_ImgBoxer_BackgroundProgress90.png" />
+<img class="GSTemplateImageLoader" src="gsAppHTMLTemplate_image/gsAppHTMLTemplate_ImgBoxer_BackgroundProgress100.png" />
+<div id="body" class="fontsizetwo">
+    <h1 class="heading" id="gsTemplateContent_Title">#文章标题#</h1>
+    <span class="info" id="gsTemplateContent_Subtitle">#文章副标题#</span>
+<div class="bar"></div>
+<div class="content" id="gsTemplateContent_MainBody">
+    #文章正文#
+</div>
+
+<div id="gsTemplateContent_AD1">
+</div>
+
+<div class="list" id="gsTemplateContent_RelatedTopic">
+	<div class="tit red">相关专题</div>
+        <div id="gsTemplateContent_RelatedTopicContent">
+        	<!---->
+		</div>
+    </div>
+</div>
+
+<div class="list" id="gsTemplateContent_RelatedReading">
+	<div class="tit yellow">相关阅读</div>
+	<div class="txtlist" id="gsTemplateContent_RelatedReadingContent">
+    	<!---->
+	</div>
+</div>
+
+<div class="list" id="gsTemplateContent_Comments" onclick="gsSendMessageToSuperWebView(&quot;openPage:{\&quot;pageID\&quot;:\&quot;0\&quot;,\&quot;pageURL\&quot;:\&quot;comments.app.gamersky\&quot;, \&quot;openMethod\&quot;:\&quot;withContentURL\&quot;}&quot;);">
+</div>
+
+<div class="ad2" id="gsTemplateContent_AD2">
+</div>
+
+
+
+<script type="text/javascript">
+	// 低版本统计kAppVersion
+	if (gsIsCurrentOSIOS()
+	&& typeof(kAppVersion)!="undefined"
+	&& kAppVersion=="1.3.3")
+	{
+		try
+		{
+			var url = window.location.pathname;
+			var contentID =url.substring(url.lastIndexOf("/")+1, url.length);
+			contentID = contentID.substring(0, contentID.indexOf("_"));
+			document.write("<img style=\"display:none;\" src=\"http://appapi.gamersky.com/v1/getapphits/"+contentID+"?tag=1\"/>");
+		}
+		catch (err)
+		{}
+	}
+	
+	// 调整颜色
+	{   
+        var spanTags = document.getElementsByTagName("span");
+        if (spanTags!=null && spanTags.length>0)
+        {
+            for (var spanTagIndex=0;
+			spanTagIndex<spanTags.length;
+			spanTagIndex++)
+            {
+                var spanTag = spanTags[spanTagIndex];
+                 
+                //红色
+                if (spanTag.style.color=="rgb(255, 0, 0)"
+                    || spanTag.style.color=="#ff0000"
+                    || spanTag.color=="rgb(255, 0, 0)"
+                    || spanTag.color=="#ff0000")
+                {
+                    spanTag.style.color = "#d26217";
+                    spanTag.color = "#d26217";
+                    continue;
+                }
+                //黄色
+                if (spanTag.style.color=="#ffcc00"
+                    || spanTag.style.color=="rgb(255, 204, 0)"
+                    || spanTag.color=="#ffcc00"
+                    || spanTag.color=="rgb(255, 204, 0)")
+                {
+                    spanTag.style.color = "#d26217";
+                    spanTag.color = "#d26217";
+                    continue;
+                }
+                //翠绿色替换
+                if (spanTag.style.color=="#00ee00"
+                    || spanTag.style.color=="rgb(0, 238, 0)"
+                    || spanTag.color=="#00ee00"
+                    || spanTag.color=="rgb(0, 238, 0)")
+                {
+                    spanTag.style.color = "#228B22";
+                    spanTag.color = "#228B22";
+                    continue;
+                }
+            }
+        }
+        
+        var strongTags = document.getElementsByTagName("strong");
+        for (var strongTagIndex=0;
+            strongTagIndex<strongTags.length;
+            strongTagIndex++)
+        {
+            var strongTag = strongTags[strongTagIndex];
+            
+            //红色
+            if (strongTag.style.color=="rgb(255, 0, 0)"
+                || strongTag.style.color=="#ff0000"
+                || strongTag.color=="rgb(255, 0, 0)"
+                || strongTag.color=="#ff0000")
+            {
+                strongTag.style.color = "#d26217";
+                strongTag.color = "#d26217";
+                continue;
+            }
+            //黄色
+            if (strongTag.style.color=="#ffcc00"
+                || strongTag.style.color=="rgb(255, 204, 0)"
+                || strongTag.color=="#ffcc00"
+                || strongTag.color=="rgb(255, 204, 0)")
+            {
+                strongTag.style.color = "#d26217";
+                strongTag.color = "#d26217";
+                continue;
+            }
+            //翠绿色替换
+            if (strongTag.style.color=="#00ee00"
+                || strongTag.style.color=="rgb(0, 238, 0)"
+                || strongTag.color=="#00ee00"
+                || strongTag.color=="rgb(0, 238, 0)")
+            {
+                strongTag.style.color = "#228B22";
+                strongTag.color = "#228B22";
+                continue;
+            }
+        }
+        
+        var fontTags = document.getElementsByTagName("font");
+        for (var fontTagIndex=0;
+             fontTagIndex<fontTags.length;
+             fontTagIndex++)
+        {
+            var fontTag = fontTags[fontTagIndex];
+            //黄色
+            if (fontTag.style.color=="rgb(255, 204, 0)"
+                || fontTag.style.color=="#ffcc00"
+                || fontTag.color=="rgb(255, 204, 0)"
+                || fontTag.color=="#ffcc00")
+                {
+                    fontTag.style.color = "#d26217";
+                    fontTag.color = "#d26217";
+                    continue;
+                }
+                //红色
+                if (fontTag.style.color=="#ff0000"
+                    || fontTag.style.color=="rgb(255, 0, 0)"
+                    || fontTag.color=="#ff0000"
+                    || fontTag.color=="rgb(255, 0, 0)")
+                {
+                    fontTag.style.color = "#d26217";
+                    fontTag.color = "#d26217";
+                    continue;
+                }
+                //翠绿色替换
+                if (fontTag.style.color=="#00ee00"
+                    || fontTag.style.color=="rgb(0, 238, 0)"
+                    || fontTag.color=="#00ee00"
+                    || fontTag.color=="rgb(0, 238, 0)")
+                {
+                    fontTag.style.color = "#228B22";
+                    fontTag.color = "#228B22";
+                    continue;
+                }
+        }
+        
+        var iframeTags = document.getElementsByTagName("iframe");
+        for (var iframeTagIndex=0;
+            iframeTagIndex<iframeTags.length;
+            iframeTagIndex++)
+        {
+            var iframeTag = iframeTags[iframeTagIndex];
+            iframeTag.removeAttribute("style");
+            iframeTag.height = document.body.clientWidth*(9/16);
+            iframeTag.width = document.body.clientWidth;
+		}
+        
+        var embedTags = document.getElementsByTagName("embed");
+        for (var embedTagIndex=0;
+             embedTagIndex<embedTags.length;
+             embedTagIndex++)
+        {
+            var embedTag = embedTags[embedTagIndex];
+            embedTag.removeAttribute("style");
+            embedTag.height = document.body.clientWidth*(9/16);
+            embedTag.width = document.body.clientWidth;
+        }
+    }
+</script>
+</div>
+</body>
+</html>

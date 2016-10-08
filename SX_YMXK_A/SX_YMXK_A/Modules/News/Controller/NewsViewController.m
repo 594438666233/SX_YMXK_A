@@ -45,7 +45,7 @@ UICollectionViewDelegate
 @property (nonatomic, retain) NSMutableArray *collectionDataArray;
 @property (nonatomic, assign) NSInteger currentPage;
 
-@property (nonatomic, assign) BOOL isMenuShow;
+//@property (nonatomic, assign) BOOL isMenuShow;
 
 @end
 
@@ -157,11 +157,9 @@ UICollectionViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    self.edgesForExtendedLayout = UIRectEdgeNone;
     
     _currentPage = 0;
-    _isMenuShow = NO;
+    self.isMenuShow = NO;
     _pageCount = 1;
     _currentNodeId = 0;
     self.dataArray = [NSMutableArray array];
@@ -198,9 +196,9 @@ UICollectionViewDelegate
     [self getCollectionViewSource];
     
 }
-
+// 导航栏左按钮事件
 - (void)menuAction {
-    if (_isMenuShow == NO) {
+    if (self.isMenuShow == NO) {
         [UIView animateWithDuration:0.5f animations:^{
             self.tabBarController.view.transform = CGAffineTransformMakeTranslation(self.view.frame.size.width - 100, 0);
         }];
@@ -212,7 +210,7 @@ UICollectionViewDelegate
         }];
         _scrollView.userInteractionEnabled = YES;
     }
-    _isMenuShow = !_isMenuShow;
+    self.isMenuShow = !self.isMenuShow;
 }
 
 
@@ -284,6 +282,7 @@ UICollectionViewDelegate
     SX_NewsDetailViewController *newsDetailVC = [[SX_NewsDetailViewController alloc] init];
     SX_NewsResult *result = _dataArray[indexPath.row];
     if (result.contentId) {
+        newsDetailVC.hidesBottomBarWhenPushed = YES;
         newsDetailVC.contentId = result.contentId;
         [self.navigationController pushViewController:newsDetailVC animated:YES];
     }

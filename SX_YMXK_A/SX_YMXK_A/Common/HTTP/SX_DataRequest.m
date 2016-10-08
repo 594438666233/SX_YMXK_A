@@ -11,14 +11,14 @@
 
 @implementation SX_DataRequest
 
-+ (void)GETRequestWithString:(NSString *)string block:(void(^)(id))block {
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager GET:string parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        block(responseObject);
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        block(error);
-    }];
-}
+//+ (void)GETRequestWithString:(NSString *)string block:(void(^)(id))block {
+//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+//    [manager GET:string parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        block(responseObject);
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        block(error);
+//    }];
+//}
 
 //+ (void)POSTRequestWithString:(NSString *)string body:(NSString *)body block:(void (^)(id))block {
 //    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -31,10 +31,29 @@
 //}
 
 + (void)POSTRequestWithString:(NSString *)string body:(NSString *)body block:(void (^)(id))block {
+
+    
     NSURL *url = [NSURL URLWithString:string];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
     request.HTTPBody = [body dataUsingEncoding:NSUTF8StringEncoding];
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (!error) {
+                id result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+                if (block != nil) {
+                    block(result);
+                }
+            }
+        });
+    }];
+    [dataTask resume];
+}
+
++ (void)GETRequestWithString:(NSString *)string block:(void(^)(id))block {
+    NSURL *url = [NSURL URLWithString:string];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{

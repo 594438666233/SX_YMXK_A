@@ -10,4 +10,6 @@
 
 @interface SX_ViewController : UIViewController
 
+@property (nonatomic, assign) BOOL isMenuShow;
+
 @end
