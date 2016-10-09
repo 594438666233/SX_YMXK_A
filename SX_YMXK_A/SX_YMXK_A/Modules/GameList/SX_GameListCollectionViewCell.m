@@ -9,6 +9,7 @@
 #import "SX_GameListCollectionViewCell.h"
 #import "SX_GameListResult.h"
 #import "UIImageView+WebCache.h"
+#import "AFNetworking.h"
 
 @interface SX_GameListCollectionViewCell ()
 
@@ -32,6 +33,7 @@
         [self.contentView addSubview:_label];
         
         self.myImageView = [[UIImageView alloc] init];
+        _myImageView.backgroundColor = [UIColor colorWithRed:0.8258 green:0.8258 blue:0.8258 alpha:1.0];
         [self.contentView addSubview:_myImageView];
     }
     return self;
@@ -46,7 +48,17 @@
 - (void)setGameListResult:(SX_GameListResult *)gameListResult {
     _gameListResult = gameListResult;
     _label.text = gameListResult.title;
-    [_myImageView sd_setImageWithURL:(NSURL *)gameListResult.thumbnailURL];
+    
+    AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL flag = [userDefaults boolForKey:@"imgMode"];
+    if ((flag == 1) && (manager.networkReachabilityStatus != AFNetworkReachabilityStatusReachableViaWiFi)) {
+        _myImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _myImageView.image = [UIImage imageNamed:@"common_Logo_174x41"];
+    }
+    else {
+        [_myImageView sd_setImageWithURL:(NSURL *)gameListResult.thumbnailURL];
+    }
 }
 
 

@@ -15,5 +15,7 @@
 @property (nonatomic, copy) NSString *nickname;
 @property (nonatomic, copy) NSString *img_url;
 @property (nonatomic, assign) NSInteger create_time;
+@property (nonatomic, assign) NSInteger topic_id;
+@property (nonatomic, copy) NSString *topic_title;
 
 @end

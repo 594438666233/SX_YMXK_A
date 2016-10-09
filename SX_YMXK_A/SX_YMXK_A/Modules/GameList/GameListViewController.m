@@ -154,7 +154,6 @@ UICollectionViewDelegate
     else {
         SX_GameListResult *gameListResult = _dataArray[indexPath.item];
         SX_GameViewController *gameVC = [[SX_GameViewController alloc] init];
-        gameVC.defaultImg = gameListResult.thumbnailURL;
         gameVC.contentId = gameListResult.contentId;
         [self.navigationController pushViewController:gameVC animated:YES];
     }
@@ -171,7 +170,6 @@ UICollectionViewDelegate
     if ([collectionView isEqual:_navigationCollectionView]) {
         return _collectionDataArray.count;
     }
-    NSLog(@"----%ld", _dataArray.count);
     return _dataArray.count;
 }
 

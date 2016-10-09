@@ -11,6 +11,7 @@
 #import "SX_ArticleResult.h"
 #import <JavaScriptCore/JavaScriptCore.h>
 #import "SX_CommentViewController.h"
+#import "SX_NewsResult.h"
 
 @interface SX_NewsDetailViewController ()
 <
@@ -35,7 +36,7 @@ UIWebViewDelegate
                               @"osVersion":@"9.3.5",
                               @"app":@"GSApp",
                               @"appVersion":@"2.3.3",
-                              @"request":@{@"contentId":[NSNumber numberWithInteger:self.contentId],
+                              @"request":@{@"contentId":[NSNumber numberWithInteger:_contentId],
                                            @"pageIndex":@1}};
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
     NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -45,7 +46,6 @@ UIWebViewDelegate
 //            [_dataArray removeAllObjects];
 //            }
         self.data = [SX_ArticleResult modelWithDic:dic];
-        NSLog(@"%@", _data);
         [self getWebView];
     }];
 }
@@ -67,6 +67,41 @@ UIWebViewDelegate
     [button setTitle:@"评论/查看评论" forState:UIControlStateNormal];
     [view addSubview:button];
     
+    UIButton *collectButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [collectButton setImage:[UIImage imageNamed:@"common_Icon_Favorite_26x26_UIMode_Day"] forState:UIControlStateNormal];
+    [collectButton setImage:[UIImage imageNamed:@"common_Icon_FavoriteSelected_26x26_UIMode_Day"] forState:UIControlStateSelected];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSMutableArray *mulArray = [NSMutableArray arrayWithArray:[userDefaults arrayForKey:@"collection"]];
+    for (int i = 0; i < mulArray.count; i++) {
+        SX_NewsResult *result = [NSKeyedUnarchiver unarchiveObjectWithData:mulArray[i]];
+        if (result.contentId == _newsResult.contentId) {
+            collectButton.selected = YES;
+            break;
+        }
+    }
+
+
+    collectButton.frame = CGRectMake(button.frame.origin.x + button.frame.size.width + 30, 7, 26, 26);
+    [collectButton addTarget:self action:@selector(collectAction:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:collectButton];
+    
+}
+
+- (void)collectAction:(UIButton *)button {
+    button.selected = !button.selected;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSMutableArray *mulArray = [NSMutableArray arrayWithArray:[userDefaults arrayForKey:@"collection"]];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:_newsResult];
+    if (button.selected == YES) {
+        [mulArray addObject:data];
+    } else {
+        [mulArray removeObject:data];
+//        [mulArray removeAllObjects];
+    }
+    NSArray *array = [NSArray arrayWithArray:mulArray];
+    [userDefaults setObject:array forKey:@"collection"];
+    [userDefaults synchronize];
+
 }
 
 - (void)buttonAction {
@@ -75,21 +110,6 @@ UIWebViewDelegate
     [self.navigationController pushViewController:commentVC animated:YES];
 }
 
-//- (void)getWebView {
-//    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 90, self.view.frame.size.width, self.view.frame.size.height - 90)];
-//
-//    NSString *str = [NSString stringWithFormat:@"<head><style>img{max-width:%fpx !important;}</style></head>", self.view.frame.size.width - 20];
-//    
-//    NSMutableString *tempStr = [NSMutableString stringWithString:_data.mainBody];
-//    [tempStr insertString:str atIndex:0];
-//    [_webView loadHTMLString:tempStr baseURL:nil];
-//    _webView.dataDetectorTypes = UIDataDetectorTypeAll;
-//    _webView.delegate = self;
-//    _webView.allowsInlineMediaPlayback = YES;
-//    _webView.mediaPlaybackRequiresUserAction = NO;
-//    
-//    [self.view addSubview:_webView];
-//}
 
 - (void)getWebView {
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 40)];
@@ -100,8 +120,8 @@ UIWebViewDelegate
     [htmlCont replaceOccurrencesOfString:@"#文章正文#" withString:_data.mainBody options:NSCaseInsensitiveSearch range:NSMakeRange(0, htmlCont.length)];
     [htmlCont replaceOccurrencesOfString:@"#文章标题#" withString:_data.title options:NSCaseInsensitiveSearch range:NSMakeRange(0, htmlCont.length)];
     [htmlCont replaceOccurrencesOfString:@"#文章副标题#" withString:_data.subTitle options:NSCaseInsensitiveSearch range:NSMakeRange(0, htmlCont.length)];
-
-    [_webView loadHTMLString:htmlCont baseURL:nil];
+#pragma mark - WQNMLGB
+    [_webView loadHTMLString:htmlCont baseURL:[NSURL URLWithString:html]];
     _webView.dataDetectorTypes = UIDataDetectorTypeAll;
     _webView.delegate = self;
     _webView.allowsInlineMediaPlayback = YES;
@@ -118,12 +138,6 @@ UIWebViewDelegate
     }
     return YES;
 }
-
-//- (void)webViewDidFinishLoad:(UIWebView *)webView {
-//    NSString *html = [[NSBundle mainBundle] pathForResource:@"gsAppHTMLTemplate" ofType:@"js"];
-//
-//    [_webView stringByEvaluatingJavaScriptFromString:html];
-//}
 
 - (void)viewWillAppear:(BOOL)animated {
     self.navigationController.navigationBar.subviews.firstObject.alpha = 1;

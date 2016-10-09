@@ -88,12 +88,16 @@ UITextFieldDelegate
         make.height.equalTo(@50);
     }];
     
+    UIImageView *confirmImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"common_Icon_PasswordLock_16x16_UIMode_Day"]];
+    confirmImageView.frame = CGRectMake(0, 0, 40, 40);
+    confirmImageView.contentMode = UIViewContentModeCenter;
+    
     self.confirmTextField = [[UITextField alloc] init];
     _confirmTextField.delegate = self;
     _confirmTextField.secureTextEntry = YES;
     _confirmTextField.backgroundColor = [UIColor whiteColor];
     _confirmTextField.leftViewMode = UITextFieldViewModeAlways;
-    _confirmTextField.leftView = passwordImageView;
+    _confirmTextField.leftView = confirmImageView;
     _confirmTextField.clipsToBounds = YES;
     _confirmTextField.placeholder = @"请再次输入密码";
     _confirmTextField.layer.cornerRadius = 7.f;
@@ -147,7 +151,7 @@ UITextFieldDelegate
     _label.textColor = [UIColor grayColor];
     [self.view addSubview:_label];
     [_label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_confirmTextField.mas_top).offset(30);
+        make.top.equalTo(_confirmTextField.mas_bottom).offset(10);
         make.left.equalTo(self.view.mas_left).offset(20);
         make.right.equalTo(self.view.mas_right).offset(-20);
         make.height.equalTo(@20);
@@ -155,7 +159,7 @@ UITextFieldDelegate
     
     
     [self createButton];
-    
+
 
 }
 
@@ -170,10 +174,10 @@ UITextFieldDelegate
                               @"osVersion":@"9.3.5",
                               @"app":@"GSApp",
                               @"appVersion":@"2.3.3",
-                              @"request":@{@"phoneNumber":[NSString stringWithFormat:@"%@", _phoneNumber],
-                                           @"userName":[NSString stringWithFormat:@"%@", _usernameTextField],
-                                           @"password":[NSString stringWithFormat:@"%@", _passwordTextField],
-                                           @"varifyToken":[NSString stringWithFormat:@"%@", _varifyToken]}
+                              @"request":@{@"phoneNumber":_phoneNumber,
+                                           @"userName":_usernameTextField.text,
+                                           @"password":_passwordTextField.text,
+                                           @"varifyToken":_varifyToken}
                               };
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
         NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -210,15 +214,6 @@ UITextFieldDelegate
         }];
     }
 }
-
-
-
-
-
-
-
-
-
 
 
 

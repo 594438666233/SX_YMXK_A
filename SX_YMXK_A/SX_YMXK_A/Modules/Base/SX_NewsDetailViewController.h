@@ -7,9 +7,11 @@
 //
 
 #import "SX_ViewController.h"
+@class SX_NewsResult;
 
 @interface SX_NewsDetailViewController : SX_ViewController
 
 @property (nonatomic, assign) NSInteger contentId;
+@property (nonatomic, strong) SX_NewsResult *newsResult;
 
 @end

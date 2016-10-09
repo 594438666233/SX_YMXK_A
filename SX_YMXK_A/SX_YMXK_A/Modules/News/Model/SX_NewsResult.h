@@ -9,6 +9,9 @@
 #import "SX_BaseModel.h"
 
 @interface SX_NewsResult : SX_BaseModel
+<
+NSCoding
+>
 
 @property (nonatomic, copy) NSString *type;
 @property (nonatomic, copy) NSString *title;
@@ -19,6 +22,8 @@
 
 @property (nonatomic, strong) NSArray *childElements;
 @property (nonatomic, strong) NSArray *thumbnailURLs;
+
+@property (nonatomic, copy) NSString *thumbnailUrl;
 
 
 

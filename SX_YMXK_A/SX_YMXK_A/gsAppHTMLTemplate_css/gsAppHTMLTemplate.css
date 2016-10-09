@@ -188,7 +188,7 @@ table {color:#ccc;}
 .GSTemplateImageLoader {display:none;}
 #gsTemplateContent_MainBody {line-height:150%;}
 #gsTemplateContent_MainBody p {display:block;}
-#gsTemplateContent_MainBody img {display:none; visibility:hidden;}
+#gsTemplateContent_MainBody img {display:block; visibility:visible; max-width:100%;}
 #gsTemplateContent_MainBody #youkuplayer0 img {display:inherit; visibility:visible;}
 
 #gsTemplateContent_RelatedReading {display:none;}

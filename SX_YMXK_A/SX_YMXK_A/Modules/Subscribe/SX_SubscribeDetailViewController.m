@@ -14,6 +14,7 @@
 #import "SX_SubscribeResult.h"
 #import "UIImageView+WebCache.h"
 #import "SX_NewsDetailViewController.h"
+#import "AFNetworking.h"
 
 static NSString *const cellIdentifier = @"cellIdentifier";
 
@@ -56,11 +57,23 @@ UITableViewDelegate
             [_tableViewDataArray removeAllObjects];
         }
         
+        AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        BOOL flag = [userDefaults boolForKey:@"imgMode"];
+
+        
         for (NSDictionary *dic in array) {
             SX_NewsResult *newsResult = [SX_NewsResult modelWithDic:dic];
             if ([newsResult.type isEqualToString:@"dingyueTitle"]) {
                 UIImageView *headerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, -64, self.view.frame.size.width, 200)];
-                [headerImageView sd_setImageWithURL:(NSURL *)newsResult.thumbnailURLs[0]];
+                headerImageView.backgroundColor = [UIColor colorWithRed:0.8258 green:0.8258 blue:0.8258 alpha:1.0];
+                if ((flag == 1) && (manager.networkReachabilityStatus != AFNetworkReachabilityStatusReachableViaWiFi)) {
+                    headerImageView.contentMode = UIViewContentModeCenter;
+                    headerImageView.image = [UIImage imageNamed:@"common_Logo_174x41"];
+                }
+                else {
+                    [headerImageView sd_setImageWithURL:(NSURL *)newsResult.thumbnailURLs[0]];
+                }
                 _tableView.tableHeaderView = headerImageView;
             }else {
                 [_tableViewDataArray addObject:newsResult];
@@ -138,6 +151,7 @@ UITableViewDelegate
     SX_NewsDetailViewController *newsDetailVC = [[SX_NewsDetailViewController alloc] init];
     SX_NewsResult *result = _tableViewDataArray[indexPath.row];
     newsDetailVC.contentId = result.contentId;
+    newsDetailVC.newsResult = result;
     newsDetailVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:newsDetailVC animated:YES];
 }

@@ -25,7 +25,7 @@
 		49B50A791D9DFB480031DBA1 /* SX_ImportantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49B50A781D9DFB480031DBA1 /* SX_ImportantViewController.m */; };
 		49BD41001D928ABC007B04AC /* SX_NewsResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BD40FF1D928ABC007B04AC /* SX_NewsResult.m */; };
 		49BD41031D928BE4007B04AC /* SX_NewsChildElements.m in Sources */ = {isa = PBXBuildFile; fileRef = 49BD41021D928BE4007B04AC /* SX_NewsChildElements.m */; };
-		49C5AC801DA2568E00CBDAAB /* SX_GameNewsResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C5AC7F1DA2568E00CBDAAB /* SX_GameNewsResult.m */; };
+		49C896781DAA5FC1006F53A0 /* SX_CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C896771DAA5FC1006F53A0 /* SX_CollectionViewController.m */; };
 		49C8C3941D98BAD80069CF0D /* SX_NewsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C8C3931D98BAD80069CF0D /* SX_NewsDetailViewController.m */; };
 		49C8C3D01D990DB30069CF0D /* SX_ArticleResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C8C3CF1D990DB30069CF0D /* SX_ArticleResult.m */; };
 		49C8F6B91D961A630066B356 /* SX_MySubscribeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C8F6B81D961A630066B356 /* SX_MySubscribeViewController.m */; };
@@ -34,12 +34,17 @@
 		49CA0BB91DA10561004D1332 /* SX_GameDetailResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 49CA0BB81DA10561004D1332 /* SX_GameDetailResult.m */; };
 		49CA0BBC1DA1085E004D1332 /* SX_GameDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 49CA0BBB1DA1085E004D1332 /* SX_GameDetailView.m */; };
 		49CB08501D90D85E0023D2AF /* SX_CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 49CB084F1D90D85E0023D2AF /* SX_CollectionViewCell.m */; };
+		49D02DB11DA898E6000EDF7A /* SX_ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E3A6D11D914E5A008AAD4B /* SX_ViewController.m */; };
+		49D02E001DA8A316000EDF7A /* gsAppHTMLTemplate_css in Resources */ = {isa = PBXBuildFile; fileRef = 49D02DFC1DA8A316000EDF7A /* gsAppHTMLTemplate_css */; };
+		49D02E011DA8A316000EDF7A /* gsAppHTMLTemplate_image in Resources */ = {isa = PBXBuildFile; fileRef = 49D02DFD1DA8A316000EDF7A /* gsAppHTMLTemplate_image */; };
+		49D02E021DA8A316000EDF7A /* gsAppHTMLTemplate_js in Resources */ = {isa = PBXBuildFile; fileRef = 49D02DFE1DA8A316000EDF7A /* gsAppHTMLTemplate_js */; };
+		49D02E031DA8A316000EDF7A /* gsAppHTMLTemplate_News.html in Resources */ = {isa = PBXBuildFile; fileRef = 49D02DFF1DA8A316000EDF7A /* gsAppHTMLTemplate_News.html */; };
+		49D02E0E1DA916AA000EDF7A /* SX_CommentMeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D02E0D1DA916AA000EDF7A /* SX_CommentMeViewController.m */; };
 		49DFEA661D9B6D7A000A8447 /* SX_LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49DFEA651D9B6D7A000A8447 /* SX_LoginViewController.m */; };
 		49E3A6C21D9131E8008AAD4B /* SX_santuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E3A6C11D9131E8008AAD4B /* SX_santuTableViewCell.m */; };
 		49E3A6C51D913204008AAD4B /* SX_huandengTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E3A6C41D913204008AAD4B /* SX_huandengTableViewCell.m */; };
 		49E3A6C81D913221008AAD4B /* SX_xinwenTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E3A6C71D913221008AAD4B /* SX_xinwenTableViewCell.m */; };
 		49E3A6CB1D91323A008AAD4B /* SX_hengtuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E3A6CA1D91323A008AAD4B /* SX_hengtuTableViewCell.m */; };
-		49E3A6D21D914E5A008AAD4B /* SX_ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E3A6D11D914E5A008AAD4B /* SX_ViewController.m */; };
 		49E3A6D51D914EC8008AAD4B /* SX_BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E3A6D41D914EC8008AAD4B /* SX_BaseModel.m */; };
 		49E3A7001D9152E1008AAD4B /* SX_DataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E3A6FF1D9152E1008AAD4B /* SX_DataRequest.m */; };
 		49EBFAC61D94D61600A25B8A /* SX_GameListCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 49EBFAC51D94D61600A25B8A /* SX_GameListCollectionViewCell.m */; };
@@ -53,10 +58,6 @@
 		49FD0A1C1DA6400000C1ADFD /* NSDate+Categories.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FD0A061DA6400000C1ADFD /* NSDate+Categories.m */; };
 		49FD0A1D1DA6400000C1ADFD /* NSDate+EasyExtend.mm in Sources */ = {isa = PBXBuildFile; fileRef = 49FD0A081DA6400000C1ADFD /* NSDate+EasyExtend.mm */; };
 		49FD0A221DA6400000C1ADFD /* NSUserDefaults+Categories.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FD0A121DA6400000C1ADFD /* NSUserDefaults+Categories.m */; };
-		49FDAAF51DA6469300862D1C /* gsAppHTMLTemplate_css in Resources */ = {isa = PBXBuildFile; fileRef = 49FDAAF11DA6469300862D1C /* gsAppHTMLTemplate_css */; };
-		49FDAAF61DA6469300862D1C /* gsAppHTMLTemplate_image in Resources */ = {isa = PBXBuildFile; fileRef = 49FDAAF21DA6469300862D1C /* gsAppHTMLTemplate_image */; };
-		49FDAAF71DA6469300862D1C /* gsAppHTMLTemplate_js in Resources */ = {isa = PBXBuildFile; fileRef = 49FDAAF31DA6469300862D1C /* gsAppHTMLTemplate_js */; };
-		49FDAAF81DA6469300862D1C /* gsAppHTMLTemplate_News.html in Resources */ = {isa = PBXBuildFile; fileRef = 49FDAAF41DA6469300862D1C /* gsAppHTMLTemplate_News.html */; };
 		E46752A9A40D1BEAD64F028B /* libPods-SX_YMXK_A.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2086797920415488F06DC6E /* libPods-SX_YMXK_A.a */; };
 /* End PBXBuildFile section */
 
@@ -96,8 +97,8 @@
 		49BD40FF1D928ABC007B04AC /* SX_NewsResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_NewsResult.m; sourceTree = "<group>"; };
 		49BD41011D928BE4007B04AC /* SX_NewsChildElements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_NewsChildElements.h; sourceTree = "<group>"; };
 		49BD41021D928BE4007B04AC /* SX_NewsChildElements.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_NewsChildElements.m; sourceTree = "<group>"; };
-		49C5AC7E1DA2568E00CBDAAB /* SX_GameNewsResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_GameNewsResult.h; sourceTree = "<group>"; };
-		49C5AC7F1DA2568E00CBDAAB /* SX_GameNewsResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_GameNewsResult.m; sourceTree = "<group>"; };
+		49C896761DAA5FC1006F53A0 /* SX_CollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_CollectionViewController.h; sourceTree = "<group>"; };
+		49C896771DAA5FC1006F53A0 /* SX_CollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_CollectionViewController.m; sourceTree = "<group>"; };
 		49C8C3921D98BAD80069CF0D /* SX_NewsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_NewsDetailViewController.h; sourceTree = "<group>"; };
 		49C8C3931D98BAD80069CF0D /* SX_NewsDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_NewsDetailViewController.m; sourceTree = "<group>"; };
 		49C8C3CE1D990DB30069CF0D /* SX_ArticleResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_ArticleResult.h; sourceTree = "<group>"; };
@@ -114,6 +115,12 @@
 		49CA0BBB1DA1085E004D1332 /* SX_GameDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_GameDetailView.m; sourceTree = "<group>"; };
 		49CB084E1D90D85E0023D2AF /* SX_CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_CollectionViewCell.h; sourceTree = "<group>"; };
 		49CB084F1D90D85E0023D2AF /* SX_CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_CollectionViewCell.m; sourceTree = "<group>"; };
+		49D02DFC1DA8A316000EDF7A /* gsAppHTMLTemplate_css */ = {isa = PBXFileReference; lastKnownFileType = folder; path = gsAppHTMLTemplate_css; sourceTree = "<group>"; };
+		49D02DFD1DA8A316000EDF7A /* gsAppHTMLTemplate_image */ = {isa = PBXFileReference; lastKnownFileType = folder; path = gsAppHTMLTemplate_image; sourceTree = "<group>"; };
+		49D02DFE1DA8A316000EDF7A /* gsAppHTMLTemplate_js */ = {isa = PBXFileReference; lastKnownFileType = folder; path = gsAppHTMLTemplate_js; sourceTree = "<group>"; };
+		49D02DFF1DA8A316000EDF7A /* gsAppHTMLTemplate_News.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = gsAppHTMLTemplate_News.html; sourceTree = "<group>"; };
+		49D02E0C1DA916AA000EDF7A /* SX_CommentMeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SX_CommentMeViewController.h; path = Base/SX_CommentMeViewController.h; sourceTree = "<group>"; };
+		49D02E0D1DA916AA000EDF7A /* SX_CommentMeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SX_CommentMeViewController.m; path = Base/SX_CommentMeViewController.m; sourceTree = "<group>"; };
 		49DFEA641D9B6D7A000A8447 /* SX_LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_LoginViewController.h; sourceTree = "<group>"; };
 		49DFEA651D9B6D7A000A8447 /* SX_LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_LoginViewController.m; sourceTree = "<group>"; };
 		49E3A6C01D9131E8008AAD4B /* SX_santuTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_santuTableViewCell.h; sourceTree = "<group>"; };
@@ -152,10 +159,6 @@
 		49FD0A081DA6400000C1ADFD /* NSDate+EasyExtend.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSDate+EasyExtend.mm"; sourceTree = "<group>"; };
 		49FD0A111DA6400000C1ADFD /* NSUserDefaults+Categories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Categories.h"; sourceTree = "<group>"; };
 		49FD0A121DA6400000C1ADFD /* NSUserDefaults+Categories.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+Categories.m"; sourceTree = "<group>"; };
-		49FDAAF11DA6469300862D1C /* gsAppHTMLTemplate_css */ = {isa = PBXFileReference; lastKnownFileType = folder; path = gsAppHTMLTemplate_css; sourceTree = "<group>"; };
-		49FDAAF21DA6469300862D1C /* gsAppHTMLTemplate_image */ = {isa = PBXFileReference; lastKnownFileType = folder; path = gsAppHTMLTemplate_image; sourceTree = "<group>"; };
-		49FDAAF31DA6469300862D1C /* gsAppHTMLTemplate_js */ = {isa = PBXFileReference; lastKnownFileType = folder; path = gsAppHTMLTemplate_js; sourceTree = "<group>"; };
-		49FDAAF41DA6469300862D1C /* gsAppHTMLTemplate_News.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = gsAppHTMLTemplate_News.html; sourceTree = "<group>"; };
 		54B7517CA81118CD2820F42A /* Pods-SX_YMXK_A.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SX_YMXK_A.release.xcconfig"; path = "Pods/Target Support Files/Pods-SX_YMXK_A/Pods-SX_YMXK_A.release.xcconfig"; sourceTree = "<group>"; };
 		E2086797920415488F06DC6E /* libPods-SX_YMXK_A.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SX_YMXK_A.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE617D863541078DDCD52C2E /* Pods-SX_YMXK_A.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SX_YMXK_A.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SX_YMXK_A/Pods-SX_YMXK_A.debug.xcconfig"; sourceTree = "<group>"; };
@@ -239,10 +242,10 @@
 		499A39651D8FCFCE0048321B /* SX_YMXK_A */ = {
 			isa = PBXGroup;
 			children = (
-				49FDAAF11DA6469300862D1C /* gsAppHTMLTemplate_css */,
-				49FDAAF21DA6469300862D1C /* gsAppHTMLTemplate_image */,
-				49FDAAF31DA6469300862D1C /* gsAppHTMLTemplate_js */,
-				49FDAAF41DA6469300862D1C /* gsAppHTMLTemplate_News.html */,
+				49D02DFC1DA8A316000EDF7A /* gsAppHTMLTemplate_css */,
+				49D02DFD1DA8A316000EDF7A /* gsAppHTMLTemplate_image */,
+				49D02DFE1DA8A316000EDF7A /* gsAppHTMLTemplate_js */,
+				49D02DFF1DA8A316000EDF7A /* gsAppHTMLTemplate_News.html */,
 				49E3A6CC1D914DEC008AAD4B /* Base */,
 				49E3A6D71D915064008AAD4B /* Common */,
 				49E3A6D61D914F44008AAD4B /* Modules */,
@@ -319,6 +322,15 @@
 			name = ImportantNews;
 			sourceTree = "<group>";
 		};
+		49C896751DAA5FA8006F53A0 /* Collection */ = {
+			isa = PBXGroup;
+			children = (
+				49C896761DAA5FC1006F53A0 /* SX_CollectionViewController.h */,
+				49C896771DAA5FC1006F53A0 /* SX_CollectionViewController.m */,
+			);
+			name = Collection;
+			sourceTree = "<group>";
+		};
 		49C8F6B41D95FF740066B356 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -388,6 +400,15 @@
 				49FD09F61DA6152F00C1ADFD /* Model */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		49D02E0F1DA91844000EDF7A /* CommentMe */ = {
+			isa = PBXGroup;
+			children = (
+				49D02E0C1DA916AA000EDF7A /* SX_CommentMeViewController.h */,
+				49D02E0D1DA916AA000EDF7A /* SX_CommentMeViewController.m */,
+			);
+			name = CommentMe;
 			sourceTree = "<group>";
 		};
 		49DFEA5C1D9B6C47000A8447 /* Login */ = {
@@ -467,6 +488,8 @@
 		49E3A6D61D914F44008AAD4B /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				49C896751DAA5FA8006F53A0 /* Collection */,
+				49D02E0F1DA91844000EDF7A /* CommentMe */,
 				49B50A761D9DFB270031DBA1 /* ImportantNews */,
 				49B50A721D9DF74A0031DBA1 /* Search */,
 				49DFEA5C1D9B6C47000A8447 /* Login */,
@@ -504,8 +527,6 @@
 				49EBFAC81D95022000A25B8A /* SX_GameListResult.m */,
 				49CA0BB71DA10561004D1332 /* SX_GameDetailResult.h */,
 				49CA0BB81DA10561004D1332 /* SX_GameDetailResult.m */,
-				49C5AC7E1DA2568E00CBDAAB /* SX_GameNewsResult.h */,
-				49C5AC7F1DA2568E00CBDAAB /* SX_GameNewsResult.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -559,8 +580,8 @@
 		49FD09F81DA6154000C1ADFD /* View */ = {
 			isa = PBXGroup;
 			children = (
-				49CB084F1D90D85E0023D2AF /* SX_CollectionViewCell.m */,
 				49CB084E1D90D85E0023D2AF /* SX_CollectionViewCell.h */,
+				49CB084F1D90D85E0023D2AF /* SX_CollectionViewCell.m */,
 				49FD09FC1DA61E6000C1ADFD /* SX_CommentTableViewCell.h */,
 				49FD09FD1DA61E6000C1ADFD /* SX_CommentTableViewCell.m */,
 			);
@@ -650,11 +671,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				499A39761D8FCFCE0048321B /* LaunchScreen.storyboard in Resources */,
-				49FDAAF61DA6469300862D1C /* gsAppHTMLTemplate_image in Resources */,
-				49FDAAF81DA6469300862D1C /* gsAppHTMLTemplate_News.html in Resources */,
+				49D02E011DA8A316000EDF7A /* gsAppHTMLTemplate_image in Resources */,
+				49D02E031DA8A316000EDF7A /* gsAppHTMLTemplate_News.html in Resources */,
 				499A39731D8FCFCE0048321B /* Assets.xcassets in Resources */,
-				49FDAAF51DA6469300862D1C /* gsAppHTMLTemplate_css in Resources */,
-				49FDAAF71DA6469300862D1C /* gsAppHTMLTemplate_js in Resources */,
+				49D02E001DA8A316000EDF7A /* gsAppHTMLTemplate_css in Resources */,
+				49D02E021DA8A316000EDF7A /* gsAppHTMLTemplate_js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -713,16 +734,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49E3A6D21D914E5A008AAD4B /* SX_ViewController.m in Sources */,
+				49D02DB11DA898E6000EDF7A /* SX_ViewController.m in Sources */,
 				49FD0A1C1DA6400000C1ADFD /* NSDate+Categories.m in Sources */,
 				499A39851D8FD1830048321B /* GameListViewController.m in Sources */,
 				49B50A791D9DFB480031DBA1 /* SX_ImportantViewController.m in Sources */,
+				49D02E0E1DA916AA000EDF7A /* SX_CommentMeViewController.m in Sources */,
 				49E3A6D51D914EC8008AAD4B /* SX_BaseModel.m in Sources */,
 				49FD09FB1DA61D4A00C1ADFD /* SX_Comment.m in Sources */,
 				499A397F1D8FD1440048321B /* NewsViewController.m in Sources */,
 				49EBFAC61D94D61600A25B8A /* SX_GameListCollectionViewCell.m in Sources */,
 				49E3A7001D9152E1008AAD4B /* SX_DataRequest.m in Sources */,
-				49C5AC801DA2568E00CBDAAB /* SX_GameNewsResult.m in Sources */,
 				49FD0A221DA6400000C1ADFD /* NSUserDefaults+Categories.m in Sources */,
 				498158B21D9CFDC80031EA70 /* SX_RegisterViewController.m in Sources */,
 				49C8C3941D98BAD80069CF0D /* SX_NewsDetailViewController.m in Sources */,
@@ -735,6 +756,7 @@
 				49BD41001D928ABC007B04AC /* SX_NewsResult.m in Sources */,
 				498158831D9CBB120031EA70 /* SX_InputVerifyCodeViewController.m in Sources */,
 				49EBFAC91D95022000A25B8A /* SX_GameListResult.m in Sources */,
+				49C896781DAA5FC1006F53A0 /* SX_CollectionViewController.m in Sources */,
 				49B50A751D9DF7680031DBA1 /* SX_SearchViewController.m in Sources */,
 				49E3A6C21D9131E8008AAD4B /* SX_santuTableViewCell.m in Sources */,
 				49C8F6B91D961A630066B356 /* SX_MySubscribeViewController.m in Sources */,
@@ -860,6 +882,7 @@
 			baseConfigurationReference = FE617D863541078DDCD52C2E /* Pods-SX_YMXK_A.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = SX_YMXK_A/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -874,6 +897,7 @@
 			baseConfigurationReference = 54B7517CA81118CD2820F42A /* Pods-SX_YMXK_A.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = SX_YMXK_A/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

@@ -11,6 +11,7 @@
 #import "GameListViewController.h"
 #import "SubscribeViewController.h"
 #import "SX_MenuViewController.h"
+#import "AFNetworking.h"
 
 @interface AppDelegate ()
 
@@ -56,14 +57,41 @@
     [menuVC.view addSubview:rootTC.view];
     UINavigationController *menuNC = [[UINavigationController alloc] initWithRootViewController:menuVC];
     
+    
     _window.rootViewController = menuNC;
     
-    
-    
-    
+    [self reachbility];
     
     return YES;
 }
+
+- (void)reachbility {
+    AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];
+    [manager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        switch (status) {
+            case AFNetworkReachabilityStatusUnknown:{
+                NSLog(@"未识别的网络");
+                break;
+            }
+            case AFNetworkReachabilityStatusNotReachable:{
+                NSLog(@"不可达的网络");
+                break;
+            }
+            case AFNetworkReachabilityStatusReachableViaWiFi:{
+                NSLog(@"WIFI");
+                break;
+            }
+            case AFNetworkReachabilityStatusReachableViaWWAN:{
+                NSLog(@"蜂窝网络");
+                break;
+            }
+            default:
+                break;
+        }
+    }];
+    [manager startMonitoring];
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

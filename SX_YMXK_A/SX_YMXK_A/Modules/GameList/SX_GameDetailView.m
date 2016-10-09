@@ -10,6 +10,7 @@
 #import "Masonry.h"
 #import "SX_GameDetailResult.h"
 #import "UIImageView+WebCache.h"
+#import "AFNetworking.h"
 #define WIDTH self.frame.size.width
 #define HEIGHT self.frame.size.height
 
@@ -34,9 +35,11 @@
     if (self) {
 //        self.backgroundColor = [UIColor redColor];
         self.bgImageView = [[UIImageView alloc] init];
+        _bgImageView.backgroundColor = [UIColor colorWithRed:0.8258 green:0.8258 blue:0.8258 alpha:1.0];
         [self addSubview:_bgImageView];
         
         self.myImageView = [[UIImageView alloc] init];
+        _myImageView.backgroundColor = [UIColor colorWithRed:0.8258 green:0.8258 blue:0.8258 alpha:1.0];
         [self addSubview:_myImageView];
         
         self.titleLabel = [[UILabel alloc] init];
@@ -91,9 +94,19 @@
 
 - (void)setGameDetailResult:(SX_GameDetailResult *)gameDetailResult {
     _gameDetailResult = gameDetailResult;
-    [_bgImageView sd_setImageWithURL:(NSURL *)gameDetailResult.backgroundURL];
-    NSLog(@"%@", gameDetailResult.backgroundURL);
-    [_myImageView sd_setImageWithURL:(NSURL *)gameDetailResult.thumbnailURL];
+    
+    AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL flag = [userDefaults boolForKey:@"imgMode"];
+    if ((flag == 1) && (manager.networkReachabilityStatus != AFNetworkReachabilityStatusReachableViaWiFi)) {
+        _myImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _myImageView.image = [UIImage imageNamed:@"common_Logo_174x41"];
+    }
+    else {
+        [_bgImageView sd_setImageWithURL:(NSURL *)gameDetailResult.backgroundURL];
+        
+        [_myImageView sd_setImageWithURL:(NSURL *)gameDetailResult.thumbnailURL];
+    }
     _titleLabel.text = gameDetailResult.title;
     _sellTimeLabel.text = [NSString stringWithFormat:@"发售:%@", gameDetailResult.sellTime];
     _platformLabel.text = [NSString stringWithFormat:@"平台:%@",gameDetailResult.platform];

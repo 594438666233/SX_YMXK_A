@@ -148,7 +148,7 @@ UITextFieldDelegate
             
             NSString *loginToken = [[result objectForKey:@"result"] objectForKey:@"loginToken"];
             NSString *userName = [[result objectForKey:@"result"] objectForKey:@"userName"];
-            NSString *userId = [[result objectForKey:@"result"] objectForKey:@"userId"];
+            NSNumber *userId = [[result objectForKey:@"result"] objectForKey:@"userId"];
             NSString *userAvatar = [[result objectForKey:@"result"] objectForKey:@"userAvatar"];
             
             NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];

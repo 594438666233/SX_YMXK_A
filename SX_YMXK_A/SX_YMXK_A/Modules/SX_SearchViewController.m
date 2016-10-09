@@ -261,6 +261,7 @@ UITableViewDelegate
     SX_NewsResult *newsResult = _tableViewDataArray[indexPath.row];
     SX_NewsDetailViewController *newsDetailVC = [[SX_NewsDetailViewController alloc] init];
     newsDetailVC.contentId = newsResult.contentId;
+    newsDetailVC.newsResult = newsResult;
     [self.navigationController pushViewController:newsDetailVC animated:YES];
 }
 

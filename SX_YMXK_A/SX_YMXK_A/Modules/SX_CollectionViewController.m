@@ -1,18 +1,17 @@
 //
-//  SX_ImportantViewController.m
+//  SX_CollectionViewController.m
 //  SX_YMXK_A
 //
-//  Created by dllo on 16/9/30.
+//  Created by dllo on 16/10/9.
 //  Copyright © 2016年 rain. All rights reserved.
 //
 
-#import "SX_ImportantViewController.h"
+#import "SX_CollectionViewController.h"
 #import "SX_NewsResult.h"
 #import "SX_santuTableViewCell.h"
 #import "SX_hengtuTableViewCell.h"
 #import "SX_huandengTableViewCell.h"
 #import "SX_xinwenTableViewCell.h"
-#import "SX_DataRequest.h"
 #import "MJRefresh.h"
 #import "SX_NewsDetailViewController.h"
 
@@ -22,7 +21,7 @@ static NSString * const xinwenIdentifier = @"xinwen";
 static NSString * const hengtuIdentifier = @"hengtu";
 static NSString * const huandengIdentifier = @"huandeng";
 
-@interface SX_ImportantViewController ()
+@interface SX_CollectionViewController ()
 <
 UITableViewDataSource,
 UITableViewDelegate
@@ -32,41 +31,18 @@ UITableViewDelegate
 
 @property (nonatomic, strong) NSMutableArray *tableViewDataArray;
 
-@property (nonatomic, assign) NSInteger pageCount;
 
 @end
 
-@implementation SX_ImportantViewController
+@implementation SX_CollectionViewController
 
-
-
-- (void)getTableViewSource:(NSInteger)pageIndex {
-    NSDictionary *dic = @{@"deviceType":@"iPhone6,2",
-                          @"deviceId":@"E88673B2-DFA0-4D08-A3BD-F7E8CE5F88C1",
-                          @"os":@"iOS",
-                          @"osVersion":@"9.3.5",
-                          @"app":@"GSApp",
-                          @"appVersion":@"2.3.3",
-                          @"request":@{@"parentNodeId":@"yaowen",
-                                       @"nodeIds":@"0",
-                                       @"pageIndex":[NSString stringWithFormat:@"%ld", pageIndex],
-                                       @"elementsCountPerPage":@"20"}};
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
-    NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/AllChannelList" body:str block:^(id result) {
-        NSArray *array = [result objectForKey:@"result"];
-        if (pageIndex == 1) {
-            [_tableViewDataArray removeAllObjects];
-        }
-        
-        for (NSDictionary *dic in array) {
-            SX_NewsResult *newsResult = [SX_NewsResult modelWithDic:dic];
-            [_tableViewDataArray addObject:newsResult];
-        }
-        [_tableView reloadData];
-        [_tableView.mj_header endRefreshing];
-        [_tableView.mj_footer endRefreshing];
-    }];
+- (void)getTableViewSource {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    self.tableViewDataArray = [NSMutableArray arrayWithArray:[userDefaults arrayForKey:@"collection"]];
+    
+    [_tableView reloadData];
+    [_tableView.mj_header endRefreshing];
+    [_tableView.mj_footer endRefreshing];
 }
 
 
@@ -88,15 +64,14 @@ UITableViewDelegate
     UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
     self.navigationItem.leftBarButtonItem= leftBarButtonItem;
     self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
-    self.navigationItem.title = @"要闻";
+    self.navigationItem.title = @"收藏";
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-
+    
     
     self.tableViewDataArray = [NSMutableArray array];
-    self.pageCount = 1;
     
     [self createTableView];
-    [self getTableViewSource:_pageCount];
+    [self getTableViewSource];
     
 }
 
@@ -118,13 +93,11 @@ UITableViewDelegate
 }
 
 - (void)pullRefresh {
-    _pageCount = 1;
-    [self getTableViewSource:_pageCount];
+    [self getTableViewSource];
 }
 
 - (void)pullLoading {
-    _pageCount++;
-    [self getTableViewSource:_pageCount];
+    [self getTableViewSource];
 }
 
 
@@ -132,7 +105,7 @@ UITableViewDelegate
     return _tableViewDataArray.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    SX_NewsResult *newsResult = _tableViewDataArray[indexPath.row];
+    SX_NewsResult *newsResult = [NSKeyedUnarchiver unarchiveObjectWithData:_tableViewDataArray[indexPath.row]];
     if ([newsResult.type isEqualToString:@"huandeng"]) {
         return self.view.frame.size.height / 3;
     } else if ([newsResult.type isEqualToString:@"santu"]) {
@@ -143,7 +116,8 @@ UITableViewDelegate
     return 90;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    SX_NewsResult *newsResult = _tableViewDataArray[indexPath.row];
+    SX_NewsResult *newsResult = [NSKeyedUnarchiver unarchiveObjectWithData:_tableViewDataArray[indexPath.row]];
+
     if ([newsResult.type isEqualToString:@"huandeng"]) {
         SX_huandengTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:huandengIdentifier];
         cell.huandengNewsResult = newsResult;
@@ -167,7 +141,7 @@ UITableViewDelegate
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     SX_NewsDetailViewController *newsDetailVC = [[SX_NewsDetailViewController alloc] init];
-    SX_NewsResult *result = _tableViewDataArray[indexPath.row];
+    SX_NewsResult *result = [NSKeyedUnarchiver unarchiveObjectWithData:_tableViewDataArray[indexPath.row]];
     newsDetailVC.contentId = result.contentId;
     newsDetailVC.newsResult = result;
     [self.navigationController pushViewController:newsDetailVC animated:YES];
@@ -176,13 +150,20 @@ UITableViewDelegate
 
 
 
+
+
+
+
+
+
+
+
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
-
 
 
 

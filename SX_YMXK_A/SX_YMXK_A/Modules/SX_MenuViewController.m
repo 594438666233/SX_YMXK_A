@@ -13,6 +13,8 @@
 #import "SX_DataRequest.h"
 #import "SX_ImportantViewController.h"
 #import "SX_SearchViewController.h"
+#import "SX_CommentMeViewController.h"
+#import "SX_CollectionViewController.h"
 
 #define WIDTH self.view.frame.size.width
 #define HEIGHT self.view.frame.size.height
@@ -49,6 +51,7 @@ UITableViewDelegate
     [self getSource];
     [self createButton];
     [self createTableView];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -143,7 +146,42 @@ UITableViewDelegate
     SX_MenuTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:tableViewIdentifier];
     cell.name = _nameArray[indexPath.row];
     cell.picName = _picNameArray[indexPath.row];
-    NSLog(@"%ld", _nameArray.count);
+    if (indexPath.row == 4) {
+        UISwitch *nightSwitch= [[UISwitch alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 170, 7, 0, 0)];
+        nightSwitch.transform = CGAffineTransformMakeScale(0.75, 0.75);
+        nightSwitch.onTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        if ([userDefaults objectForKey:@"nightMode"] == nil) {
+            nightSwitch.on = NO;
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults setBool:nightSwitch.on forKey:@"nightMode"];
+            [userDefaults synchronize];
+        }
+        else {
+            BOOL flag = [userDefaults boolForKey:@"nightMode"];
+            nightSwitch.on = flag;
+        }
+        [nightSwitch addTarget:self action:@selector(nightAction:) forControlEvents:UIControlEventTouchUpInside];
+        [cell addSubview:nightSwitch];
+    }
+    if (indexPath.row == 5) {
+        UISwitch *imgSwitch= [[UISwitch alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 170, 7, 0, 0)];
+        imgSwitch.transform = CGAffineTransformMakeScale(0.75, 0.75);
+        imgSwitch.onTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        if ([userDefaults objectForKey:@"imgMode"] == nil) {
+            imgSwitch.on = YES;
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults setBool:imgSwitch.on forKey:@"imgMode"];
+            [userDefaults synchronize];
+        }
+        else {
+            BOOL flag = [userDefaults boolForKey:@"imgMode"];
+            imgSwitch.on = flag;
+        }
+        [imgSwitch addTarget:self action:@selector(imgAction:) forControlEvents:UIControlEventTouchUpInside];
+        [cell addSubview:imgSwitch];
+    }
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -161,11 +199,14 @@ UITableViewDelegate
             break;
         }
         case 2:
-        {
+        {   SX_CollectionViewController *collectionVC = [[SX_CollectionViewController alloc] init];
+            [self.navigationController pushViewController:collectionVC animated:YES];
             break;
         }
         case 3:
         {
+            SX_CommentMeViewController *commentMeVC = [[SX_CommentMeViewController alloc] init];
+            [self.navigationController pushViewController:commentMeVC animated:YES];
             break;
         }
         case 4:
@@ -178,6 +219,17 @@ UITableViewDelegate
         }
         case 6:
         {
+            NSString *cachPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask ,YES) firstObject];
+            CGFloat cacheSize = [self folderSizeAtPath:cachPath];
+            NSString *caches = [NSString stringWithFormat:@"确定清除%.2fM缓存?", cacheSize];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:caches preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self clearCache:cachPath];
+            }];
+            UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+            [alert addAction:action];
+            [alert addAction:action2];
+            [self presentViewController:alert animated:YES completion:nil];
             break;
         }
         case 7:
@@ -191,16 +243,17 @@ UITableViewDelegate
     }
 }
 
-// 显示缓存大小
-
-- (float)filePath
-
-{
-    NSString * cachPath = [ NSSearchPathForDirectoriesInDomains ( NSCachesDirectory , NSUserDomainMask , YES ) firstObject ];
-    
-    return [ self folderSizeAtPath :cachPath];
+- (void)nightAction:(UISwitch *)nightSwitch {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setBool:nightSwitch.on forKey:@"nightMode"];
+    [userDefaults synchronize];
 }
 
+- (void)imgAction:(UISwitch *)imgSwitch {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setBool:imgSwitch.on forKey:@"imgMode"];
+    [userDefaults synchronize];
+}
 
 
 - (long long)fileSizeAtPath:(NSString *)path{
@@ -211,24 +264,18 @@ UITableViewDelegate
     }
     return 0;
 }
-
-
-
 - (float)folderSizeAtPath:(NSString *)path{
     NSFileManager *fileManager=[NSFileManager defaultManager];
-    NSString *cachePath=[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
-    cachePath=[cachePath stringByAppendingPathComponent:path];
     long long folderSize=0;
-    if ([fileManager fileExistsAtPath:cachePath])
+    if ([fileManager fileExistsAtPath:path])
     {
-        NSArray *childerFiles=[fileManager subpathsAtPath:cachePath];
+        NSArray *childerFiles=[fileManager subpathsAtPath:path];
         for (NSString *fileName in childerFiles)
         {
-            NSString *fileAbsolutePath=[cachePath stringByAppendingPathComponent:fileName];
+            NSString *fileAbsolutePath=[path stringByAppendingPathComponent:fileName];
             long long size=[self fileSizeAtPath:fileAbsolutePath];
             folderSize += size;
             NSLog(@"fileAbsolutePath=%@",fileAbsolutePath);
-            
         }
         //SDWebImage框架自身计算缓存的实现
         folderSize+=[[SDImageCache sharedImageCache] getSize];
@@ -236,19 +283,14 @@ UITableViewDelegate
     }
     return 0;
 }
-
-
-
+// 清除缓存
 - (void)clearCache:(NSString *)path{
-    NSString *cachePath=[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
-    cachePath=[cachePath stringByAppendingPathComponent:path];
-    
     NSFileManager *fileManager=[NSFileManager defaultManager];
-    if ([fileManager fileExistsAtPath:cachePath]) {
-        NSArray *childerFiles=[fileManager subpathsAtPath:cachePath];
+    if ([fileManager fileExistsAtPath:path]) {
+        NSArray *childerFiles=[fileManager subpathsAtPath:path];
         for (NSString *fileName in childerFiles) {
             //如有需要，加入条件，过滤掉不想删除的文件
-            NSString *fileAbsolutePath=[cachePath stringByAppendingPathComponent:fileName];
+            NSString *fileAbsolutePath=[path stringByAppendingPathComponent:fileName];
             NSLog(@"fileAbsolutePath=%@",fileAbsolutePath);
             [fileManager removeItemAtPath:fileAbsolutePath error:nil];
         }

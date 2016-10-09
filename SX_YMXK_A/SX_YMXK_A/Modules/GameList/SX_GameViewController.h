@@ -11,6 +11,5 @@
 @interface SX_GameViewController :SX_ViewController
 
 @property (nonatomic, assign) NSInteger contentId;
-@property (nonatomic, copy) NSString *defaultImg;
 
 @end

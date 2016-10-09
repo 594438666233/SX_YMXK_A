@@ -10,6 +10,7 @@
 #import "SX_Comment.h"
 #import "UIImageView+WebCache.h"
 #import "NSDate+Categories.h"
+#import "AFNetworking.h"
 
 @interface SX_CommentTableViewCell ()
 
@@ -17,6 +18,8 @@
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *addLabel;
 @property (nonatomic, strong) UILabel *contentLabel;
+@property (nonatomic, strong) UIButton *topicButton;
+@property (nonatomic, assign) NSInteger topicId;
 
 @end
 
@@ -43,8 +46,16 @@
         _contentLabel.textColor = [UIColor blackColor];
         _contentLabel.font = [UIFont systemFontOfSize:16];
         _contentLabel.numberOfLines = 0;
-        
         [self.contentView addSubview:_contentLabel];
+        
+        self.topicButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _topicButton.clipsToBounds = YES;
+        _topicButton.layer.cornerRadius = 7.f;
+        _topicButton.titleLabel.font = [UIFont systemFontOfSize:13];
+        [_topicButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        _topicButton.layer.borderWidth = 0.5;
+        _topicButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        [self.contentView addSubview:_topicButton];
         
     }
     return self;
@@ -54,21 +65,42 @@
     _myImageView.frame = CGRectMake(10, 20, 40, 40);
     _myImageView.layer.cornerRadius = 20;
     
-    _nameLabel.frame = CGRectMake(_myImageView.frame.origin.x + _myImageView.frame.size.width + 10, 20, 150, _myImageView.frame.size.height / 2);
+    _nameLabel.frame = CGRectMake(60, 20, self.contentView.frame.size.width - 80, 20);
     
-    _addLabel.frame = CGRectMake(_myImageView.frame.origin.x + _myImageView.frame.size.width + 10, 20 + _nameLabel.frame.size.height, 250, _myImageView.frame.size.height / 2);
+    _addLabel.frame = CGRectMake(60, 40, self.contentView.frame.size.width - 80, 20);
     
-    _contentLabel.frame = CGRectMake(70, 70, self.contentView.frame.size.width - 90, self.contentView.frame.size.height - 70);
+    _contentLabel.frame = CGRectMake(60, 70, self.contentView.frame.size.width - 80, self.contentView.frame.size.height - 110);
+    _topicButton.frame = CGRectMake(60, self.contentView.frame.size.height - 30, self.contentView.frame.size.width - 80, 20);
     
 }
 
 - (void)setComment:(SX_Comment *)comment {
     _comment = comment;
-    [_myImageView sd_setImageWithURL:(NSURL *)comment.img_url];
+    
+    AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL flag = [userDefaults boolForKey:@"imgMode"];
+    if ((flag == 1) && (manager.networkReachabilityStatus != AFNetworkReachabilityStatusReachableViaWiFi)) {
+        _myImageView.image = [UIImage imageNamed:@"common_User_DefaultHeadImage_UIMode_Day"];
+    } else {
+        [_myImageView sd_setImageWithURL:(NSURL *)comment.img_url];
+    }
+    
     _nameLabel.text = comment.nickname;
     
     _addLabel.text = [NSString stringWithFormat:@"%@ %@", comment.ip_location, [NSDate intervalSinceNow:comment.create_time]];
     _contentLabel.text = comment.content;
+    if (comment.topic_title != nil) {
+        [_topicButton setTitle:[NSString stringWithFormat:@"原文:%@", comment.topic_title] forState:UIControlStateNormal];
+        [_topicButton addTarget:self action:@selector(buttonAction) forControlEvents:UIControlEventTouchUpInside];
+        _topicId = comment.topic_id;
+    } else {
+        _topicButton.hidden = YES;
+    }
+}
+
+- (void)buttonAction {
+    [self.topic_delegate getTopicId:_topicId];
 }
 
 

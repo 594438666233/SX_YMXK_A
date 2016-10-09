@@ -138,9 +138,10 @@ UITableViewDelegate
     SX_Comment *comment = _tableViewDataArray[indexPath.row];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 1000)];
     label.numberOfLines = 0;
+    label.font = [UIFont systemFontOfSize:16];
     label.text = comment.content;
     [label sizeToFit];
-    return label.frame.size.height + 100;
+    return label.frame.size.height + 130;
 }
 
 

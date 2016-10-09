@@ -10,6 +10,7 @@
 #import "Masonry.h"
 #import "SX_NewsResult.h"
 #import "UIImageView+WebCache.h"
+#import "AFNetworking.h"
 
 @interface SX_santuTableViewCell ()
 
@@ -49,12 +50,15 @@
         [self.contentView addSubview:_commentLabel];
         
         self.imageView1 = [[UIImageView alloc] init];
+        _imageView1.backgroundColor = [UIColor colorWithRed:0.8258 green:0.8258 blue:0.8258 alpha:1.0];
         [self.contentView addSubview:_imageView1];
         
         self.imageView2 = [[UIImageView alloc] init];
+        _imageView2.backgroundColor = [UIColor colorWithRed:0.8258 green:0.8258 blue:0.8258 alpha:1.0];
         [self.contentView addSubview:_imageView2];
         
         self.imageView3 = [[UIImageView alloc] init];
+        _imageView3.backgroundColor = [UIColor colorWithRed:0.8258 green:0.8258 blue:0.8258 alpha:1.0];
         [self.contentView addSubview:_imageView3];
     }
     return self;
@@ -104,9 +108,23 @@
 - (void)setSantuNewsResult:(SX_NewsResult *)santuNewsResult {
     _santuNewsResult = santuNewsResult;
     _label.text = santuNewsResult.title;
-    [_imageView1 sd_setImageWithURL:(NSURL *)santuNewsResult.thumbnailURLs[0]];
-    [_imageView2 sd_setImageWithURL:(NSURL *)santuNewsResult.thumbnailURLs[1]];
-    [_imageView3 sd_setImageWithURL:(NSURL *)santuNewsResult.thumbnailURLs[2]];
+    
+    AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL flag = [userDefaults boolForKey:@"imgMode"];
+    if ((flag == 1) && (manager.networkReachabilityStatus != AFNetworkReachabilityStatusReachableViaWiFi)) {
+        _imageView1.contentMode = UIViewContentModeCenter;
+        _imageView1.image = [UIImage imageNamed:@"common_Logo_71x17"];
+        _imageView2.contentMode = UIViewContentModeCenter;
+        _imageView2.image = [UIImage imageNamed:@"common_Logo_71x17"];
+        _imageView3.contentMode = UIViewContentModeCenter;
+        _imageView3.image = [UIImage imageNamed:@"common_Logo_71x17"];
+    }
+    else {
+        [_imageView1 sd_setImageWithURL:(NSURL *)santuNewsResult.thumbnailURLs[0]];
+        [_imageView2 sd_setImageWithURL:(NSURL *)santuNewsResult.thumbnailURLs[1]];
+        [_imageView3 sd_setImageWithURL:(NSURL *)santuNewsResult.thumbnailURLs[2]];
+    }
     _commentLabel.text = [NSString stringWithFormat:@"%@评论", santuNewsResult.commentsCount];
 }
 

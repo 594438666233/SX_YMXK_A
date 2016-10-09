@@ -8,9 +8,9 @@
 
 #import "SX_xinwenTableViewCell.h"
 #import "SX_NewsResult.h"
-#import "SX_GameNewsResult.h"
 #import "UIImageView+WebCache.h"
 #import "Masonry.h"
+#import "AFNetworking.h"
 
 @interface SX_xinwenTableViewCell ()
 
@@ -48,6 +48,7 @@
         [self.contentView addSubview:_commentLabel];
         
         self.myImageView = [[UIImageView alloc] init];
+        _myImageView.backgroundColor = [UIColor colorWithRed:0.8258 green:0.8258 blue:0.8258 alpha:1.0];
         [self.contentView addSubview:_myImageView];
     }
     return self;
@@ -81,27 +82,29 @@
 
 - (void)setXinwenNewsResult:(SX_NewsResult *)xinwenNewsResult {
     _xinwenNewsResult = xinwenNewsResult;
-    if (xinwenNewsResult.thumbnailURLs.count > 0) {
-        [_myImageView sd_setImageWithURL:(NSURL *)xinwenNewsResult.thumbnailURLs[0]];
+    
+    AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL flag = [userDefaults boolForKey:@"imgMode"];
+    if ((flag == 1) && (manager.networkReachabilityStatus != AFNetworkReachabilityStatusReachableViaWiFi)) {
+        _myImageView.contentMode = UIViewContentModeCenter;
+        _myImageView.image = [UIImage imageNamed:@"common_Logo_71x17"];
     }
     else {
-        _myImageView.frame = CGRectMake(0, 0, 0, 0);
-        _label.frame = CGRectMake(10, 10, self.contentView.frame.size.width, (self.contentView.frame.size.height - 20) / 2);
+        if (xinwenNewsResult.thumbnailURLs) {
+            [_myImageView sd_setImageWithURL:(NSURL *)xinwenNewsResult.thumbnailURLs[0]];
+            _commentLabel.text = [NSString stringWithFormat:@"%@评论", xinwenNewsResult.commentsCount];
+        }else {
+            [_myImageView sd_setImageWithURL:(NSURL *)xinwenNewsResult.thumbnailUrl];
+            _commentLabel.frame = CGRectZero;
+        }
     }
+    
+
     _label.text = xinwenNewsResult.title;
-    _commentLabel.text = [NSString stringWithFormat:@"%@评论", xinwenNewsResult.commentsCount];
+
 }
-- (void)setGameNewsResult:(SX_GameNewsResult *)gameNewsResult {
-    _gameNewsResult = gameNewsResult;
-    if (gameNewsResult.thumbnailUrl != nil) {
-        [_myImageView sd_setImageWithURL:(NSURL *)gameNewsResult.thumbnailUrl];
-    }
-    else {
-        [_myImageView sd_setImageWithURL:(NSURL *)_defaultImg];
-    }
-    _label.text = gameNewsResult.title;
-    _commentLabel.frame = CGRectZero;
-}
+
 
 
 @end

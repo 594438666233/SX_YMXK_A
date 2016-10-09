@@ -9,6 +9,7 @@
 #import "MySubscribeTableViewCell.h"
 #import "SX_SubscribeResult.h"
 #import "UIImageView+WebCache.h"
+#import "AFNetworking.h"
 
 @interface MySubscribeTableViewCell ()
 
@@ -49,6 +50,7 @@
         [self.contentView addSubview:_cntLabel];
         
         self.myImageView = [[UIImageView alloc] init];
+        _myImageView.backgroundColor = [UIColor colorWithRed:0.8258 green:0.8258 blue:0.8258 alpha:1.0];
         [self.contentView addSubview:_myImageView];
         
         self.button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -76,7 +78,18 @@
 
 - (void)setSubscribeResult:(SX_SubscribeResult *)subscribeResult {
     _subscribeResult = subscribeResult;
-    [_myImageView sd_setImageWithURL:(NSURL *)subscribeResult.thumbnailUrl];
+    
+    AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL flag = [userDefaults boolForKey:@"imgMode"];
+    if ((flag == 1) && (manager.networkReachabilityStatus != AFNetworkReachabilityStatusReachableViaWiFi)) {
+        _myImageView.contentMode = UIViewContentModeCenter;
+        _myImageView.image = [UIImage imageNamed:@"common_Logo_71x17"];
+    }
+    else {
+        [_myImageView sd_setImageWithURL:(NSURL *)subscribeResult.thumbnailUrl];
+    }
+    
     _titleLabel.text = subscribeResult.sourceName;
     _cntLabel.text = [NSString stringWithFormat:@"%ld人订阅",subscribeResult.cnt];
 }

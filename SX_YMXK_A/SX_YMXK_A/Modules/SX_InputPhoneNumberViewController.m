@@ -98,10 +98,18 @@ UITextFieldDelegate
     NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/IsEmailAndPhone" body:str block:^(id result) {
         NSNumber *errorCode = [result objectForKey:@"errorCode"];
-        if ([errorCode isEqual:@0]) {
+        if ([errorCode isEqual:@1]) {
             SX_InputVerifyCodeViewController *iVVC =[[SX_InputVerifyCodeViewController alloc] init];
             iVVC.phoneNumber = _phoneNumberTextField.text;
             [self.navigationController pushViewController:iVVC animated:YES];
+        }
+        else {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"该手机号已经注册" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+            [alert addAction:action];
+            
+            [self presentViewController:alert animated:YES completion:nil];
+
         }
     }];
 }

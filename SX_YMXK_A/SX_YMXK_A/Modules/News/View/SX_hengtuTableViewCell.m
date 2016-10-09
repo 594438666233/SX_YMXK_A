@@ -10,6 +10,7 @@
 #import "Masonry.h"
 #import "UIImageView+WebCache.h"
 #import "SX_NewsResult.h"
+#import "AFNetworking.h"
 
 
 @interface SX_hengtuTableViewCell ()
@@ -42,6 +43,7 @@
         [self.contentView addSubview:_label];
         
         self.myImageView = [[UIImageView alloc] init];
+        _myImageView.backgroundColor = [UIColor colorWithRed:0.8258 green:0.8258 blue:0.8258 alpha:1.0];
         [self.contentView addSubview:_myImageView];
         
         self.iconImageView = [[UIImageView alloc] init];
@@ -74,7 +76,17 @@
 - (void)setHengtuNewsResult:(SX_NewsResult *)hengtuNewsResult {
     _hengtuNewsResult = hengtuNewsResult;
     _label.text = hengtuNewsResult.title;
-    [_myImageView sd_setImageWithURL:(NSURL *)hengtuNewsResult.thumbnailURLs[0]];
+    
+    AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL flag = [userDefaults boolForKey:@"imgMode"];
+    if ((flag == 1) && (manager.networkReachabilityStatus != AFNetworkReachabilityStatusReachableViaWiFi)) {
+        _myImageView.contentMode = UIViewContentModeCenter;
+        _myImageView.image = [UIImage imageNamed:@"common_Logo_71x17"];
+    }
+    else {
+        [_myImageView sd_setImageWithURL:(NSURL *)hengtuNewsResult.thumbnailURLs[0]];
+    }
 }
 
 @end

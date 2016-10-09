@@ -10,6 +10,7 @@
 #import "SX_NewsResult.h"
 #import "SX_NewsChildElements.h"
 #import "UIImageView+WebCache.h"
+#import "AFNetworking.h"
 
 @interface SX_huandengTableViewCell ()
 <
@@ -94,9 +95,7 @@ UIScrollViewDelegate
 
 - (void)setHuandengNewsResult:(SX_NewsResult *)huandengNewsResult {
     _huandengNewsResult = huandengNewsResult;
-//    CGRect frame = self.contentView.frame;
-//    frame.size.height = 250;
-//    _scrollView.frame = frame;
+//    _scrollView.frame = self.contentView.frame;
 //    [self layoutSubviews];
 
     _pageControl.numberOfPages = huandengNewsResult.childElements.count;
@@ -123,10 +122,27 @@ UIScrollViewDelegate
 - (void)loadCarousel {
     _scrollView.contentSize = CGSizeMake(_array.count * self.contentView.frame.size.width, self.contentView.frame.size.height);
     _pageControl.currentPage = 0;
+    
+    AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL flag = [userDefaults boolForKey:@"imgMode"];
+
+    
+    
+    
     for (int i = 0; i < _array.count; i++) {
         UIImageView *myImageView = [[UIImageView alloc] initWithFrame:CGRectMake(_scrollView.frame.size.width * i, 0, _scrollView.frame.size.width, _scrollView.frame.size.height)];
         SX_NewsChildElements *newsChildElements = _array[i];
-        [myImageView sd_setImageWithURL:(NSURL *)newsChildElements.thumbnailURLs[0]];
+        
+        if ((flag == 1) && (manager.networkReachabilityStatus != AFNetworkReachabilityStatusReachableViaWiFi)) {
+            myImageView.contentMode = UIViewContentModeCenter;
+            myImageView.backgroundColor = [UIColor colorWithRed:0.8258 green:0.8258 blue:0.8258 alpha:1.0];
+            myImageView.image = [UIImage imageNamed:@"common_Logo_174x41"];
+        }
+        else {
+            [myImageView sd_setImageWithURL:(NSURL *)newsChildElements.thumbnailURLs[0]];
+        }
+        
         [_scrollView addSubview:myImageView];
     }
     _scrollView.contentOffset = CGPointMake(_scrollView.bounds.size.width, 0);

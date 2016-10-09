@@ -124,12 +124,12 @@ UICollectionViewDelegate
         }
         self.currenttableView = _tableViewArray[0];
         [_currenttableView.mj_header beginRefreshing];
-        [self getTableViewSource:_pageCount nodeIds:_currentNodeId];
     }];
 }
 
 - (void)pullRefresh {
     _pageCount = 1;
+    [self getTableViewSource:_pageCount nodeIds:_currentNodeId];
     [self getTableViewSource:_pageCount nodeIds:_currentNodeId];
 }
 
@@ -284,6 +284,7 @@ UICollectionViewDelegate
     if (result.contentId) {
         newsDetailVC.hidesBottomBarWhenPushed = YES;
         newsDetailVC.contentId = result.contentId;
+        newsDetailVC.newsResult = result;
         [self.navigationController pushViewController:newsDetailVC animated:YES];
     }
 }

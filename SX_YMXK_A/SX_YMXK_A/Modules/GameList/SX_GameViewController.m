@@ -8,7 +8,6 @@
 
 #import "SX_GameViewController.h"
 #import "SX_DataRequest.h"
-#import "SX_GameNewsResult.h"
 #import "MJRefresh.h"
 #import "SX_santuTableViewCell.h"
 #import "SX_hengtuTableViewCell.h"
@@ -17,6 +16,7 @@
 #import "SX_NewsDetailViewController.h"
 #import "SX_GameDetailView.h"
 #import "SX_GameDetailResult.h"
+#import "SX_NewsResult.h"
 
 
 static NSString * const xinwenIdentifier = @"xinwen";
@@ -90,8 +90,18 @@ UITableViewDelegate
         }
         
         for (NSDictionary *dic in array) {
-            SX_GameNewsResult *gameNewsResult = [SX_GameNewsResult modelWithDic:dic];
-            [_tableViewDataArray addObject:gameNewsResult];
+//            SX_GameNewsResult *gameNewsResult = [SX_GameNewsResult modelWithDic:dic];
+//            if ([gameNewsResult.thumbnailUrl isEqualToString:@""]) {
+//                gameNewsResult.thumbnailUrl = [NSString stringWithFormat:@"%@", _gameDetailResult.thumbnailURL];
+//            }
+//            NSLog(@"%@", gameNewsResult.thumbnailUrl);
+//            [_tableViewDataArray addObject:gameNewsResult];
+            SX_NewsResult *newsResult = [SX_NewsResult modelWithDic:dic];
+            if ([newsResult.thumbnailUrl isEqualToString:@""]) {
+                newsResult.thumbnailUrl = [NSString stringWithFormat:@"%@", _gameDetailResult.thumbnailURL];
+            }
+            NSLog(@"%@", newsResult.thumbnailUrl);
+            [_tableViewDataArray addObject:newsResult];
         }
         [_currentTableView reloadData];
         [_currentTableView.mj_header endRefreshing];
@@ -136,7 +146,6 @@ UITableViewDelegate
 - (void)createHeadView {
     SX_GameDetailView *gameDetailView = [[SX_GameDetailView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200)];
     gameDetailView.gameDetailResult = _gameDetailResult;
-    NSLog(@"%@", _gameDetailResult.backgroundURL);
     [self.view addSubview:gameDetailView];
     
 }
@@ -222,17 +231,17 @@ UITableViewDelegate
     return 90;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    SX_GameNewsResult *gameNewsResult = _tableViewDataArray[indexPath.row];
+    SX_NewsResult *newsResult = _tableViewDataArray[indexPath.row];
 
     SX_xinwenTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:xinwenIdentifier];
-    cell.gameNewsResult = gameNewsResult;
-    cell.defaultImg = _defaultImg;
+    cell.xinwenNewsResult = newsResult;
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    SX_GameNewsResult *gameNewsResult = _tableViewDataArray[indexPath.row];
+    SX_NewsResult *newsResult = _tableViewDataArray[indexPath.row];
     SX_NewsDetailViewController *newsDetailVC = [[SX_NewsDetailViewController alloc] init];
-    newsDetailVC.contentId = gameNewsResult.contentId;
+    newsDetailVC.contentId = newsResult.contentId;
+    newsDetailVC.newsResult = newsResult;
     newsDetailVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:newsDetailVC animated:YES];
 }
