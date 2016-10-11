@@ -18,6 +18,7 @@
 #import <MJRefresh.h>
 #import "SX_NewsDetailViewController.h"
 #import "SX_MenuViewController.h"
+#import "JXLDayAndNightMode.h"
 
 static NSString * const santuIdentifier = @"santu";
 static NSString * const xinwenIdentifier = @"xinwen";
@@ -44,6 +45,9 @@ UICollectionViewDelegate
 @property (nonatomic, retain) NSMutableArray *dataArray;
 @property (nonatomic, retain) NSMutableArray *collectionDataArray;
 @property (nonatomic, assign) NSInteger currentPage;
+
+
+@property (nonatomic, strong)SX_CollectionViewCell *lastCell;
 
 //@property (nonatomic, assign) BOOL isMenuShow;
 
@@ -107,7 +111,9 @@ UICollectionViewDelegate
         [_collectionView reloadData];
         for (int i = 0; i < _collectionDataArray.count; i++) {
             UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(_scrollView.frame.size.width * i, 0, _scrollView.frame.size.width, _scrollView.frame.size.height)];
-//            tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gsAppHTMLTemplate_ImgBoxer_Background"]];
+            
+
+            tableView.backgroundColor = [UIColor clearColor];
             tableView.delegate = self;
             tableView.dataSource = self;
             [tableView registerClass:[SX_santuTableViewCell class] forCellReuseIdentifier:santuIdentifier];
@@ -157,7 +163,7 @@ UICollectionViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.view.backgroundColor = [UIColor whiteColor];
     _currentPage = 0;
     self.isMenuShow = NO;
     _pageCount = 1;
@@ -166,25 +172,47 @@ UICollectionViewDelegate
     self.collectionDataArray = [NSMutableArray array];
     self.tableViewArray = [NSMutableArray array];
     
+    [self.view jxl_setDayMode:^(UIView *view) {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
+        // 导航栏左按钮
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_OptionButton_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(menuAction)];
+        self.navigationItem.leftBarButtonItem = leftBarButtonItem;
+        
+        
+        // 导航栏右按钮
+        UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [rightButton setImage:[UIImage imageNamed:@"common_Icon_ExtensionContentButton_20x20_UIMode_Day"] forState:UIControlStateNormal];
+        rightButton.frame = CGRectMake(0, 0, 20, 20);
+        [rightButton addTarget:self action:@selector(rightBarButtonItemAction:) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+        self.navigationItem.rightBarButtonItem = rightBarButtonItem;
+        
+    } nightMode:^(UIView *view) {
+
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.897 green:0.1559 blue:0.1816 alpha:1.0];
+        // 导航栏左按钮
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_OptionButton_20x20_UIMode_Night"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(menuAction)];
+        self.navigationItem.leftBarButtonItem= leftBarButtonItem;
+        
+        // 导航栏右按钮
+        UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [rightButton setImage:[UIImage imageNamed:@"common_Icon_ExtensionContentButton_20x20_UIMode_Night"] forState:UIControlStateNormal];
+        rightButton.frame = CGRectMake(0, 0, 20, 20);
+        [rightButton addTarget:self action:@selector(rightBarButtonItemAction:) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+        self.navigationItem.rightBarButtonItem = rightBarButtonItem;
+        
+    }];
     
-    self.view.backgroundColor = [UIColor colorWithRed:1.0 green:0.4953 blue:0.5155 alpha:1.0];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
-    // 导航栏左按钮
-    UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_OptionButton_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(menuAction)];
-    self.navigationItem.leftBarButtonItem = leftBarButtonItem;
-    
-    // 导航栏右按钮
-    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [rightButton setImage:[UIImage imageNamed:@"common_Icon_ExtensionContentButton_20x20_UIMode_Day"] forState:UIControlStateNormal];
-    rightButton.frame = CGRectMake(0, 0, 20, 20);
-    [rightButton addTarget:self action:@selector(rightBarButtonItemAction:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
-    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
     
 
     // 滑动视图
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 108)];
-    _scrollView.backgroundColor = [UIColor colorWithRed:0.5396 green:0.6387 blue:1.0 alpha:1.0];
+    [_scrollView jxl_setDayMode:^(UIView *view) {
+        _scrollView.backgroundColor = [UIColor whiteColor];
+    } nightMode:^(UIView *view) {
+        _scrollView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
+    }];
     _scrollView.pagingEnabled = YES;
     _scrollView.directionalLockEnabled = YES;
     _scrollView.delegate = self;
@@ -226,29 +254,29 @@ UICollectionViewDelegate
             _currenttableView = _tableViewArray[currentPage];
             [_currenttableView.mj_header beginRefreshing];
         }
-        /**
-         *  预留实现保存页面位置
-         */
         
-        [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:currentPage inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
-        [_collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:currentPage inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+        [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:currentPage inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+
+        _lastCell.textFont = 15;
+        SX_CollectionViewCell *cell = (SX_CollectionViewCell *)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:currentPage inSection:0]];
+        cell.textFont = 17;
+        self.lastCell = cell;
+        
     }
 }
 
-
-
-// tableView相关方法
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     SX_NewsResult *newsResult = _dataArray[indexPath.row];
     if ([newsResult.type isEqualToString:@"huandeng"]) {
         return self.view.frame.size.height / 3;
     } else if ([newsResult.type isEqualToString:@"santu"]) {
-        return (self.view.frame.size.width - 40) / 3 / 4 * 3 + 80;
+        return self.view.frame.size.height / 4;
     } else if ([newsResult.type isEqualToString:@"hengtu"]) {
         return self.view.frame.size.height / 3.5;
     }
-    return 90;
+    return self.view.frame.size.height / 7;
 }
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _dataArray.count;
@@ -259,21 +287,25 @@ UICollectionViewDelegate
     if ([newsResult.type isEqualToString:@"huandeng"]) {
         SX_huandengTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:huandengIdentifier];
         cell.huandengNewsResult = newsResult;
+        cell.backgroundColor = [UIColor clearColor];
 
         return cell;
     } else if ([newsResult.type isEqualToString:@"santu"]) {
         SX_santuTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:santuIdentifier];
         cell.santuNewsResult = newsResult;
+        cell.backgroundColor = [UIColor clearColor];
 
         return cell;
     } else if ([newsResult.type isEqualToString:@"hengtu"]) {
         SX_hengtuTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:hengtuIdentifier];
         cell.hengtuNewsResult = newsResult;
+        cell.backgroundColor = [UIColor clearColor];
 
         return cell;
     }
     SX_xinwenTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:xinwenIdentifier];
     cell.xinwenNewsResult = newsResult;
+    cell.backgroundColor = [UIColor clearColor];
 
     return cell;
 }

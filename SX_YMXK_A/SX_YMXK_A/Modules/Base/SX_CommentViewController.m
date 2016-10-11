@@ -13,6 +13,7 @@
 #import "MJRefresh.h"
 #import "SX_TextViewController.h"
 #import "SX_ArticleResult.h"
+#import "JXLDayAndNightMode.h"
 
 static NSString *const tableViewIdentifier = @"tableViewCell";
 
@@ -58,9 +59,35 @@ UITableViewDelegate
 
 }
 
+- (void)leftBarButtonItemAction {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
+    self.navigationItem.title = @"评论";
+    [self.view jxl_setDayMode:^(UIView *view) {
+        self.view.backgroundColor = [UIColor whiteColor];
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
+        // 导航栏左按钮
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
+        self.navigationItem.leftBarButtonItem= leftBarButtonItem;
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    } nightMode:^(UIView *view) {
+        self.view.backgroundColor = [UIColor blackColor];
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.897 green:0.1559 blue:0.1816 alpha:1.0];
+        // 导航栏左按钮
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Night"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
+        self.navigationItem.leftBarButtonItem= leftBarButtonItem;
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.912 green:0.912 blue:0.912 alpha:1.0]}];
+    }];
+
+
+    
+    
+    
     self.tableViewDataArray = [NSMutableArray array];
     _pageCount = 1;
     [self getTableViewSourceWithPageIndex:_pageCount];
@@ -75,6 +102,11 @@ UITableViewDelegate
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 40) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    [_tableView jxl_setDayMode:^(UIView *view) {
+        _tableView.backgroundColor = [UIColor whiteColor];
+    } nightMode:^(UIView *view) {
+        _tableView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
+    }];
     [_tableView registerClass:[SX_CommentTableViewCell class] forCellReuseIdentifier:tableViewIdentifier];
     _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(pullRefresh)];
     _tableView.mj_footer = [MJRefreshBackFooter footerWithRefreshingTarget:self refreshingAction:@selector(pullLoading)];
@@ -85,13 +117,22 @@ UITableViewDelegate
 
 - (void)createView {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 40 - 64, self.view.frame.size.width, 40)];
-    view.backgroundColor = [UIColor colorWithRed:0.9425 green:0.9425 blue:0.9425 alpha:1.0];
+    [view jxl_setDayMode:^(UIView *view) {
+        view.backgroundColor = [UIColor colorWithRed:0.9425 green:0.9425 blue:0.9425 alpha:1.0];
+    } nightMode:^(UIView *view) {
+        view.backgroundColor = [UIColor colorWithRed:0.6887 green:0.6851 blue:0.6923 alpha:1.0];
+    }];
     [self.view addSubview:view];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(10, 5, view.frame.size.width * 3 / 5, 30);
-    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [button setBackgroundColor:[UIColor whiteColor]];
+    [button jxl_setDayMode:^(UIView *view) {
+        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [button setBackgroundColor:[UIColor whiteColor]];
+    } nightMode:^(UIView *view) {
+        [button setTitleColor:[UIColor colorWithRed:0.4228 green:0.4522 blue:0.5288 alpha:1.0] forState:UIControlStateNormal];
+        [button setBackgroundColor:[UIColor colorWithRed:0.7693 green:0.7693 blue:0.7693 alpha:1.0]];
+    }];
     button.titleLabel.font = [UIFont systemFontOfSize:15];
     button.clipsToBounds = YES;
     button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -131,6 +172,11 @@ UITableViewDelegate
     SX_CommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:tableViewIdentifier];
     SX_Comment *comment = _tableViewDataArray[indexPath.row];
     cell.comment = comment;
+    [cell jxl_setDayMode:^(UIView *view) {
+        cell.backgroundColor = [UIColor whiteColor];
+    } nightMode:^(UIView *view) {
+        cell.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
+    }];
     return cell;
 }
 

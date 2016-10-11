@@ -9,8 +9,8 @@
 #import "SX_xinwenTableViewCell.h"
 #import "SX_NewsResult.h"
 #import "UIImageView+WebCache.h"
-#import "Masonry.h"
 #import "AFNetworking.h"
+#import "JXLDayAndNightMode.h"
 
 @interface SX_xinwenTableViewCell ()
 
@@ -36,14 +36,17 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.label = [[UILabel alloc] init];
-        _label.font = [UIFont systemFontOfSize:16];
         _label.numberOfLines = 2;
-        _label.textColor = [UIColor blackColor];
+        [_label jxl_setDayMode:^(UIView *view) {
+            _label.textColor = [UIColor blackColor];
+        } nightMode:^(UIView *view) {
+            _label.textColor = [UIColor colorWithRed:0.4228 green:0.4522 blue:0.5288 alpha:1.0];
+        }];
+        
         [self.contentView addSubview:_label];
         
         self.commentLabel = [[UILabel alloc] init];
         _commentLabel.textColor = [UIColor grayColor];
-        _commentLabel.font = [UIFont systemFontOfSize:14];
         _commentLabel.textAlignment = NSTextAlignmentRight;
         [self.contentView addSubview:_commentLabel];
         
@@ -58,26 +61,12 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    [_myImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.contentView.mas_top).offset(10);
-        make.bottom.equalTo(self.contentView.mas_bottom).offset(-10);
-        make.left.equalTo(self.contentView.mas_left).offset(10);
-        make.width.equalTo(@(70 / 3 * 4) );
-    }];
+    _myImageView.frame = CGRectMake(10, 10, (self.contentView.frame.size.height - 20) * 1.35, self.contentView.frame.size.height - 20);
     
-    [_label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.contentView.mas_top).offset(10);
-        make.right.equalTo(self.contentView.mas_right).offset(-10);
-        make.left.equalTo(_myImageView.mas_right).offset(10);
-        make.height.equalTo(@40);
-    }];
-    
-    [_commentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_label.mas_bottom).offset(10);
-        make.right.equalTo(self.contentView.mas_right).offset(-10);
-        make.width.equalTo(@100);
-        make.height.equalTo(@40);
-    }];
+    _label.frame = CGRectMake(_myImageView.frame.size.width + 20, 10, self.contentView.frame.size.width - 30 - _myImageView.frame.size.width, _myImageView.frame.size.height * 0.7);
+    _label.font = [UIFont systemFontOfSize:self.contentView.frame.size.height / 5.5];
+    _commentLabel.frame = CGRectMake(self.contentView.frame.size.width - 200 - 10, self.contentView.frame.size.height - _myImageView.frame.size.height * 0.3 - 10, 200, _myImageView.frame.size.height * 0.3);
+    _commentLabel.font = [UIFont systemFontOfSize:self.contentView.frame.size.height / 7];
 }
 
 - (void)setXinwenNewsResult:(SX_NewsResult *)xinwenNewsResult {
@@ -91,12 +80,15 @@
         _myImageView.image = [UIImage imageNamed:@"common_Logo_71x17"];
     }
     else {
-        if (xinwenNewsResult.thumbnailURLs) {
+        if (xinwenNewsResult.thumbnailURLs.count > 0) {
             [_myImageView sd_setImageWithURL:(NSURL *)xinwenNewsResult.thumbnailURLs[0]];
             _commentLabel.text = [NSString stringWithFormat:@"%@评论", xinwenNewsResult.commentsCount];
-        }else {
+        }else if (xinwenNewsResult.thumbnailUrl != nil){
             [_myImageView sd_setImageWithURL:(NSURL *)xinwenNewsResult.thumbnailUrl];
-            _commentLabel.frame = CGRectZero;
+            _commentLabel.hidden = YES;
+        } else {
+//            _myImageView.contentMode = UIViewContentModeCenter;
+            _myImageView.image = [UIImage imageNamed:@"common_Logo_71x17"];
         }
     }
     

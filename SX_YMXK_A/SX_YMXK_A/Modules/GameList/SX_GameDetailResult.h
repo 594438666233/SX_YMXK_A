@@ -9,6 +9,9 @@
 #import "SX_BaseModel.h"
 
 @interface SX_GameDetailResult : SX_BaseModel
+<
+NSCoding
+>
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *thumbnailURL;
@@ -19,6 +22,7 @@
 @property (nonatomic, copy) NSString *platform;
 @property (nonatomic, copy) NSString *sellTime;
 @property (nonatomic, copy) NSString *developer;
+@property (nonatomic, assign) NSInteger contentId;
 
 
 @end

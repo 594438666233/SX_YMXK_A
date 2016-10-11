@@ -12,6 +12,7 @@
 #import <JavaScriptCore/JavaScriptCore.h>
 #import "SX_CommentViewController.h"
 #import "SX_NewsResult.h"
+#import "JXLDayAndNightMode.h"
 
 @interface SX_NewsDetailViewController ()
 <
@@ -52,14 +53,23 @@ UIWebViewDelegate
 
 - (void)createView {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 40 - 64, self.view.frame.size.width, 40)];
-    view.backgroundColor = [UIColor colorWithRed:0.9425 green:0.9425 blue:0.9425 alpha:1.0];
+    [view jxl_setDayMode:^(UIView *view) {
+        view.backgroundColor = [UIColor colorWithRed:0.9425 green:0.9425 blue:0.9425 alpha:1.0];
+    } nightMode:^(UIView *view) {
+        view.backgroundColor = [UIColor colorWithRed:0.6887 green:0.6851 blue:0.6923 alpha:1.0];
+    }];
     [self.view addSubview:view];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(10, 5, view.frame.size.width * 3 / 5, 30);
-    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [button setBackgroundColor:[UIColor whiteColor]];
-    button.titleLabel.font = [UIFont systemFontOfSize:15];
+    [button jxl_setDayMode:^(UIView *view) {
+        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [button setBackgroundColor:[UIColor whiteColor]];
+    } nightMode:^(UIView *view) {
+        [button setTitleColor:[UIColor colorWithRed:0.4228 green:0.4522 blue:0.5288 alpha:1.0] forState:UIControlStateNormal];
+        [button setBackgroundColor:[UIColor colorWithRed:0.7693 green:0.7693 blue:0.7693 alpha:1.0]];
+    }];
+    button.titleLabel.font = [UIFont systemFontOfSize:self.view.frame.size.width / 25];
     button.clipsToBounds = YES;
     button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     button.contentEdgeInsets = UIEdgeInsetsMake(0,10, 0, 0);
@@ -68,8 +78,13 @@ UIWebViewDelegate
     [view addSubview:button];
     
     UIButton *collectButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [collectButton setImage:[UIImage imageNamed:@"common_Icon_Favorite_26x26_UIMode_Day"] forState:UIControlStateNormal];
-    [collectButton setImage:[UIImage imageNamed:@"common_Icon_FavoriteSelected_26x26_UIMode_Day"] forState:UIControlStateSelected];
+    [collectButton jxl_setDayMode:^(UIView *view) {
+        [collectButton setImage:[UIImage imageNamed:@"common_Icon_Favorite_26x26_UIMode_Day"] forState:UIControlStateNormal];
+        [collectButton setImage:[UIImage imageNamed:@"common_Icon_FavoriteSelected_26x26_UIMode_Day"] forState:UIControlStateSelected];
+    } nightMode:^(UIView *view) {
+        [collectButton setImage:[UIImage imageNamed:@"common_Icon_Favorite_26x26_UIMode_Night"] forState:UIControlStateNormal];
+        [collectButton setImage:[UIImage imageNamed:@"common_Icon_FavoriteSelected_26x26_UIMode_Night"] forState:UIControlStateSelected];
+    }];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSMutableArray *mulArray = [NSMutableArray arrayWithArray:[userDefaults arrayForKey:@"collection"]];
     for (int i = 0; i < mulArray.count; i++) {
@@ -113,13 +128,23 @@ UIWebViewDelegate
 
 - (void)getWebView {
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 40)];
-
+    [_webView jxl_setDayMode:^(UIView *view) {
+        _webView.backgroundColor = [UIColor whiteColor];
+    } nightMode:^(UIView *view) {
+        _webView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
+    }];
     
     NSString *html = [[NSBundle mainBundle] pathForResource:@"gsAppHTMLTemplate_News" ofType:@"html"];
     NSMutableString *htmlCont = [NSMutableString stringWithContentsOfFile:html encoding:NSUTF8StringEncoding error:nil];
-    [htmlCont replaceOccurrencesOfString:@"#文章正文#" withString:_data.mainBody options:NSCaseInsensitiveSearch range:NSMakeRange(0, htmlCont.length)];
-    [htmlCont replaceOccurrencesOfString:@"#文章标题#" withString:_data.title options:NSCaseInsensitiveSearch range:NSMakeRange(0, htmlCont.length)];
-    [htmlCont replaceOccurrencesOfString:@"#文章副标题#" withString:_data.subTitle options:NSCaseInsensitiveSearch range:NSMakeRange(0, htmlCont.length)];
+    if (_data.mainBody != nil) {
+        [htmlCont replaceOccurrencesOfString:@"#文章正文#" withString:_data.mainBody options:NSCaseInsensitiveSearch range:NSMakeRange(0, htmlCont.length)];
+    }
+    if (_data.title != nil) {
+        [htmlCont replaceOccurrencesOfString:@"#文章标题#" withString:_data.title options:NSCaseInsensitiveSearch range:NSMakeRange(0, htmlCont.length)];
+    }
+    if (_data.subTitle != nil) {
+        [htmlCont replaceOccurrencesOfString:@"#文章副标题#" withString:_data.subTitle options:NSCaseInsensitiveSearch range:NSMakeRange(0, htmlCont.length)];
+    }
 #pragma mark - WQNMLGB
     [_webView loadHTMLString:htmlCont baseURL:[NSURL URLWithString:html]];
     _webView.dataDetectorTypes = UIDataDetectorTypeAll;
@@ -131,13 +156,13 @@ UIWebViewDelegate
 }
 
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    NSURL *requestURL = [request URL];
-    if (([[requestURL scheme] isEqualToString:@"http"] || [[requestURL scheme] isEqualToString:@"https"] || [[requestURL scheme] isEqualToString:@"mailto"]) && (navigationType == UIWebViewNavigationTypeLinkClicked)) {
-        return  ![[UIApplication sharedApplication] openURL:requestURL];
-    }
-    return YES;
-}
+//- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+//    NSURL *requestURL = [request URL];
+//    if (([[requestURL scheme] isEqualToString:@"http"] || [[requestURL scheme] isEqualToString:@"https"] || [[requestURL scheme] isEqualToString:@"mailto"]) && (navigationType == UIWebViewNavigationTypeLinkClicked)) {
+//        return  ![[UIApplication sharedApplication] openURL:requestURL];
+//    }
+//    return YES;
+//}
 
 - (void)viewWillAppear:(BOOL)animated {
     self.navigationController.navigationBar.subviews.firstObject.alpha = 1;
@@ -145,10 +170,22 @@ UIWebViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
-    // 导航栏左按钮
-    UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
-    self.navigationItem.leftBarButtonItem= leftBarButtonItem;
+    [self.view jxl_setDayMode:^(UIView *view) {
+        self.view.backgroundColor = [UIColor whiteColor];
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
+        // 导航栏左按钮
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
+        self.navigationItem.leftBarButtonItem= leftBarButtonItem;
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    } nightMode:^(UIView *view) {
+        self.view.backgroundColor = [UIColor blackColor];
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.897 green:0.1559 blue:0.1816 alpha:1.0];
+        // 导航栏左按钮
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Night"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
+        self.navigationItem.leftBarButtonItem= leftBarButtonItem;
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.912 green:0.912 blue:0.912 alpha:1.0]}];
+    }];
+
     self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
     
     [self getSource];

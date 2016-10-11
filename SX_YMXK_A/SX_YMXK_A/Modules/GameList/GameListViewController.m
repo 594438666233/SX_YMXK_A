@@ -13,6 +13,8 @@
 #import "SX_GameListCollectionViewCell.h"
 #import <MJRefresh.h>
 #import "SX_GameViewController.h"
+#import "SX_FocusGameViewController.h"
+#import "JXLDayAndNightMode.h"
 
 static NSString * const NCVIdentifier = @"navigationCollectionCell";
 static NSString * const collectionViewIdentifier = @"gameListCollectionCell";
@@ -32,6 +34,8 @@ UICollectionViewDelegate
 @property (nonatomic, strong) NSMutableArray *collectionDataArray;
 
 @property (nonatomic, assign) NSInteger pageCount;
+
+@property (nonatomic, strong) SX_FocusGameViewController *FGVC;
 
 //@property (nonatomic, assign) BOOL isMenuShow;
 
@@ -64,6 +68,8 @@ UICollectionViewDelegate
             [_dataArray addObject:gameListResult];
         }
         [_collectionView reloadData];
+        [_collectionView.mj_header endRefreshing];
+        [_collectionView.mj_footer endRefreshing];
     }];
 }
 
@@ -93,7 +99,11 @@ UICollectionViewDelegate
     self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, _scrollView.frame.size.height) collectionViewLayout:flowLayout];
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
-    _collectionView.backgroundColor = [UIColor colorWithRed:1.0 green:0.9983 blue:0.9951 alpha:1.0];
+    [_collectionView jxl_setDayMode:^(UIView *view) {
+        _collectionView.backgroundColor = [UIColor colorWithRed:1.0 green:0.9983 blue:0.9951 alpha:1.0];
+    } nightMode:^(UIView *view) {
+        _collectionView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
+    }];
     [_collectionView registerClass:[SX_GameListCollectionViewCell class] forCellWithReuseIdentifier:collectionViewIdentifier];
     
     _collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(pullRefresh)];
@@ -107,32 +117,62 @@ UICollectionViewDelegate
 - (void)pullRefresh {
     _pageCount = 1;
     [self getCollectionViewSource:_pageCount];
-    [_collectionView.mj_header endRefreshing];
 }
 
 - (void)pullLoading {
     _pageCount++;
     [self getCollectionViewSource:_pageCount];
-    [_collectionView.mj_footer endRefreshing];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSArray *array = [userDefaults arrayForKey:@"gameList"];
+    
+    if (array.count > 0) {
+        
+        [self addChildViewController:_FGVC];
+        [_scrollView addSubview:_FGVC.view];
+
+    }
+
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithRed:0.5788 green:0.7603 blue:1.0 alpha:1.0];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
+
     self.collectionDataArray = [NSMutableArray array];
     self.dataArray = [NSMutableArray array];
     [_collectionDataArray addObjectsFromArray:@[@"游戏库", @"我的关注"]];
     
-    // 导航栏左按钮
-    UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_OptionButton_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(menuAction)];
-    self.navigationItem.leftBarButtonItem = leftBarButtonItem;
+    
+    [self.view jxl_setDayMode:^(UIView *view) {
+        self.view.backgroundColor = [UIColor whiteColor];
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
+        // 导航栏左按钮
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_OptionButton_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(menuAction)];
+        self.navigationItem.leftBarButtonItem = leftBarButtonItem;
+    } nightMode:^(UIView *view) {
+        self.view.backgroundColor = [UIColor blackColor];
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.897 green:0.1559 blue:0.1816 alpha:1.0];
+        // 导航栏左按钮
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_OptionButton_20x20_UIMode_Night"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(menuAction)];
+        self.navigationItem.leftBarButtonItem= leftBarButtonItem;
+
+    }];
+
+    
+    
+    
     // 导航栏中间菜单
     [self createNavigationCollectionView];
     
     
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 108)];
-    _scrollView.backgroundColor = [UIColor colorWithRed:0.5396 green:0.6387 blue:1.0 alpha:1.0];
+    [_scrollView jxl_setDayMode:^(UIView *view) {
+        _scrollView.backgroundColor = [UIColor whiteColor];
+    } nightMode:^(UIView *view) {
+        _scrollView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
+    }];
     _scrollView.pagingEnabled = YES;
     _scrollView.directionalLockEnabled = YES;
     _scrollView.delegate = self;
@@ -141,7 +181,17 @@ UICollectionViewDelegate
     
     [self createCollectionView];
     [_collectionView reloadData];
+    
+    self.FGVC = [[SX_FocusGameViewController alloc] init];
 
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    if ([scrollView isEqual:_scrollView]) {
+        NSInteger currentPage = scrollView.contentOffset.x / self.view.frame.size.width;
+        [_navigationCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:currentPage inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+        [_navigationCollectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:currentPage inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+    }
 }
 
 
@@ -150,6 +200,7 @@ UICollectionViewDelegate
     if ([collectionView isEqual:_navigationCollectionView]) {
         SX_CollectionViewCell *cell = (SX_CollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
         cell.textFont = 17;
+        _scrollView.contentOffset = CGPointMake(_scrollView.frame.size.width * indexPath.item, 0);
     }
     else {
         SX_GameListResult *gameListResult = _dataArray[indexPath.item];
@@ -183,6 +234,11 @@ UICollectionViewDelegate
     SX_GameListCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:collectionViewIdentifier forIndexPath:indexPath];
     SX_GameListResult *gameListResult = _dataArray[indexPath.item];
     cell.gameListResult = gameListResult;
+    [cell jxl_setDayMode:^(UIView *view) {
+        cell.backgroundColor = [UIColor whiteColor];
+    } nightMode:^(UIView *view) {
+        cell.backgroundColor = [UIColor clearColor];
+    }];
     return cell;
 }
 

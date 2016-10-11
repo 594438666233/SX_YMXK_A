@@ -10,6 +10,7 @@
 #import "Masonry.h"
 #import "SX_DataRequest.h"
 #import "SX_RegisterViewController.h"
+#import "JXLDayAndNightMode.h"
 
 @interface SX_InputVerifyCodeViewController ()
 <
@@ -29,13 +30,18 @@ UITextFieldDelegate
 }
 
 - (void)createTextField {
-    UIImageView *verifyCodeImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"common_Icon_VerificationCode_16x16_UIMode_Day"]];
+    UIImageView *verifyCodeImageView = [[UIImageView alloc] init];
     verifyCodeImageView.frame = CGRectMake(0, 0, 40, 40);
     verifyCodeImageView.contentMode = UIViewContentModeCenter;
     
     self.verifyCodeTextField = [[UITextField alloc] init];
     _verifyCodeTextField.delegate = self;
-    _verifyCodeTextField.backgroundColor = [UIColor whiteColor];
+    _verifyCodeTextField.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.3];
+    [_verifyCodeTextField jxl_setDayMode:^(UIView *view) {
+        verifyCodeImageView.image = [UIImage imageNamed:@"common_Icon_VerificationCode_16x16_UIMode_Day"];
+    } nightMode:^(UIView *view) {
+        verifyCodeImageView.image = [UIImage imageNamed:@"common_Icon_VerificationCode_16x16_UIMode_Night"];
+    }];
     _verifyCodeTextField.leftViewMode = UITextFieldViewModeAlways;
     _verifyCodeTextField.leftView = verifyCodeImageView;
     _verifyCodeTextField.clipsToBounds = YES;
@@ -45,57 +51,78 @@ UITextFieldDelegate
     _verifyCodeTextField.layer.borderColor = [UIColor blackColor].CGColor;
     [self.view addSubview:_verifyCodeTextField];
     [_verifyCodeTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_label.mas_bottom).offset(20);
+        make.top.equalTo(_label.mas_bottom).offset(10);
         make.left.equalTo(self.view.mas_left).offset(20);
-        make.right.equalTo(self.view.mas_right).offset(-180);
-        make.height.equalTo(@50);
+        make.width.equalTo(@(self.view.frame.size.width * 0.55));
+        make.height.equalTo(@(self.view.frame.size.height / 15));
     }];
 }
 
 - (void)createButton {
     self.verifyCodeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_verifyCodeButton setTitle:@"获取验证码" forState:UIControlStateNormal];
-    [_verifyCodeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    _verifyCodeButton.backgroundColor = [UIColor colorWithRed:1.0 green:0.3223 blue:0.2345 alpha:1.0];
+    _verifyCodeButton.titleLabel.font = [UIFont systemFontOfSize:self.view.frame.size.width / 25];
+    [_verifyCodeButton jxl_setDayMode:^(UIView *view) {
+        [_verifyCodeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _verifyCodeButton.backgroundColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
+    } nightMode:^(UIView *view) {
+        [_verifyCodeButton setTitleColor:[UIColor colorWithRed:0.912 green:0.912 blue:0.912 alpha:1.0] forState:UIControlStateNormal];
+        _verifyCodeButton.backgroundColor = [UIColor colorWithRed:0.897 green:0.1559 blue:0.1816 alpha:1.0];
+    }];
     [_verifyCodeButton addTarget:self action:@selector(getVerifyCodeAction) forControlEvents:UIControlEventTouchUpInside];
     _verifyCodeButton.clipsToBounds = YES;
     _verifyCodeButton.layer.cornerRadius = 7.f;
     [self.view addSubview:_verifyCodeButton];
     [_verifyCodeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_label.mas_bottom).offset(20);
-        make.width.equalTo(@150);
+        make.top.equalTo(_label.mas_bottom).offset(10);
+        make.width.equalTo(@(self.view.frame.size.width * 0.3));
         make.right.equalTo(self.view.mas_right).offset(-20);
-        make.height.equalTo(@50);
+        make.height.equalTo(@(self.view.frame.size.height / 15));
     }];
     
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:@"下一步" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    button.backgroundColor = [UIColor colorWithRed:1.0 green:0.3223 blue:0.2345 alpha:1.0];
+    [button jxl_setDayMode:^(UIView *view) {
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        button.backgroundColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
+    } nightMode:^(UIView *view) {
+        [button setTitleColor:[UIColor colorWithRed:0.912 green:0.912 blue:0.912 alpha:1.0] forState:UIControlStateNormal];
+        button.backgroundColor = [UIColor colorWithRed:0.897 green:0.1559 blue:0.1816 alpha:1.0];
+    }];
     [button addTarget:self action:@selector(nextAction) forControlEvents:UIControlEventTouchUpInside];
     button.clipsToBounds = YES;
     button.layer.cornerRadius = 7.f;
     [self.view addSubview:button];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_verifyCodeButton.mas_bottom).offset(30);
+        make.top.equalTo(_verifyCodeButton.mas_bottom).offset(20);
         make.left.equalTo(self.view.mas_left).offset(20);
         make.right.equalTo(self.view.mas_right).offset(-20);
-        make.height.equalTo(@50);
+        make.height.equalTo(@(self.view.frame.size.height / 15));
     }];
 
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithRed:0.9354 green:0.9304 blue:0.9403 alpha:1.0];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
-    // 导航栏左按钮
-    UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
-    self.navigationItem.leftBarButtonItem= leftBarButtonItem;
     self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
     self.navigationItem.title = @"注册";
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    [self.view jxl_setDayMode:^(UIView *view) {
+        self.view.backgroundColor = [UIColor whiteColor];
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
+        // 导航栏左按钮
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
+        self.navigationItem.leftBarButtonItem= leftBarButtonItem;
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    } nightMode:^(UIView *view) {
+        self.view.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.897 green:0.1559 blue:0.1816 alpha:1.0];
+        // 导航栏左按钮
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Night"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
+        self.navigationItem.leftBarButtonItem= leftBarButtonItem;
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.912 green:0.912 blue:0.912 alpha:1.0]}];
+    }];
+
     
     self.label = [[UILabel alloc] init];
     _label.backgroundColor = [UIColor colorWithRed:1.0 green:0.258 blue:0.2622 alpha:0.0];
@@ -104,10 +131,10 @@ UITextFieldDelegate
     _label.textColor = [UIColor grayColor];
     [self.view addSubview:_label];
     [_label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top).offset(30);
+        make.top.equalTo(self.view.mas_top).offset(20);
         make.left.equalTo(self.view.mas_left).offset(20);
         make.right.equalTo(self.view.mas_right).offset(-20);
-        make.height.equalTo(@30);
+        make.height.equalTo(@(self.view.frame.size.height / 25));
     }];
     
     [self createTextField];
@@ -146,16 +173,26 @@ UITextFieldDelegate
                 //设置界面的按钮显示 根据自己需求设置
                 _verifyCodeButton.userInteractionEnabled = YES;
                 [_verifyCodeButton setTitle:@"重新获取" forState:UIControlStateNormal];
-                [_verifyCodeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                _verifyCodeButton.backgroundColor = [UIColor colorWithRed:1.0 green:0.3223 blue:0.2345 alpha:1.0];
+                [_verifyCodeButton jxl_setDayMode:^(UIView *view) {
+                    [_verifyCodeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                    _verifyCodeButton.backgroundColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
+                } nightMode:^(UIView *view) {
+                    [_verifyCodeButton setTitleColor:[UIColor colorWithRed:0.912 green:0.912 blue:0.912 alpha:1.0] forState:UIControlStateNormal];
+                    _verifyCodeButton.backgroundColor = [UIColor colorWithRed:0.897 green:0.1559 blue:0.1816 alpha:1.0];
+                }];
             });
         }else {
             int seconds = timeout;
             NSString *strTime = [NSString stringWithFormat:@"%.2d", seconds];
             dispatch_async(dispatch_get_main_queue(), ^{
                 //让按钮变为不可点击的灰色
-                _verifyCodeButton.backgroundColor = [UIColor colorWithRed:0.6926 green:0.6595 blue:0.6921 alpha:1.0];
-                [_verifyCodeButton setTitleColor:[UIColor colorWithRed:1.0 green:0.3223 blue:0.2345 alpha:1.0] forState:UIControlStateNormal];
+                [_verifyCodeButton jxl_setDayMode:^(UIView *view) {
+                    [_verifyCodeButton setTitleColor:[UIColor colorWithRed:1.0 green:0.3223 blue:0.2345 alpha:1.0] forState:UIControlStateNormal];
+                    _verifyCodeButton.backgroundColor = [UIColor colorWithRed:0.6926 green:0.6595 blue:0.6921 alpha:1.0];
+                } nightMode:^(UIView *view) {
+                    [_verifyCodeButton setTitleColor:[UIColor colorWithRed:0.912 green:0.912 blue:0.912 alpha:1.0] forState:UIControlStateNormal];
+                    _verifyCodeButton.backgroundColor = [UIColor colorWithRed:0.897 green:0.1559 blue:0.1816 alpha:1.0];
+                }];
                 _verifyCodeButton.userInteractionEnabled = NO;
                 _label.text = [NSString stringWithFormat:@"验证码已发送至%@", _phoneNumber];
                 //设置界面的按钮显示 根据自己需求设置

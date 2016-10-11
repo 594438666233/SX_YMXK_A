@@ -15,7 +15,9 @@
 @property (nonatomic, copy) NSString *authorName;
 @property (nonatomic, copy) NSString *readingCount;
 @property (nonatomic, copy) NSString *conmmentsCount;
+@property (nonatomic, assign) NSInteger contentId;
 @property (nonatomic, retain) NSArray *childElements;
 @property (nonatomic, retain) NSArray *thumbnailURLs;
+
 
 @end

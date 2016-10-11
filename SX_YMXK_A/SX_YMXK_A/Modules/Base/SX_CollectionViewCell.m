@@ -24,7 +24,6 @@
         _label.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.0];
         _label.textColor = [UIColor whiteColor];
         _label.font = [UIFont systemFontOfSize:20];
-//        _label.highlightedTextColor = [UIColor blueColor];
         _label.textAlignment = NSTextAlignmentCenter;
     }
     return self;

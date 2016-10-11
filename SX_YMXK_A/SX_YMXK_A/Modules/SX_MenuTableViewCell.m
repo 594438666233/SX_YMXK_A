@@ -7,6 +7,7 @@
 //
 
 #import "SX_MenuTableViewCell.h"
+#import "JXLDayAndNightMode.h"
 
 @interface SX_MenuTableViewCell ()
 
@@ -34,7 +35,11 @@
         [self.contentView addSubview:_myImageView];
         self.label = [[UILabel alloc] init];
         _label.font = [UIFont systemFontOfSize:15];
-        _label.textColor = [UIColor blackColor];
+        [_label jxl_setDayMode:^(UIView *view) {
+            _label.textColor = [UIColor blackColor];
+        } nightMode:^(UIView *view) {
+            _label.textColor = [UIColor colorWithRed:0.4228 green:0.4522 blue:0.5288 alpha:1.0];
+        }];
         _label.textAlignment = NSTextAlignmentLeft;
         [self.contentView addSubview:_label];
         
@@ -55,8 +60,14 @@
 
 - (void)setPicName:(NSString *)picName {
     _picName = picName;
-    NSString *str = [NSString stringWithFormat:@"common_Icon_%@_38x38_UIMode_Day", picName];
-    _myImageView.image = [UIImage imageNamed:str];
+    [_myImageView jxl_setDayMode:^(UIView *view) {
+        NSString *str = [NSString stringWithFormat:@"common_Icon_%@_38x38_UIMode_Day", picName];
+        _myImageView.image = [UIImage imageNamed:str];
+    } nightMode:^(UIView *view) {
+        NSString *str = [NSString stringWithFormat:@"common_Icon_%@_38x38_UIMode_Night", picName];
+        _myImageView.image = [UIImage imageNamed:str];
+    }];
+    
 }
 
 

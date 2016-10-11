@@ -7,10 +7,10 @@
 //
 
 #import "SX_santuTableViewCell.h"
-#import "Masonry.h"
 #import "SX_NewsResult.h"
 #import "UIImageView+WebCache.h"
 #import "AFNetworking.h"
+#import "JXLDayAndNightMode.h"
 
 @interface SX_santuTableViewCell ()
 
@@ -38,14 +38,16 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.label = [[UILabel alloc] init];
-        _label.textColor = [UIColor blackColor];
-        _label.font = [UIFont systemFontOfSize:16];
+        [_label jxl_setDayMode:^(UIView *view) {
+            _label.textColor = [UIColor blackColor];
+        } nightMode:^(UIView *view) {
+            _label.textColor = [UIColor colorWithRed:0.4228 green:0.4522 blue:0.5288 alpha:1.0];
+        }];
         _label.numberOfLines = 2;
         [self.contentView addSubview:_label];
         
         self.commentLabel = [[UILabel alloc] init];
         _commentLabel.textColor = [UIColor grayColor];
-        _commentLabel.font = [UIFont systemFontOfSize:14];
         _commentLabel.textAlignment = NSTextAlignmentRight;
         [self.contentView addSubview:_commentLabel];
         
@@ -69,40 +71,17 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
 
-    [_label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.contentView.mas_top).offset(10);
-        make.left.equalTo(self.contentView.mas_left).offset(10);
-        make.right.equalTo(self.contentView.mas_right).offset(-10);
-        make.height.equalTo(@20);
-    }];
+    _label.frame = CGRectMake(10, 10, self.contentView.frame.size.width - 20, self.contentView.frame.size.height / 10);
+    _label.font = [UIFont systemFontOfSize:self.contentView.frame.size.height / 10 + 1];
     
-    [_imageView1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_label.mas_bottom).offset(10);
-        make.bottom.equalTo(self.contentView.mas_bottom).offset(-40);
-        make.left.equalTo(self.contentView.mas_left).offset(10);
-        make.width.equalTo(@((self.contentView.frame.size.width - 40) / 3));
-    }];
+    _imageView1.frame = CGRectMake(10, _label.frame.origin.y + _label.frame.size.height + 10, (self.contentView.frame.size.width - 40) / 3, self.contentView.frame.size.height / 2);
     
-    [_imageView2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_label.mas_bottom).offset(10);
-        make.bottom.equalTo(self.contentView.mas_bottom).offset(-40);
-        make.left.equalTo(_imageView1.mas_right).offset(10);
-        make.width.equalTo(@((self.contentView.frame.size.width - 40) / 3));
-    }];
+    _imageView2.frame = CGRectMake(_imageView1.frame.size.width + 20, _label.frame.origin.y + _label.frame.size.height + 10, (self.contentView.frame.size.width - 40) / 3, self.contentView.frame.size.height / 2);
     
-    [_imageView3 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_label.mas_bottom).offset(10);
-        make.bottom.equalTo(self.contentView.mas_bottom).offset(-40);
-        make.left.equalTo(_imageView2.mas_right).offset(10);
-        make.width.equalTo(@((self.contentView.frame.size.width - 40) / 3));
-    }];
+    _imageView3.frame = CGRectMake(_imageView2.frame.size.width + _imageView2.frame.origin.x + 10, _label.frame.origin.y + _label.frame.size.height + 10, (self.contentView.frame.size.width - 40) / 3, self.contentView.frame.size.height / 2);
     
-    [_commentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_imageView1.mas_bottom).offset(10);
-        make.bottom.equalTo(self.contentView.mas_bottom).offset(-10);
-        make.right.equalTo(self.contentView.mas_right).offset(-10);
-        make.width.equalTo(@100);
-    }];
+    _commentLabel.frame = CGRectMake(self.contentView.frame.size.width - 200 - 10, self.contentView.frame.size.height - 10 - self.contentView.frame.size.height / 10, 200, self.contentView.frame.size.height / 10);
+    _commentLabel.font = [UIFont systemFontOfSize:self.contentView.frame.size.height / 12];
 }
 
 - (void)setSantuNewsResult:(SX_NewsResult *)santuNewsResult {

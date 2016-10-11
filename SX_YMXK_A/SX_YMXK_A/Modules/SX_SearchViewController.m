@@ -7,7 +7,6 @@
 //
 
 #import "SX_SearchViewController.h"
-#import "Masonry.h"
 #import "SX_santuTableViewCell.h"
 #import "SX_hengtuTableViewCell.h"
 #import "SX_huandengTableViewCell.h"
@@ -16,6 +15,7 @@
 #import "SX_DataRequest.h"
 #import "SX_NewsResult.h"
 #import "SX_NewsDetailViewController.h"
+#import "JXLDayAndNightMode.h"
 
 
 static NSString * const santuIdentifier = @"santu";
@@ -27,7 +27,8 @@ static NSString * const huandengIdentifier = @"huandeng";
 <
 UITextFieldDelegate,
 UITableViewDataSource,
-UITableViewDelegate
+UITableViewDelegate,
+UIScrollViewDelegate
 >
 
 @property (nonatomic, strong) UITextField *searchTextField;
@@ -77,7 +78,9 @@ UITableViewDelegate
         
         for (NSDictionary *dic in array) {
             SX_NewsResult *newsResult = [SX_NewsResult modelWithDic:dic];
-            [_tableViewDataArray addObject:newsResult];
+            if ([newsResult.type isEqualToString:@"xinwen"]) {
+                [_tableViewDataArray addObject:newsResult];
+            }
         }
         [_currentTableView reloadData];
         [_currentTableView.mj_header endRefreshing];
@@ -88,14 +91,25 @@ UITableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithRed:0.9354 green:0.9304 blue:0.9403 alpha:1.0];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
-    // 导航栏左按钮
-    UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
-    self.navigationItem.leftBarButtonItem= leftBarButtonItem;
+   
     self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
     self.navigationItem.title = @"搜索";
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    [self.view jxl_setDayMode:^(UIView *view) {
+        self.view.backgroundColor = [UIColor whiteColor];
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
+        // 导航栏左按钮
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
+        self.navigationItem.leftBarButtonItem= leftBarButtonItem;
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    } nightMode:^(UIView *view) {
+        self.view.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.897 green:0.1559 blue:0.1816 alpha:1.0];
+        // 导航栏左按钮
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Night"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
+        self.navigationItem.leftBarButtonItem= leftBarButtonItem;
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.912 green:0.912 blue:0.912 alpha:1.0]}];
+    }];
+
     
     self.currentType = @"news";
     self.pageCount = 1;
@@ -114,53 +128,72 @@ UITableViewDelegate
 - (void)createButton {
     self.newsButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_newsButton setTitle:@"新闻" forState:UIControlStateNormal];
-    [_newsButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [_newsButton setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
+    [_newsButton jxl_setDayMode:^(UIView *view) {
+        [_newsButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [_newsButton setTitleColor:[UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0] forState:UIControlStateSelected];
+    } nightMode:^(UIView *view) {
+        [_newsButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [_newsButton setTitleColor:[UIColor colorWithRed:0.897 green:0.1559 blue:0.1816 alpha:1.0] forState:UIControlStateSelected];
+    }];
+    
+
     [_newsButton addTarget:self action:@selector(newsButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     _newsButton.selected = YES;
     [self.view addSubview:_newsButton];
-    _newsButton.frame = CGRectMake((self.view.frame.size.width - 60) / 4, 50, 60, 60);
+    _newsButton.frame = CGRectMake((self.view.frame.size.width - 60) / 4, _searchTextField.frame.size.height + _searchTextField.frame.origin.y + 10, self.view.frame.size.width / 7, self.view.frame.size.width / 15);
     
     self.strategyButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_strategyButton setTitle:@"攻略" forState:UIControlStateNormal];
-    [_strategyButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [_strategyButton setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
+    [_strategyButton jxl_setDayMode:^(UIView *view) {
+        [_strategyButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [_strategyButton setTitleColor:[UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0] forState:UIControlStateSelected];
+    } nightMode:^(UIView *view) {
+        [_strategyButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [_strategyButton setTitleColor:[UIColor colorWithRed:0.897 green:0.1559 blue:0.1816 alpha:1.0] forState:UIControlStateSelected];
+    }];
     [_strategyButton addTarget:self action:@selector(strategyButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_strategyButton];
-    _strategyButton.frame = CGRectMake((self.view.frame.size.width - 60) / 4 * 3, 50, 60, 60);
+    _strategyButton.frame = CGRectMake((self.view.frame.size.width - 60) / 4 * 3, _searchTextField.frame.size.height + _searchTextField.frame.origin.y + 10, self.view.frame.size.width / 7, self.view.frame.size.width / 15);
 }
 
 - (void)createTextField {
-    UIImageView *searchImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"common_Icon_Search_20x20_UIMode_Day"]];
+    UIImageView *searchImageView = [[UIImageView alloc] init];
     searchImageView.frame = CGRectMake(0, 0, 40, 40);
     searchImageView.contentMode = UIViewContentModeCenter;
 
-    self.searchTextField = [[UITextField alloc] init];
+    self.searchTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, self.view.frame.size.width - 20, self.view.frame.size.height / 17)];
     _searchTextField.delegate = self;
-    _searchTextField.backgroundColor = [UIColor whiteColor];
+    _searchTextField.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.3];
+    [_searchTextField jxl_setDayMode:^(UIView *view) {
+        searchImageView.image = [UIImage imageNamed:@"common_Icon_Search_20x20_UIMode_Day"];
+    } nightMode:^(UIView *view) {
+        searchImageView.image = [UIImage imageNamed:@"common_Icon_Search_20x20_UIMode_Night"];
+    }];
+    
+    
     _searchTextField.leftViewMode = UITextFieldViewModeAlways;
     _searchTextField.leftView = searchImageView;
     _searchTextField.clipsToBounds = YES;
     _searchTextField.placeholder = @"输入搜索内容";
     _searchTextField.layer.cornerRadius = 7.f;
     _searchTextField.layer.borderWidth = 0.5;
-    _searchTextField.layer.borderColor = [UIColor blackColor].CGColor;
+    _searchTextField.layer.borderColor = [UIColor grayColor].CGColor;
     [self.view addSubview:_searchTextField];
-    [_searchTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top).offset(10);
-        make.left.equalTo(self.view.mas_left).offset(10);
-        make.right.equalTo(self.view.mas_right).offset(-10);
-        make.height.equalTo(@40);
-    }];
     
 }
 
 - (void)createScrollView {
-    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 110, self.view.frame.size.width, self.view.frame.size.height - 110 - 64)];
+    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, _newsButton.frame.size.height + _newsButton.frame.origin.y + 20, self.view.frame.size.width, self.view.frame.size.height - _newsButton.frame.size.height - _newsButton.frame.origin.y - 20 - 64)];
     _scrollView.delegate = self;
     _scrollView.pagingEnabled = YES;
     _scrollView.backgroundColor = [UIColor whiteColor];
     _scrollView.contentSize =CGSizeMake(_scrollView.frame.size.width * 2, _scrollView.frame.size.height);
+    [_scrollView jxl_setDayMode:^(UIView *view) {
+        _scrollView.backgroundColor = [UIColor whiteColor];
+    } nightMode:^(UIView *view) {
+        _scrollView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
+    }];
+    
     [self.view addSubview:_scrollView];
 
 }
@@ -177,6 +210,12 @@ UITableViewDelegate
         [tableView registerClass:[SX_xinwenTableViewCell class] forCellReuseIdentifier:xinwenIdentifier];
         tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(pullRefresh)];
         tableView.mj_footer = [MJRefreshBackFooter footerWithRefreshingTarget:self refreshingAction:@selector(pullLoading)];
+        
+        [tableView jxl_setDayMode:^(UIView *view) {
+            tableView.backgroundColor = [UIColor whiteColor];
+        } nightMode:^(UIView *view) {
+            tableView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
+        }];
         
         [_scrollView addSubview:tableView];
         [_tableViewArray addObject:tableView];
@@ -202,8 +241,10 @@ UITableViewDelegate
         _pageCount = 1;
         _scrollView.contentOffset = CGPointMake(0, 0);
         _currentPage = 0;
-        _currentTableView = _tableViewArray[0];
-        [_currentTableView.mj_header beginRefreshing];
+        _currentTableView = _tableViewArray[_currentPage];
+        if (![_searchTextField.text isEqualToString:@""]) {
+            [_currentTableView.mj_header beginRefreshing];
+        }
     }
 }
 - (void)strategyButtonAction:(UIButton *)button {
@@ -214,8 +255,10 @@ UITableViewDelegate
         _pageCount = 1;
         _scrollView.contentOffset = CGPointMake(self.view.frame.size.width, 0);
         _currentPage = 1;
-        _currentTableView = _tableViewArray[1];
-        [_currentTableView.mj_header beginRefreshing];
+        _currentTableView = _tableViewArray[_currentPage];
+        if (![_searchTextField.text isEqualToString:@""]) {
+            [_currentTableView.mj_header beginRefreshing];
+        }
     }
 }
 
@@ -228,32 +271,37 @@ UITableViewDelegate
     if ([newsResult.type isEqualToString:@"huandeng"]) {
         return self.view.frame.size.height / 3;
     } else if ([newsResult.type isEqualToString:@"santu"]) {
-        return (self.view.frame.size.width - 40) / 3 / 4 * 3 + 80;
+        return self.view.frame.size.height / 4;
     } else if ([newsResult.type isEqualToString:@"hengtu"]) {
         return self.view.frame.size.height / 3.5;
     }
-    return 90;
+    return self.view.frame.size.height / 7;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SX_NewsResult *newsResult = _tableViewDataArray[indexPath.row];
     if ([newsResult.type isEqualToString:@"huandeng"]) {
         SX_huandengTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:huandengIdentifier];
         cell.huandengNewsResult = newsResult;
+
+        cell.backgroundColor = [UIColor clearColor];
         
         return cell;
     } else if ([newsResult.type isEqualToString:@"santu"]) {
         SX_santuTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:santuIdentifier];
         cell.santuNewsResult = newsResult;
+        cell.backgroundColor = [UIColor clearColor];
         
         return cell;
     } else if ([newsResult.type isEqualToString:@"hengtu"]) {
         SX_hengtuTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:hengtuIdentifier];
         cell.hengtuNewsResult = newsResult;
+        cell.backgroundColor = [UIColor clearColor];
         
         return cell;
     }
     SX_xinwenTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:xinwenIdentifier];
     cell.xinwenNewsResult = newsResult;
+    cell.backgroundColor = [UIColor clearColor];
     
     return cell;
 }
@@ -274,7 +322,9 @@ UITableViewDelegate
         if (currentPage != _currentPage) {
             _currentPage = currentPage;
             _currentTableView = _tableViewArray[currentPage];
-            [_currentTableView.mj_header beginRefreshing];
+            if (![_searchTextField.text isEqualToString:@""]) {
+                [_currentTableView.mj_header beginRefreshing];
+            }
             _newsButton.selected = !_newsButton.selected;
             _strategyButton.selected = !_strategyButton.selected;
             if (_currentPage == 0) {
@@ -300,7 +350,9 @@ UITableViewDelegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
-    [_currentTableView.mj_header beginRefreshing];
+    if (![_searchTextField.text isEqualToString:@""]) {
+        [_currentTableView.mj_header beginRefreshing];
+    }
     return YES;
 }
 

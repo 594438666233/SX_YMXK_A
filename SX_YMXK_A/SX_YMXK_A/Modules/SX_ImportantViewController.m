@@ -15,6 +15,7 @@
 #import "SX_DataRequest.h"
 #import "MJRefresh.h"
 #import "SX_NewsDetailViewController.h"
+#import "JXLDayAndNightMode.h"
 
 
 static NSString * const santuIdentifier = @"santu";
@@ -81,15 +82,24 @@ UITableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
-    // 导航栏左按钮
-    UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
-    self.navigationItem.leftBarButtonItem= leftBarButtonItem;
-    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
+    
     self.navigationItem.title = @"要闻";
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    [self.view jxl_setDayMode:^(UIView *view) {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
+        // 导航栏左按钮
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
+        self.navigationItem.leftBarButtonItem= leftBarButtonItem;
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    } nightMode:^(UIView *view) {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.897 green:0.1559 blue:0.1816 alpha:1.0];
+        // 导航栏左按钮
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Night"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
+        self.navigationItem.leftBarButtonItem= leftBarButtonItem;
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.912 green:0.912 blue:0.912 alpha:1.0]}];
+    }];
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
+
 
     
     self.tableViewDataArray = [NSMutableArray array];
@@ -105,6 +115,12 @@ UITableViewDelegate
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 64) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    
+    [_tableView jxl_setDayMode:^(UIView *view) {
+        _tableView.backgroundColor = [UIColor whiteColor];
+    } nightMode:^(UIView *view) {
+        _tableView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
+    }];
     
     [_tableView registerClass:[SX_santuTableViewCell class] forCellReuseIdentifier:santuIdentifier];
     [_tableView registerClass:[SX_hengtuTableViewCell class] forCellReuseIdentifier:hengtuIdentifier];
@@ -136,32 +152,36 @@ UITableViewDelegate
     if ([newsResult.type isEqualToString:@"huandeng"]) {
         return self.view.frame.size.height / 3;
     } else if ([newsResult.type isEqualToString:@"santu"]) {
-        return (self.view.frame.size.width - 40) / 3 / 4 * 3 + 80;
+        return self.view.frame.size.height / 4;
     } else if ([newsResult.type isEqualToString:@"hengtu"]) {
         return self.view.frame.size.height / 3.5;
     }
-    return 90;
+    return self.view.frame.size.height / 7;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SX_NewsResult *newsResult = _tableViewDataArray[indexPath.row];
     if ([newsResult.type isEqualToString:@"huandeng"]) {
         SX_huandengTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:huandengIdentifier];
         cell.huandengNewsResult = newsResult;
+        cell.backgroundColor = [UIColor clearColor];
         
         return cell;
     } else if ([newsResult.type isEqualToString:@"santu"]) {
         SX_santuTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:santuIdentifier];
         cell.santuNewsResult = newsResult;
+        cell.backgroundColor = [UIColor clearColor];
         
         return cell;
     } else if ([newsResult.type isEqualToString:@"hengtu"]) {
         SX_hengtuTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:hengtuIdentifier];
         cell.hengtuNewsResult = newsResult;
+        cell.backgroundColor = [UIColor clearColor];
         
         return cell;
     }
     SX_xinwenTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:xinwenIdentifier];
     cell.xinwenNewsResult = newsResult;
+    cell.backgroundColor = [UIColor clearColor];
     
     return cell;
 }

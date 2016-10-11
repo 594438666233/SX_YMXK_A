@@ -6,8 +6,8 @@
 //  Copyright © 2016年 rain. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "SX_ViewController.h"
 
-@interface SX_MySubscribeViewController : UIViewController
+@interface SX_MySubscribeViewController : SX_ViewController
 
 @end

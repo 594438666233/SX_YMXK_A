@@ -12,6 +12,7 @@
 #import "SubscribeViewController.h"
 #import "SX_MenuViewController.h"
 #import "AFNetworking.h"
+#import "JXLDayAndNightMode.h"
 
 @interface AppDelegate ()
 
@@ -26,31 +27,51 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [_window makeKeyAndVisible];
     
+    
     NewsViewController *newsVC = [[NewsViewController alloc] init];
-    newsVC.tabBarItem.image = [[UIImage imageNamed:@"common_Button_XinWen_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    newsVC.tabBarItem.selectedImage = [[UIImage imageNamed:@"common_Button_XinWen_Selected_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     UINavigationController *newsNC = [[UINavigationController alloc] initWithRootViewController:newsVC];
     
-    
+
     GameListViewController *gameListVC = [[GameListViewController alloc] init];
-    gameListVC.tabBarItem.image = [[UIImage imageNamed:@"common_Button_YouXiKu_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    gameListVC.tabBarItem.selectedImage = [[UIImage imageNamed:@"common_Button_YouXiKu_Selected_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     UINavigationController *gameListNC = [[UINavigationController alloc] initWithRootViewController:gameListVC];
     
 
     
     SubscribeViewController *subscribeVC = [[SubscribeViewController alloc] init];
-    subscribeVC.tabBarItem.image = [[UIImage imageNamed:@"common_Button_DingYue_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    subscribeVC.tabBarItem.selectedImage = [[UIImage imageNamed:@"common_Button_DingYue_Selected_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     UINavigationController *subscribeNC = [[UINavigationController alloc] initWithRootViewController:subscribeVC];
     
-
+    newsVC.tabBarItem.image = [[UIImage imageNamed:@"common_Button_XinWen_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    newsVC.tabBarItem.selectedImage = [[UIImage imageNamed:@"common_Button_XinWen_Selected_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    gameListVC.tabBarItem.image = [[UIImage imageNamed:@"common_Button_YouXiKu_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    gameListVC.tabBarItem.selectedImage = [[UIImage imageNamed:@"common_Button_YouXiKu_Selected_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
+    subscribeVC.tabBarItem.image = [[UIImage imageNamed:@"common_Button_DingYue_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    subscribeVC.tabBarItem.selectedImage = [[UIImage imageNamed:@"common_Button_DingYue_Selected_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+
     
     
     UITabBarController *rootTC = [[UITabBarController alloc] init];
     rootTC.viewControllers = @[newsNC, gameListNC, subscribeNC];
-    rootTC.tabBar.barTintColor = [UIColor colorWithRed:1.0 green:0.9983 blue:0.9951 alpha:1.0];
+
+    [rootTC.tabBar jxl_setDayMode:^(UIView *view) {
+        rootTC.tabBar.barTintColor = [UIColor colorWithRed:0.9672 green:0.9621 blue:0.9723 alpha:1.0];
+        newsVC.tabBarItem.image = [[UIImage imageNamed:@"common_Button_XinWen_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        newsVC.tabBarItem.selectedImage = [[UIImage imageNamed:@"common_Button_XinWen_Selected_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        gameListVC.tabBarItem.image = [[UIImage imageNamed:@"common_Button_YouXiKu_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        gameListVC.tabBarItem.selectedImage = [[UIImage imageNamed:@"common_Button_YouXiKu_Selected_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        
+        subscribeVC.tabBarItem.image = [[UIImage imageNamed:@"common_Button_DingYue_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        subscribeVC.tabBarItem.selectedImage = [[UIImage imageNamed:@"common_Button_DingYue_Selected_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    } nightMode:^(UIView *view) {
+        rootTC.tabBar.barTintColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.75];
+        
+        newsVC.tabBarItem.image = [[UIImage imageNamed:@"common_Button_XinWen_UIMode_Night"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        newsVC.tabBarItem.selectedImage = [[UIImage imageNamed:@"common_Button_XinWen_Selected_UIMode_Night"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        gameListVC.tabBarItem.image = [[UIImage imageNamed:@"common_Button_YouXiKu_UIMode_Night"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        gameListVC.tabBarItem.selectedImage = [[UIImage imageNamed:@"common_Button_YouXiKu_Selected_UIMode_Night"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        subscribeVC.tabBarItem.image = [[UIImage imageNamed:@"common_Button_DingYue_UIMode_Night"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        subscribeVC.tabBarItem.selectedImage = [[UIImage imageNamed:@"common_Button_DingYue_Selected_UIMode_Night"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    }];
     
     SX_MenuViewController *menuVC = [[SX_MenuViewController alloc] init];
     [menuVC addChildViewController:rootTC];
@@ -62,8 +83,10 @@
     
     [self reachbility];
     
+    
     return YES;
 }
+
 
 - (void)reachbility {
     AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];

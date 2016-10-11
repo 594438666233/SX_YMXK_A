@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		493A76111DACCCFA0066F473 /* JXLDayAndNightManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 493A760D1DACCCFA0066F473 /* JXLDayAndNightManager.m */; };
+		493A76121DACCCFA0066F473 /* UIView+JXLDAN.m in Sources */ = {isa = PBXBuildFile; fileRef = 493A76101DACCCFA0066F473 /* UIView+JXLDAN.m */; };
 		498158801D9CA4FF0031EA70 /* SX_InputPhoneNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4981587F1D9CA4FF0031EA70 /* SX_InputPhoneNumberViewController.m */; };
 		498158831D9CBB120031EA70 /* SX_InputVerifyCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 498158821D9CBB120031EA70 /* SX_InputVerifyCodeViewController.m */; };
 		498158B21D9CFDC80031EA70 /* SX_RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 498158B11D9CFDC80031EA70 /* SX_RegisterViewController.m */; };
@@ -47,6 +49,10 @@
 		49E3A6CB1D91323A008AAD4B /* SX_hengtuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E3A6CA1D91323A008AAD4B /* SX_hengtuTableViewCell.m */; };
 		49E3A6D51D914EC8008AAD4B /* SX_BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E3A6D41D914EC8008AAD4B /* SX_BaseModel.m */; };
 		49E3A7001D9152E1008AAD4B /* SX_DataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E3A6FF1D9152E1008AAD4B /* SX_DataRequest.m */; };
+		49E97F4B1DAB2F76007284C7 /* SX_SubscribeNewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E97F4A1DAB2F76007284C7 /* SX_SubscribeNewsViewController.m */; };
+		49E97F4E1DAB4819007284C7 /* SX_SubscribeTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E97F4D1DAB4819007284C7 /* SX_SubscribeTopicViewController.m */; };
+		49E97F7D1DAB9380007284C7 /* SX_FocusGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E97F7C1DAB9380007284C7 /* SX_FocusGameViewController.m */; };
+		49E97F801DAB9B1D007284C7 /* SX_FocusTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 49E97F7F1DAB9B1D007284C7 /* SX_FocusTableViewCell.m */; };
 		49EBFAC61D94D61600A25B8A /* SX_GameListCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 49EBFAC51D94D61600A25B8A /* SX_GameListCollectionViewCell.m */; };
 		49EBFAC91D95022000A25B8A /* SX_GameListResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 49EBFAC81D95022000A25B8A /* SX_GameListResult.m */; };
 		49EBFACC1D955CBC00A25B8A /* SX_GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49EBFACB1D955CBC00A25B8A /* SX_GameViewController.m */; };
@@ -62,6 +68,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		493A760C1DACCCFA0066F473 /* JXLDayAndNightManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JXLDayAndNightManager.h; sourceTree = "<group>"; };
+		493A760D1DACCCFA0066F473 /* JXLDayAndNightManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JXLDayAndNightManager.m; sourceTree = "<group>"; };
+		493A760E1DACCCFA0066F473 /* JXLDayAndNightMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JXLDayAndNightMode.h; sourceTree = "<group>"; };
+		493A760F1DACCCFA0066F473 /* UIView+JXLDAN.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+JXLDAN.h"; sourceTree = "<group>"; };
+		493A76101DACCCFA0066F473 /* UIView+JXLDAN.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+JXLDAN.m"; sourceTree = "<group>"; };
 		4981587E1D9CA4FE0031EA70 /* SX_InputPhoneNumberViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_InputPhoneNumberViewController.h; sourceTree = "<group>"; };
 		4981587F1D9CA4FF0031EA70 /* SX_InputPhoneNumberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_InputPhoneNumberViewController.m; sourceTree = "<group>"; };
 		498158811D9CBB120031EA70 /* SX_InputVerifyCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_InputVerifyCodeViewController.h; sourceTree = "<group>"; };
@@ -137,6 +148,14 @@
 		49E3A6D41D914EC8008AAD4B /* SX_BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_BaseModel.m; sourceTree = "<group>"; };
 		49E3A6FE1D9152E1008AAD4B /* SX_DataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_DataRequest.h; sourceTree = "<group>"; };
 		49E3A6FF1D9152E1008AAD4B /* SX_DataRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_DataRequest.m; sourceTree = "<group>"; };
+		49E97F491DAB2F76007284C7 /* SX_SubscribeNewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_SubscribeNewsViewController.h; sourceTree = "<group>"; };
+		49E97F4A1DAB2F76007284C7 /* SX_SubscribeNewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_SubscribeNewsViewController.m; sourceTree = "<group>"; };
+		49E97F4C1DAB4819007284C7 /* SX_SubscribeTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_SubscribeTopicViewController.h; sourceTree = "<group>"; };
+		49E97F4D1DAB4819007284C7 /* SX_SubscribeTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_SubscribeTopicViewController.m; sourceTree = "<group>"; };
+		49E97F7B1DAB9380007284C7 /* SX_FocusGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_FocusGameViewController.h; sourceTree = "<group>"; };
+		49E97F7C1DAB9380007284C7 /* SX_FocusGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_FocusGameViewController.m; sourceTree = "<group>"; };
+		49E97F7E1DAB9B1D007284C7 /* SX_FocusTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_FocusTableViewCell.h; sourceTree = "<group>"; };
+		49E97F7F1DAB9B1D007284C7 /* SX_FocusTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_FocusTableViewCell.m; sourceTree = "<group>"; };
 		49EBFAC41D94D61600A25B8A /* SX_GameListCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_GameListCollectionViewCell.h; sourceTree = "<group>"; };
 		49EBFAC51D94D61600A25B8A /* SX_GameListCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_GameListCollectionViewCell.m; sourceTree = "<group>"; };
 		49EBFAC71D95022000A25B8A /* SX_GameListResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_GameListResult.h; sourceTree = "<group>"; };
@@ -182,6 +201,18 @@
 				E2086797920415488F06DC6E /* libPods-SX_YMXK_A.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		493A760B1DACCCFA0066F473 /* JXLDayAndNightMode */ = {
+			isa = PBXGroup;
+			children = (
+				493A760C1DACCCFA0066F473 /* JXLDayAndNightManager.h */,
+				493A760D1DACCCFA0066F473 /* JXLDayAndNightManager.m */,
+				493A760E1DACCCFA0066F473 /* JXLDayAndNightMode.h */,
+				493A760F1DACCCFA0066F473 /* UIView+JXLDAN.h */,
+				493A76101DACCCFA0066F473 /* UIView+JXLDAN.m */,
+			);
+			path = JXLDayAndNightMode;
 			sourceTree = "<group>";
 		};
 		498A0A991D9A70170036BA2A /* Menu */ = {
@@ -242,6 +273,7 @@
 		499A39651D8FCFCE0048321B /* SX_YMXK_A */ = {
 			isa = PBXGroup;
 			children = (
+				493A760B1DACCCFA0066F473 /* JXLDayAndNightMode */,
 				49D02DFC1DA8A316000EDF7A /* gsAppHTMLTemplate_css */,
 				49D02DFD1DA8A316000EDF7A /* gsAppHTMLTemplate_image */,
 				49D02DFE1DA8A316000EDF7A /* gsAppHTMLTemplate_js */,
@@ -358,6 +390,10 @@
 				49C8F6B81D961A630066B356 /* SX_MySubscribeViewController.m */,
 				49F8DC561D97732200A7534C /* SX_SubscribeDetailViewController.h */,
 				49F8DC571D97732200A7534C /* SX_SubscribeDetailViewController.m */,
+				49E97F491DAB2F76007284C7 /* SX_SubscribeNewsViewController.h */,
+				49E97F4A1DAB2F76007284C7 /* SX_SubscribeNewsViewController.m */,
+				49E97F4C1DAB4819007284C7 /* SX_SubscribeTopicViewController.h */,
+				49E97F4D1DAB4819007284C7 /* SX_SubscribeTopicViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -538,6 +574,8 @@
 				499A39841D8FD1830048321B /* GameListViewController.m */,
 				49EBFACA1D955CBC00A25B8A /* SX_GameViewController.h */,
 				49EBFACB1D955CBC00A25B8A /* SX_GameViewController.m */,
+				49E97F7B1DAB9380007284C7 /* SX_FocusGameViewController.h */,
+				49E97F7C1DAB9380007284C7 /* SX_FocusGameViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -549,6 +587,8 @@
 				49EBFAC51D94D61600A25B8A /* SX_GameListCollectionViewCell.m */,
 				49CA0BBA1DA1085E004D1332 /* SX_GameDetailView.h */,
 				49CA0BBB1DA1085E004D1332 /* SX_GameDetailView.m */,
+				49E97F7E1DAB9B1D007284C7 /* SX_FocusTableViewCell.h */,
+				49E97F7F1DAB9B1D007284C7 /* SX_FocusTableViewCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -736,7 +776,9 @@
 			files = (
 				49D02DB11DA898E6000EDF7A /* SX_ViewController.m in Sources */,
 				49FD0A1C1DA6400000C1ADFD /* NSDate+Categories.m in Sources */,
+				493A76121DACCCFA0066F473 /* UIView+JXLDAN.m in Sources */,
 				499A39851D8FD1830048321B /* GameListViewController.m in Sources */,
+				49E97F801DAB9B1D007284C7 /* SX_FocusTableViewCell.m in Sources */,
 				49B50A791D9DFB480031DBA1 /* SX_ImportantViewController.m in Sources */,
 				49D02E0E1DA916AA000EDF7A /* SX_CommentMeViewController.m in Sources */,
 				49E3A6D51D914EC8008AAD4B /* SX_BaseModel.m in Sources */,
@@ -750,6 +792,7 @@
 				49FA37AF1DA764B200ABECF9 /* SX_TextViewController.m in Sources */,
 				498A0AA21D9A94690036BA2A /* SX_MenuModel.m in Sources */,
 				499A396B1D8FCFCE0048321B /* AppDelegate.m in Sources */,
+				49E97F4E1DAB4819007284C7 /* SX_SubscribeTopicViewController.m in Sources */,
 				49F8DC581D97732200A7534C /* SX_SubscribeDetailViewController.m in Sources */,
 				498158801D9CA4FF0031EA70 /* SX_InputPhoneNumberViewController.m in Sources */,
 				49E3A6C51D913204008AAD4B /* SX_huandengTableViewCell.m in Sources */,
@@ -760,6 +803,7 @@
 				49B50A751D9DF7680031DBA1 /* SX_SearchViewController.m in Sources */,
 				49E3A6C21D9131E8008AAD4B /* SX_santuTableViewCell.m in Sources */,
 				49C8F6B91D961A630066B356 /* SX_MySubscribeViewController.m in Sources */,
+				493A76111DACCCFA0066F473 /* JXLDayAndNightManager.m in Sources */,
 				49CA0BB91DA10561004D1332 /* SX_GameDetailResult.m in Sources */,
 				49E3A6CB1D91323A008AAD4B /* SX_hengtuTableViewCell.m in Sources */,
 				49AD5E3F1D93FA0400332869 /* SX_NavigationResult.m in Sources */,
@@ -774,6 +818,8 @@
 				499A39881D8FD1B00048321B /* SubscribeViewController.m in Sources */,
 				49CA0BBC1DA1085E004D1332 /* SX_GameDetailView.m in Sources */,
 				49FD09FE1DA61E6000C1ADFD /* SX_CommentTableViewCell.m in Sources */,
+				49E97F4B1DAB2F76007284C7 /* SX_SubscribeNewsViewController.m in Sources */,
+				49E97F7D1DAB9380007284C7 /* SX_FocusGameViewController.m in Sources */,
 				49DFEA661D9B6D7A000A8447 /* SX_LoginViewController.m in Sources */,
 				49FD0A1D1DA6400000C1ADFD /* NSDate+EasyExtend.mm in Sources */,
 				498A0AA51D9A94DE0036BA2A /* SX_MenuTableViewCell.m in Sources */,

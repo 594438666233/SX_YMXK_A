@@ -17,6 +17,10 @@
 #import "SX_GameDetailView.h"
 #import "SX_GameDetailResult.h"
 #import "SX_NewsResult.h"
+#import "JXLDayAndNightMode.h"
+
+#define WIDTH self.view.frame.size.width
+#define HEIGHT self.view.frame.size.height
 
 
 static NSString * const xinwenIdentifier = @"xinwen";
@@ -64,8 +68,11 @@ UITableViewDelegate
     [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/TwoGameDetails" body:str block:^(id result) {
         NSDictionary *dic = [result objectForKey:@"result"];
         self.gameDetailResult = [SX_GameDetailResult modelWithDic:dic];
+        _gameDetailResult.contentId = _contentId;
         [self createHeadView];
         [self createButton];
+        [self createScrollView];
+        [self createTableView];
     }];
 }
 
@@ -90,17 +97,10 @@ UITableViewDelegate
         }
         
         for (NSDictionary *dic in array) {
-//            SX_GameNewsResult *gameNewsResult = [SX_GameNewsResult modelWithDic:dic];
-//            if ([gameNewsResult.thumbnailUrl isEqualToString:@""]) {
-//                gameNewsResult.thumbnailUrl = [NSString stringWithFormat:@"%@", _gameDetailResult.thumbnailURL];
-//            }
-//            NSLog(@"%@", gameNewsResult.thumbnailUrl);
-//            [_tableViewDataArray addObject:gameNewsResult];
             SX_NewsResult *newsResult = [SX_NewsResult modelWithDic:dic];
             if ([newsResult.thumbnailUrl isEqualToString:@""]) {
                 newsResult.thumbnailUrl = [NSString stringWithFormat:@"%@", _gameDetailResult.thumbnailURL];
             }
-            NSLog(@"%@", newsResult.thumbnailUrl);
             [_tableViewDataArray addObject:newsResult];
         }
         [_currentTableView reloadData];
@@ -122,12 +122,20 @@ UITableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithRed:0.9354 green:0.9304 blue:0.9403 alpha:1.0];
+    [self.view jxl_setDayMode:^(UIView *view) {
+        self.view.backgroundColor = [UIColor whiteColor];
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
+        // 导航栏左按钮
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
+        self.navigationItem.leftBarButtonItem= leftBarButtonItem;
+    } nightMode:^(UIView *view) {
+        self.view.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.897 green:0.1559 blue:0.1816 alpha:1.0];
+        // 导航栏左按钮
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Night"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
+        self.navigationItem.leftBarButtonItem= leftBarButtonItem;
+    }];
 
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
-    // 导航栏左按钮
-    UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
-    self.navigationItem.leftBarButtonItem= leftBarButtonItem;
     self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
     
     self.currentType = @"news";
@@ -136,15 +144,10 @@ UITableViewDelegate
     self.tableViewDataArray = [NSMutableArray array];
     self.tableViewArray = [NSMutableArray array];
     [self getDetailSource];
-    
-    [self createScrollView];
-    [self createTableView];
-
-    
 }
 
 - (void)createHeadView {
-    SX_GameDetailView *gameDetailView = [[SX_GameDetailView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200)];
+    SX_GameDetailView *gameDetailView = [[SX_GameDetailView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT / 3)];
     gameDetailView.gameDetailResult = _gameDetailResult;
     [self.view addSubview:gameDetailView];
     
@@ -153,25 +156,40 @@ UITableViewDelegate
 - (void)createButton {
     self.newsButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_newsButton setTitle:@"新闻" forState:UIControlStateNormal];
-    [_newsButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [_newsButton setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
+    [_newsButton jxl_setDayMode:^(UIView *view) {
+        [_newsButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [_newsButton setTitleColor:[UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0] forState:UIControlStateSelected];
+    } nightMode:^(UIView *view) {
+        [_newsButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [_newsButton setTitleColor:[UIColor colorWithRed:0.897 green:0.1559 blue:0.1816 alpha:1.0] forState:UIControlStateSelected];
+    }];
     [_newsButton addTarget:self action:@selector(newsButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     _newsButton.selected = YES;
     [self.view addSubview:_newsButton];
-    _newsButton.frame = CGRectMake((self.view.frame.size.width - 60) / 4, 200, 50, 50);
+    _newsButton.frame = CGRectMake((WIDTH - 60) / 4, HEIGHT / 3, WIDTH / 7, WIDTH / 15);
     
     self.strategyButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_strategyButton setTitle:@"攻略" forState:UIControlStateNormal];
-    [_strategyButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [_strategyButton setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
+    [_strategyButton jxl_setDayMode:^(UIView *view) {
+        [_strategyButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [_strategyButton setTitleColor:[UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0] forState:UIControlStateSelected];
+    } nightMode:^(UIView *view) {
+        [_strategyButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        [_strategyButton setTitleColor:[UIColor colorWithRed:0.897 green:0.1559 blue:0.1816 alpha:1.0] forState:UIControlStateSelected];
+    }];
     [_strategyButton addTarget:self action:@selector(strategyButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_strategyButton];
-    _strategyButton.frame = CGRectMake((self.view.frame.size.width - 60) / 4 * 3, 200, 50, 50);
+    _strategyButton.frame = CGRectMake((WIDTH - 60) / 4 * 3, HEIGHT / 3, WIDTH / 7, WIDTH / 15);
 }
 
 
 - (void)createScrollView {
-    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 250, self.view.frame.size.width, self.view.frame.size.height - 250 - 64 - 40)];
+    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, _newsButton.frame.size.height + _newsButton.frame.origin.y + 20, self.view.frame.size.width, self.view.frame.size.height - _newsButton.frame.size.height - _newsButton.frame.origin.y - 20)];
+    [_scrollView jxl_setDayMode:^(UIView *view) {
+        _scrollView.backgroundColor = [UIColor whiteColor];
+    } nightMode:^(UIView *view) {
+        _scrollView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
+    }];
     _scrollView.delegate = self;
     _scrollView.pagingEnabled = YES;
     _scrollView.backgroundColor = [UIColor whiteColor];
@@ -183,12 +201,18 @@ UITableViewDelegate
 - (void)createTableView {
     for (int i = 0; i < 2; i++) {
         UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(_scrollView.frame.size.width * i, 0, _scrollView.frame.size.width, _scrollView.frame.size.height)];
-        //            tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gsAppHTMLTemplate_ImgBoxer_Background"]];
+
         tableView.delegate = self;
         tableView.dataSource = self;
         [tableView registerClass:[SX_xinwenTableViewCell class] forCellReuseIdentifier:xinwenIdentifier];
         tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(pullRefresh)];
         tableView.mj_footer = [MJRefreshBackFooter footerWithRefreshingTarget:self refreshingAction:@selector(pullLoading)];
+        
+        [tableView jxl_setDayMode:^(UIView *view) {
+            tableView.backgroundColor = [UIColor whiteColor];
+        } nightMode:^(UIView *view) {
+            tableView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
+        }];
         
         [_scrollView addSubview:tableView];
         [_tableViewArray addObject:tableView];
@@ -228,13 +252,20 @@ UITableViewDelegate
     return _tableViewDataArray.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 90;
+    return self.view.frame.size.height / 7;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SX_NewsResult *newsResult = _tableViewDataArray[indexPath.row];
 
     SX_xinwenTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:xinwenIdentifier];
     cell.xinwenNewsResult = newsResult;
+    
+    [cell jxl_setDayMode:^(UIView *view) {
+        cell.backgroundColor = [UIColor whiteColor];
+    } nightMode:^(UIView *view) {
+        cell.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
+    }];
+    
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

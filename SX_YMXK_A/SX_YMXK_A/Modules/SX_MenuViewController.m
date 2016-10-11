@@ -15,6 +15,7 @@
 #import "SX_SearchViewController.h"
 #import "SX_CommentMeViewController.h"
 #import "SX_CollectionViewController.h"
+#import "JXLDayAndNightMode.h"
 
 #define WIDTH self.view.frame.size.width
 #define HEIGHT self.view.frame.size.height
@@ -46,7 +47,11 @@ UITableViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
+    [self.view jxl_setDayMode:^(UIView *view) {
+        self.view.backgroundColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
+    } nightMode:^(UIView *view) {
+        self.view.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
+    }];
     self.view.frame = CGRectMake(0, 0, WIDTH, HEIGHT);
     [self getSource];
     [self createButton];
@@ -83,13 +88,23 @@ UITableViewDelegate
     
     self.textButton = [UIButton buttonWithType:UIButtonTypeSystem];
     _textButton.frame = CGRectMake((WIDTH - 100 - 80) / 2, 140, 80, 20);
-    [_textButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+    [_textButton jxl_setDayMode:^(UIView *view) {
+        [_textButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    } nightMode:^(UIView *view) {
+        [_textButton setTitleColor:[UIColor colorWithRed:0.4228 green:0.4522 blue:0.5288 alpha:1.0] forState:UIControlStateNormal];
+    }];
     [_textButton addTarget:self action:@selector(loginAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_textButton];
 }
 
 - (void)createTableView {
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 170, WIDTH, HEIGHT - 170) style:UITableViewStylePlain];
+    [_tableView jxl_setDayMode:^(UIView *view) {
+        _tableView.backgroundColor = [UIColor whiteColor];
+    } nightMode:^(UIView *view) {
+        _tableView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
+    }];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
@@ -146,20 +161,22 @@ UITableViewDelegate
     SX_MenuTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:tableViewIdentifier];
     cell.name = _nameArray[indexPath.row];
     cell.picName = _picNameArray[indexPath.row];
+    [cell jxl_setDayMode:^(UIView *view) {
+        cell.backgroundColor = [UIColor whiteColor];
+    } nightMode:^(UIView *view) {
+        cell.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
+    }];
     if (indexPath.row == 4) {
         UISwitch *nightSwitch= [[UISwitch alloc] initWithFrame:CGRectMake(self.view.frame.size.width - 170, 7, 0, 0)];
         nightSwitch.transform = CGAffineTransformMakeScale(0.75, 0.75);
         nightSwitch.onTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        if ([userDefaults objectForKey:@"nightMode"] == nil) {
+
+        JXLDayAndNightManager *dayAndNight = [JXLDayAndNightManager shareManager];
+        if (dayAndNight.contentMode == JXLDayAndNightModeDay) {
             nightSwitch.on = NO;
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            [userDefaults setBool:nightSwitch.on forKey:@"nightMode"];
-            [userDefaults synchronize];
         }
         else {
-            BOOL flag = [userDefaults boolForKey:@"nightMode"];
-            nightSwitch.on = flag;
+            nightSwitch.on = YES;
         }
         [nightSwitch addTarget:self action:@selector(nightAction:) forControlEvents:UIControlEventTouchUpInside];
         [cell addSubview:nightSwitch];
@@ -182,6 +199,7 @@ UITableViewDelegate
         [imgSwitch addTarget:self action:@selector(imgAction:) forControlEvents:UIControlEventTouchUpInside];
         [cell addSubview:imgSwitch];
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -244,9 +262,12 @@ UITableViewDelegate
 }
 
 - (void)nightAction:(UISwitch *)nightSwitch {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setBool:nightSwitch.on forKey:@"nightMode"];
-    [userDefaults synchronize];
+    if (nightSwitch.on == YES) {
+        [[JXLDayAndNightManager shareManager] nightMode];
+    }
+    else {
+        [[JXLDayAndNightManager shareManager] dayMode];
+    }
 }
 
 - (void)imgAction:(UISwitch *)imgSwitch {
@@ -275,7 +296,6 @@ UITableViewDelegate
             NSString *fileAbsolutePath=[path stringByAppendingPathComponent:fileName];
             long long size=[self fileSizeAtPath:fileAbsolutePath];
             folderSize += size;
-            NSLog(@"fileAbsolutePath=%@",fileAbsolutePath);
         }
         //SDWebImage框架自身计算缓存的实现
         folderSize+=[[SDImageCache sharedImageCache] getSize];
@@ -291,7 +311,6 @@ UITableViewDelegate
         for (NSString *fileName in childerFiles) {
             //如有需要，加入条件，过滤掉不想删除的文件
             NSString *fileAbsolutePath=[path stringByAppendingPathComponent:fileName];
-            NSLog(@"fileAbsolutePath=%@",fileAbsolutePath);
             [fileManager removeItemAtPath:fileAbsolutePath error:nil];
         }
     }

@@ -10,6 +10,7 @@
 #import "Masonry.h"
 #import "SX_DataRequest.h"
 #import "SX_InputVerifyCodeViewController.h"
+#import "JXLDayAndNightMode.h"
 
 
 @interface SX_InputPhoneNumberViewController ()
@@ -28,25 +29,30 @@ UITextFieldDelegate
 }
 
 - (void)createTextField {
-    UIImageView *phoneNumberImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"common_Icon_Phone_13x18_UIMode_Day"]];
+    UIImageView *phoneNumberImageView = [[UIImageView alloc] init];
     phoneNumberImageView.frame = CGRectMake(0, 0, 40, 40);
     phoneNumberImageView.contentMode = UIViewContentModeCenter;
     self.phoneNumberTextField = [[UITextField alloc] init];
     _phoneNumberTextField.delegate = self;
-    _phoneNumberTextField.backgroundColor = [UIColor whiteColor];
+    _phoneNumberTextField.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.3];
+    [_phoneNumberTextField jxl_setDayMode:^(UIView *view) {
+        phoneNumberImageView.image = [UIImage imageNamed:@"common_Icon_Phone_13x18_UIMode_Day"];
+    } nightMode:^(UIView *view) {
+        phoneNumberImageView.image = [UIImage imageNamed:@"common_Icon_Phone_13x18_UIMode_Night"];
+    }];
     _phoneNumberTextField.leftViewMode = UITextFieldViewModeAlways;
     _phoneNumberTextField.leftView = phoneNumberImageView;
     _phoneNumberTextField.clipsToBounds = YES;
     _phoneNumberTextField.placeholder = @"请输入手机号";
     _phoneNumberTextField.layer.cornerRadius = 7.f;
     _phoneNumberTextField.layer.borderWidth = 0.5;
-    _phoneNumberTextField.layer.borderColor = [UIColor blackColor].CGColor;
+    _phoneNumberTextField.layer.borderColor = [UIColor grayColor].CGColor;
     [self.view addSubview:_phoneNumberTextField];
     [_phoneNumberTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_top).offset(50);
         make.left.equalTo(self.view.mas_left).offset(20);
         make.right.equalTo(self.view.mas_right).offset(-20);
-        make.height.equalTo(@50);
+        make.height.equalTo(@(self.view.frame.size.height / 15));
     }];
 
 }
@@ -54,8 +60,13 @@ UITextFieldDelegate
 - (void)createButton {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:@"下一步" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    button.backgroundColor = [UIColor colorWithRed:1.0 green:0.3223 blue:0.2345 alpha:1.0];
+    [button jxl_setDayMode:^(UIView *view) {
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        button.backgroundColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
+    } nightMode:^(UIView *view) {
+        [button setTitleColor:[UIColor colorWithRed:0.912 green:0.912 blue:0.912 alpha:1.0] forState:UIControlStateNormal];
+        button.backgroundColor = [UIColor colorWithRed:0.897 green:0.1559 blue:0.1816 alpha:1.0];
+    }];
     [button addTarget:self action:@selector(nextAction) forControlEvents:UIControlEventTouchUpInside];
     button.clipsToBounds = YES;
     button.layer.cornerRadius = 7.f;
@@ -64,21 +75,32 @@ UITextFieldDelegate
         make.top.equalTo(_phoneNumberTextField.mas_bottom).offset(30);
         make.left.equalTo(self.view.mas_left).offset(20);
         make.right.equalTo(self.view.mas_right).offset(-20);
-        make.height.equalTo(@50);
+        make.height.equalTo(@(self.view.frame.size.height / 15));
     }];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.view.backgroundColor = [UIColor colorWithRed:0.9354 green:0.9304 blue:0.9403 alpha:1.0];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
-    // 导航栏左按钮
-    UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
-    self.navigationItem.leftBarButtonItem= leftBarButtonItem;
+
     self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
     self.navigationItem.title = @"注册";
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    [self.view jxl_setDayMode:^(UIView *view) {
+        self.view.backgroundColor = [UIColor whiteColor];
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
+        // 导航栏左按钮
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
+        self.navigationItem.leftBarButtonItem= leftBarButtonItem;
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    } nightMode:^(UIView *view) {
+        self.view.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.897 green:0.1559 blue:0.1816 alpha:1.0];
+        // 导航栏左按钮
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Night"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
+        self.navigationItem.leftBarButtonItem= leftBarButtonItem;
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.912 green:0.912 blue:0.912 alpha:1.0]}];
+    }];
+
     
     [self createTextField];
     [self createButton];

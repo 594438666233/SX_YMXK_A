@@ -10,6 +10,7 @@
 #import "SX_GameListResult.h"
 #import "UIImageView+WebCache.h"
 #import "AFNetworking.h"
+#import "JXLDayAndNightMode.h"
 
 @interface SX_GameListCollectionViewCell ()
 
@@ -26,8 +27,12 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.label = [[UILabel alloc] init];
-        _label.textColor = [UIColor blackColor];
-        _label.font = [UIFont systemFontOfSize:16];
+        [_label jxl_setDayMode:^(UIView *view) {
+            _label.textColor = [UIColor blackColor];
+        } nightMode:^(UIView *view) {
+            _label.textColor = [UIColor colorWithRed:0.4228 green:0.4522 blue:0.5288 alpha:1.0];
+        }];
+        _label.backgroundColor = [UIColor clearColor];
         _label.numberOfLines = 2;
         _label.textAlignment = NSTextAlignmentCenter;
         [self.contentView addSubview:_label];
@@ -41,8 +46,9 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    _myImageView.frame = CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height - 50);
-    _label.frame = CGRectMake(0, _myImageView.frame.size.height + 10, self.contentView.frame.size.width, 40);
+    _myImageView.frame = CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height * 0.8);
+    _label.frame = CGRectMake(0, _myImageView.frame.size.height, self.contentView.frame.size.width, self.contentView.frame.size.height * 0.2);
+    _label.font = [UIFont systemFontOfSize:self.contentView.frame.size.height / 15];
 }
 
 - (void)setGameListResult:(SX_GameListResult *)gameListResult {

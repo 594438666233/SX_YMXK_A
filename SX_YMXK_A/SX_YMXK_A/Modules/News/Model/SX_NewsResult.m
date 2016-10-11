@@ -11,12 +11,25 @@
 
 @implementation SX_NewsResult
 
+//- (void)setValue:(id)value forKey:(NSString *)key {
+//    if ([key isEqualToString:@"childElements"]) {
+//        NSArray *childElementsDicArray = value;
+//        NSMutableArray *childElements = [NSMutableArray array];
+//        for (NSDictionary *dic in childElementsDicArray) {
+//            SX_NewsChildElements *newsChildElements = [SX_NewsChildElements modelWithDic:dic];
+//            [childElements addObject:newsChildElements];
+//        }
+//        self.childElements = childElements;
+//        return;
+//    }
+//    [super setValue:value forKey:key];
+//}
 - (void)setValue:(id)value forKey:(NSString *)key {
     if ([key isEqualToString:@"childElements"]) {
         NSArray *childElementsDicArray = value;
         NSMutableArray *childElements = [NSMutableArray array];
         for (NSDictionary *dic in childElementsDicArray) {
-            SX_NewsChildElements *newsChildElements = [SX_NewsChildElements modelWithDic:dic];
+            SX_NewsResult *newsChildElements = [SX_NewsResult modelWithDic:dic];
             [childElements addObject:newsChildElements];
         }
         self.childElements = childElements;

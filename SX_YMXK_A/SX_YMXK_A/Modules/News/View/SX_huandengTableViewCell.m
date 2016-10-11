@@ -11,6 +11,7 @@
 #import "SX_NewsChildElements.h"
 #import "UIImageView+WebCache.h"
 #import "AFNetworking.h"
+#import "JXLDayAndNightMode.h"
 
 @interface SX_huandengTableViewCell ()
 <
@@ -48,9 +49,14 @@ UIScrollViewDelegate
         [self.contentView addSubview:_scrollView];
         
         self.label = [[UILabel alloc] init];
-        _label.backgroundColor = [UIColor colorWithRed:0.3703 green:0.3703 blue:0.3703 alpha:0.8];
-        _label.textColor = [UIColor whiteColor];
-        _label.font = [UIFont systemFontOfSize:16];
+        [_label jxl_setDayMode:^(UIView *view) {
+            _label.textColor = [UIColor colorWithRed:0.6642 green:0.6607 blue:0.6677 alpha:1.0];
+            _label.backgroundColor = [UIColor colorWithRed:0.3703 green:0.3703 blue:0.3703 alpha:0.8];
+        } nightMode:^(UIView *view) {
+            _label.textColor = [UIColor colorWithRed:0.4228 green:0.4522 blue:0.5288 alpha:1.0];
+            _label.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.47];
+        }];
+        _label.font = [UIFont systemFontOfSize:self.contentView.frame.size.width / 22];
         [self.contentView addSubview:_label];
         
         self.pageControl = [[UIPageControl alloc] init];
@@ -67,8 +73,8 @@ UIScrollViewDelegate
 - (void)layoutSubviews {
     [super layoutSubviews];
     _scrollView.frame = self.contentView.frame;
-    _label.frame = CGRectMake(0, self.contentView.frame.size.height - 40, self.contentView.frame.size.width, 40);
-    _pageControl.frame = CGRectMake(self.contentView.frame.size.width - 80, 0, 80, 40);
+    _label.frame = CGRectMake(0, self.contentView.frame.size.height - self.contentView.frame.size.height / 6, self.contentView.frame.size.width, self.contentView.frame.size.height / 6);
+    _pageControl.frame = CGRectMake(self.contentView.frame.size.width - self.contentView.frame.size.height / 3 - 10, 0, self.contentView.frame.size.height / 3, self.contentView.frame.size.height / 6);
     
 }
 

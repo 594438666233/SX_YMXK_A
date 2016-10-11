@@ -11,6 +11,7 @@
 #import "UIImageView+WebCache.h"
 #import "NSDate+Categories.h"
 #import "AFNetworking.h"
+#import "JXLDayAndNightMode.h"
 
 @interface SX_CommentTableViewCell ()
 
@@ -33,7 +34,11 @@
         [self.contentView addSubview:_myImageView];
         
         self.nameLabel = [[UILabel alloc] init];
-        _nameLabel.textColor = [UIColor colorWithRed:0.2594 green:0.5186 blue:1.0 alpha:1.0];
+        [_nameLabel jxl_setDayMode:^(UIView *view) {
+            _nameLabel.textColor = [UIColor colorWithRed:0.2594 green:0.5186 blue:1.0 alpha:1.0];
+        } nightMode:^(UIView *view) {
+            _nameLabel.textColor = [UIColor colorWithRed:0.1527 green:0.3228 blue:0.7875 alpha:1.0];
+        }];
         _nameLabel.font = [UIFont systemFontOfSize:15];
         [self.contentView addSubview:_nameLabel];
         
@@ -43,7 +48,11 @@
         [self.contentView addSubview:_addLabel];
         
         self.contentLabel = [[UILabel alloc] init];
-        _contentLabel.textColor = [UIColor blackColor];
+        [_contentLabel jxl_setDayMode:^(UIView *view) {
+            _contentLabel.textColor = [UIColor blackColor];
+        } nightMode:^(UIView *view) {
+            _contentLabel.textColor = [UIColor colorWithRed:0.4228 green:0.4522 blue:0.5288 alpha:1.0];
+        }];
         _contentLabel.font = [UIFont systemFontOfSize:16];
         _contentLabel.numberOfLines = 0;
         [self.contentView addSubview:_contentLabel];

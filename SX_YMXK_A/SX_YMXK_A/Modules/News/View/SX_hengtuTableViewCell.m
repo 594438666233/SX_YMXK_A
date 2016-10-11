@@ -7,10 +7,10 @@
 //
 
 #import "SX_hengtuTableViewCell.h"
-#import "Masonry.h"
 #import "UIImageView+WebCache.h"
 #import "SX_NewsResult.h"
 #import "AFNetworking.h"
+#import "JXLDayAndNightMode.h"
 
 
 @interface SX_hengtuTableViewCell ()
@@ -37,8 +37,11 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.label = [[UILabel alloc] init];
-        _label.textColor = [UIColor blackColor];
-        _label.font = [UIFont systemFontOfSize:16];
+        [_label jxl_setDayMode:^(UIView *view) {
+            _label.textColor = [UIColor blackColor];
+        } nightMode:^(UIView *view) {
+            _label.textColor = [UIColor colorWithRed:0.4228 green:0.4522 blue:0.5288 alpha:1.0];
+        }];
         _label.numberOfLines = 2;
         [self.contentView addSubview:_label];
         
@@ -47,7 +50,11 @@
         [self.contentView addSubview:_myImageView];
         
         self.iconImageView = [[UIImageView alloc] init];
-        _iconImageView.image = [UIImage imageNamed:@"common_Badge_TuiGuang_31x17_UIMode_Day"];
+        [_iconImageView jxl_setDayMode:^(UIView *view) {
+            _iconImageView.image = [UIImage imageNamed:@"common_Badge_TuiGuang_31x17_UIMode_Day"];
+        } nightMode:^(UIView *view) {
+            _iconImageView.image = [UIImage imageNamed:@"common_Badge_TuiGuang_31x17_UIMode_Night"];
+        }];
         [self.contentView addSubview:_iconImageView];
     }
     return self;
@@ -58,19 +65,10 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    _label.frame = CGRectMake(10, 10, self.contentView.frame.size.width - 20, 20);
-    [_myImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.contentView.mas_left).offset(10);
-        make.right.equalTo(self.contentView.mas_right).offset(-10);
-        make.top.equalTo(self.contentView.mas_top).offset(40);
-        make.bottom.equalTo(self.contentView.mas_bottom).offset(-40);
-    }];
-    [_iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(@31);
-        make.right.equalTo(self.contentView.mas_right).offset(-10);
-        make.top.equalTo(_myImageView.mas_bottom).offset(10);
-        make.height.equalTo(@17);
-    }];
+    _label.frame = CGRectMake(10, 10, self.contentView.frame.size.width - 20, self.contentView.frame.size.height / 10);
+    _label.font = [UIFont systemFontOfSize:self.contentView.frame.size.height / 10 + 1];
+    _myImageView.frame = CGRectMake(10, _label.frame.size.height + 20, self.contentView.frame.size.width - 20, self.contentView.frame.size.height / 2);
+    _iconImageView.frame = CGRectMake(self.contentView.frame.size.width - 20 - self.contentView.frame.size.height / 6, _myImageView.frame.size.height + _myImageView.frame.origin.y + 10, self.contentView.frame.size.height / 6, self.contentView.frame.size.height / 10);
 }
 
 - (void)setHengtuNewsResult:(SX_NewsResult *)hengtuNewsResult {

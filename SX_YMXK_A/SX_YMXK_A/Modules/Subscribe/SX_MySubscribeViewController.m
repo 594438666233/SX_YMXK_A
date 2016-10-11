@@ -13,6 +13,7 @@
 #import "MySubscribeTableViewCell.h"
 #import "MJRefresh.h"
 #import "SX_SubscribeDetailViewController.h"
+#import "JXLDayAndNightMode.h"
 
 static NSString * const collectionViewIdentifier = @"collectionCell";
 static NSString * const tableViewIdentifier = @"tableViewCell";
@@ -63,17 +64,19 @@ UIScrollViewDelegate
             [_tableViewDataArray addObject:subscribeResult];
         }
         [_currentTableView reloadData];
+        [_currentTableView.mj_header endRefreshing];
+        [_currentTableView.mj_footer endRefreshing];
     }];
 }
 
 // 创建导航栏的collectionView
 - (void)createNavigationCollectionView {
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    flowLayout.minimumLineSpacing = 10;
-    flowLayout.itemSize = CGSizeMake(self.view.frame.size.width / 8, 44);
+    flowLayout.sectionInset = UIEdgeInsetsMake(0, 10, 0, 10);
+    flowLayout.itemSize = CGSizeMake(70 , 44);
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     
-    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, 170, 44) collectionViewLayout:flowLayout];
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, 160, 44) collectionViewLayout:flowLayout];
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
     _collectionView.backgroundColor = [UIColor colorWithRed:0.995 green:0.8961 blue:0.9789 alpha:0.0];
@@ -84,7 +87,11 @@ UIScrollViewDelegate
 
 - (void)createScrollView {
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 108)];
-    _scrollView.backgroundColor = [UIColor colorWithRed:0.5396 green:0.6387 blue:1.0 alpha:1.0];
+    [_scrollView jxl_setDayMode:^(UIView *view) {
+        _scrollView.backgroundColor = [UIColor whiteColor];
+    } nightMode:^(UIView *view) {
+        _scrollView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
+    }];
     _scrollView.pagingEnabled = YES;
     _scrollView.directionalLockEnabled = YES;
     _scrollView.delegate = self;
@@ -93,12 +100,12 @@ UIScrollViewDelegate
 }
 
 - (void)createTableView {
-    for (int i = 0; i < _NCVDataArray.count - 1; i++) {
+    for (int i = 0; i < _NCVDataArray.count; i++) {
         UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(_scrollView.frame.size.width * i, 0, _scrollView.frame.size.width, _scrollView.frame.size.height)];
-        //            tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gsAppHTMLTemplate_ImgBoxer_Background"]];
         tableView.delegate = self;
         tableView.dataSource = self;
-        [tableView registerClass:[MySubscribeTableViewCell class] forCellReuseIdentifier:tableViewIdentifier];
+        tableView.backgroundColor = [UIColor clearColor];
+
         tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(pullRefresh)];
         
         
@@ -106,14 +113,12 @@ UIScrollViewDelegate
         [_tableViewArray addObject:tableView];
     }
     self.currentTableView = _tableViewArray[0];
-    [_currentTableView.mj_header beginRefreshing];
     [self getTableViewSource:_pageCount];
 
 }
 
 - (void)pullRefresh {
     [self getTableViewSource:_pageCount];
-    [_currentTableView.mj_header endRefreshing];
 }
 - (void)viewWillAppear:(BOOL)animated {
     self.navigationController.navigationBar.subviews.firstObject.alpha = 1;
@@ -121,25 +126,49 @@ UIScrollViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor purpleColor];
-    self.automaticallyAdjustsScrollViewInsets = YES;
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self.view jxl_setDayMode:^(UIView *view) {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
+        // 导航栏左按钮
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
+        self.navigationItem.leftBarButtonItem = leftBarButtonItem;
+        // 导航栏右按钮
+        UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [rightButton setImage:[UIImage imageNamed:@"common_Icon_Search_20x20_Gray_UIMode_Day"] forState:UIControlStateNormal];
+        rightButton.frame = CGRectMake(0, 0, 20, 20);
+        [rightButton addTarget:self action:@selector(rightBarButtonItemAction) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+        self.navigationItem.rightBarButtonItem = rightBarButtonItem;
+        
+    } nightMode:^(UIView *view) {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.897 green:0.1559 blue:0.1816 alpha:1.0];
+        // 导航栏左按钮
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Night"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
+        self.navigationItem.leftBarButtonItem= leftBarButtonItem;
+        
+        // 导航栏右按钮
+        UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [rightButton setImage:[UIImage imageNamed:@"common_Icon_Search_20x20_Gray_UIMode_Night"] forState:UIControlStateNormal];
+        rightButton.frame = CGRectMake(0, 0, 20, 20);
+        [rightButton addTarget:self action:@selector(rightBarButtonItemAction) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+        self.navigationItem.rightBarButtonItem = rightBarButtonItem;
+        
+    }];
+    
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
+    // 导航栏中间菜单
+    [self createNavigationCollectionView];
+    
     self.tableViewArray = [NSMutableArray array];
     self.tableViewDataArray = [NSMutableArray array];
     self.NCVDataArray = [NSMutableArray array];
     _pageCount = 0;
-    [_NCVDataArray addObjectsFromArray:@[@"热门", @"全部", @"我的"]];
+    [_NCVDataArray addObjectsFromArray:@[@"热门", @"全部"]];
     
-    // 导航栏左按钮
-    UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
-    self.navigationItem.leftBarButtonItem= leftBarButtonItem;
-    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
-    // 导航栏中间菜单
-    [self createNavigationCollectionView];
-    // 导航栏右按钮
-    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Search_20x20_Gray_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(rightBarButtonItemAction)];
-    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
+
+
+
     
     // 创建滑动视图
     [self createScrollView];
@@ -159,15 +188,10 @@ UIScrollViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     if ([scrollView isEqual:_scrollView]) {
         NSInteger currentPage = scrollView.contentOffset.x / self.view.frame.size.width;
-        if (currentPage < 2) {
             _currentTableView = _tableViewArray[currentPage];
             _pageCount = currentPage;
             [_currentTableView.mj_header beginRefreshing];
-        }
-        /**
-         *  预留实现保存页面位置
-         */
-        
+    
         [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:currentPage inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
         [_collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:currentPage inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
     }
@@ -175,7 +199,7 @@ UIScrollViewDelegate
 
 // tableView方法
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 100;
+    return self.view.frame.size.height / 7;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _tableViewDataArray.count;
@@ -183,8 +207,12 @@ UIScrollViewDelegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MySubscribeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:tableViewIdentifier];
+    cell = [[MySubscribeTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableViewIdentifier];
+
     SX_SubscribeResult *subscribeResult = _tableViewDataArray[indexPath.row];
     cell.subscribeResult = subscribeResult;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.backgroundColor = [UIColor clearColor];
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

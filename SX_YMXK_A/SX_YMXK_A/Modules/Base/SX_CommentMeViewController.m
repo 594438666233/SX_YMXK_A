@@ -12,6 +12,7 @@
 #import "MJRefresh.h"
 #import "SX_CommentTableViewCell.h"
 #import "SX_NewsDetailViewController.h"
+#import "JXLDayAndNightMode.h"
 
 static NSString *const tableViewIdentifier = @"tableViewCell";
 
@@ -71,9 +72,15 @@ SX_CommentCellDelegate
 }
 
 - (void)createTableView {
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 64) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    [_tableView jxl_setDayMode:^(UIView *view) {
+        _tableView.backgroundColor = [UIColor whiteColor];
+    } nightMode:^(UIView *view) {
+        _tableView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
+    }];
+    
     [_tableView registerClass:[SX_CommentTableViewCell class] forCellReuseIdentifier:tableViewIdentifier];
     _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(pullRefresh)];
     _tableView.mj_footer = [MJRefreshBackFooter footerWithRefreshingTarget:self refreshingAction:@selector(pullLoading)];
@@ -100,6 +107,7 @@ SX_CommentCellDelegate
     SX_Comment *comment = _tableViewDataArray[indexPath.row];
     cell.comment = comment;
     cell.topic_delegate = self;
+    cell.backgroundColor = [UIColor clearColor];
     return cell;
 }
 
@@ -110,7 +118,6 @@ SX_CommentCellDelegate
     label.font = [UIFont systemFontOfSize:16];
     label.text = comment.content;
     [label sizeToFit];
-    NSLog(@"%f", label.frame.size.height + 100);
     return label.frame.size.height + 130;
 }
 
@@ -128,15 +135,22 @@ SX_CommentCellDelegate
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
-    // 导航栏左按钮
-    UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
-    self.navigationItem.leftBarButtonItem= leftBarButtonItem;
     self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
     self.navigationItem.title = @"回复我的";
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
+    [self.view jxl_setDayMode:^(UIView *view) {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.9873 green:0.1906 blue:0.2123 alpha:1.0];
+        // 导航栏左按钮
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Day"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
+        self.navigationItem.leftBarButtonItem= leftBarButtonItem;
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    } nightMode:^(UIView *view) {
+        self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.897 green:0.1559 blue:0.1816 alpha:1.0];
+        // 导航栏左按钮
+        UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"common_Icon_Back_20x20_UIMode_Night"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(leftBarButtonItemAction)];
+        self.navigationItem.leftBarButtonItem= leftBarButtonItem;
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:0.912 green:0.912 blue:0.912 alpha:1.0]}];
+    }];
     
     self.tableViewDataArray = [NSMutableArray array];
     _pageCount = 1;
