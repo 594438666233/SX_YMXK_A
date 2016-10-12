@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface SX_DataRequest : NSObject
 
 + (void)GETRequestWithString:(NSString *)string block:(void(^)(id result))block;
 
-+ (void)POSTRequestWithString:(NSString *)string body:(NSString *)body block:(void(^)(id result))block;
++ (void)POSTRequestWithString:(NSString *)string body:(NSDictionary *)body block:(void(^)(id result))block;
 
 @end

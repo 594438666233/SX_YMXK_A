@@ -11,6 +11,7 @@
 #import "SX_DataRequest.h"
 #import "SX_InputVerifyCodeViewController.h"
 #import "JXLDayAndNightMode.h"
+#import "NSString+Regex.h"
 
 
 @interface SX_InputPhoneNumberViewController ()
@@ -38,7 +39,7 @@ UITextFieldDelegate
     [_phoneNumberTextField jxl_setDayMode:^(UIView *view) {
         phoneNumberImageView.image = [UIImage imageNamed:@"common_Icon_Phone_13x18_UIMode_Day"];
     } nightMode:^(UIView *view) {
-        phoneNumberImageView.image = [UIImage imageNamed:@"common_Icon_Phone_13x18_UIMode_Night"];
+        phoneNumberImageView.image = [UIImage imageNamed:@"common_Icon_Phone_13x18_UIMode_Day"];
     }];
     _phoneNumberTextField.leftViewMode = UITextFieldViewModeAlways;
     _phoneNumberTextField.leftView = phoneNumberImageView;
@@ -108,33 +109,38 @@ UITextFieldDelegate
 }
 
 - (void)nextAction {
-    NSDictionary *dic = @{@"deviceType":@"iPhone6,2",
-                          @"deviceId":@"E88673B2-DFA0-4D08-A3BD-F7E8CE5F88C1",
-                          @"os":@"iOS",
-                          @"osVersion":@"9.3.5",
-                          @"app":@"GSApp",
-                          @"appVersion":@"2.3.3",
-                          @"request":@{@"userInfo":[NSString stringWithFormat:@"%@", _phoneNumberTextField.text]}
-                          };
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
-    NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/IsEmailAndPhone" body:str block:^(id result) {
-        NSNumber *errorCode = [result objectForKey:@"errorCode"];
-        if ([errorCode isEqual:@1]) {
-            SX_InputVerifyCodeViewController *iVVC =[[SX_InputVerifyCodeViewController alloc] init];
-            iVVC.phoneNumber = _phoneNumberTextField.text;
-            [self.navigationController pushViewController:iVVC animated:YES];
-        }
-        else {
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"该手机号已经注册" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-            [alert addAction:action];
-            
-            [self presentViewController:alert animated:YES completion:nil];
+    
+    if ([_phoneNumberTextField.text isPhoneNumber:_phoneNumberTextField.text]) {
+        NSDictionary *dic = @{@"userInfo":[NSString stringWithFormat:@"%@", _phoneNumberTextField.text]
+                              };
+        [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/IsEmailAndPhone" body:dic block:^(id result) {
+            NSNumber *errorCode = [result objectForKey:@"errorCode"];
+            if ([errorCode isEqual:@1]) {
+                SX_InputVerifyCodeViewController *iVVC =[[SX_InputVerifyCodeViewController alloc] init];
+                iVVC.phoneNumber = _phoneNumberTextField.text;
+                [self.navigationController pushViewController:iVVC animated:YES];
+            }
+            else {
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"该手机号已经注册" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+                [alert addAction:action];
+                
+                [self presentViewController:alert animated:YES completion:nil];
+                
+            }
+        }];
 
-        }
-    }];
-}
+    }
+    else {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"无法识别的手机号" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:action];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+
+    }
+    
+    }
 
 
 

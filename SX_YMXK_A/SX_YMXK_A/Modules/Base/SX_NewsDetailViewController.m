@@ -31,17 +31,10 @@ UIWebViewDelegate
 }
 
 - (void)getSource {
-    NSDictionary *dic = @{@"deviceType":@"iPhone6,2",
-                              @"deviceId":@"E88673B2-DFA0-4D08-A3BD-F7E8CE5F88C1",
-                              @"os":@"iOS",
-                              @"osVersion":@"9.3.5",
-                              @"app":@"GSApp",
-                              @"appVersion":@"2.3.3",
-                              @"request":@{@"contentId":[NSNumber numberWithInteger:_contentId],
-                                           @"pageIndex":@1}};
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
-    NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/TwoArticle" body:str block:^(id result) {
+    NSDictionary *dic = @{@"contentId":[NSNumber numberWithInteger:_contentId],
+                                           @"pageIndex":@1};
+
+    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/TwoArticle" body:dic block:^(id result) {
         NSDictionary *dic = [result objectForKey:@"result"];
 //        if (pageIndex == 1) {
 //            [_dataArray removeAllObjects];

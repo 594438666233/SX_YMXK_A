@@ -123,18 +123,10 @@ UITableViewDelegate
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
         UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
-            NSDictionary *dic = @{@"deviceType":@"iPhone6,2",
-                                  @"deviceId":@"E88673B2-DFA0-4D08-A3BD-F7E8CE5F88C1",
-                                  @"os":@"iOS",
-                                  @"osVersion":@"9.3.5",
-                                  @"app":@"GSApp",
-                                  @"appVersion":@"2.3.3",
-                                  @"request":@{@"userId":[NSString stringWithFormat:@"%@", [userDefaults objectForKey:@"userId"]],
-                                               @"loginToken":[NSString stringWithFormat:@"%@", [userDefaults objectForKey:@"loginToken"]]}
+            NSDictionary *dic = @{@"userId":[NSString stringWithFormat:@"%@", [userDefaults objectForKey:@"userId"]],
+                                               @"loginToken":[NSString stringWithFormat:@"%@", [userDefaults objectForKey:@"loginToken"]]
                                   };
-            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
-            NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-            [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/Logout" body:str block:^(id result) {
+            [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/Logout" body:dic block:^(id result) {
                 [userDefaults removeObjectForKey:@"userName"];
                 [userDefaults removeObjectForKey:@"userId"];
                 [userDefaults removeObjectForKey:@"loginToken"];

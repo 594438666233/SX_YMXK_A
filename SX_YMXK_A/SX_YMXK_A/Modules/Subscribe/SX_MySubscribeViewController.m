@@ -43,17 +43,10 @@ UIScrollViewDelegate
 @implementation SX_MySubscribeViewController
 
 - (void)getTableViewSource:(NSInteger)pageIndex {
-    NSDictionary *dic = @{@"deviceType":@"iPhone6,2",
-                          @"deviceId":@"E88673B2-DFA0-4D08-A3BD-F7E8CE5F88C1",
-                          @"os":@"iOS",
-                          @"osVersion":@"9.3.5",
-                          @"app":@"GSApp",
-                          @"appVersion":@"2.3.3",
-                          @"request":@{@"type":[NSNumber numberWithInteger:pageIndex],
-                                       }};
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
-    NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/subscribe" body:str block:^(id result) {
+    NSDictionary *dic = @{@"type":[NSNumber numberWithInteger:pageIndex],
+                                       };
+
+    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/subscribe" body:dic block:^(id result) {
         NSArray *array = [result objectForKey:@"result"];
         if (_tableViewDataArray.count != 0) {
             [_tableViewDataArray removeAllObjects];

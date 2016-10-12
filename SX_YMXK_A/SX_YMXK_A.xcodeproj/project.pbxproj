@@ -15,6 +15,7 @@
 		498A0A9C1D9A70FD0036BA2A /* SX_MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 498A0A9B1D9A70FD0036BA2A /* SX_MenuViewController.m */; };
 		498A0AA21D9A94690036BA2A /* SX_MenuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 498A0AA11D9A94690036BA2A /* SX_MenuModel.m */; };
 		498A0AA51D9A94DE0036BA2A /* SX_MenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 498A0AA41D9A94DE0036BA2A /* SX_MenuTableViewCell.m */; };
+		498AC2A91DADC11C0000883F /* NSString+Regex.m in Sources */ = {isa = PBXBuildFile; fileRef = 498AC2A81DADC11C0000883F /* NSString+Regex.m */; };
 		499A39681D8FCFCE0048321B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 499A39671D8FCFCE0048321B /* main.m */; };
 		499A396B1D8FCFCE0048321B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 499A396A1D8FCFCE0048321B /* AppDelegate.m */; };
 		499A39731D8FCFCE0048321B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 499A39721D8FCFCE0048321B /* Assets.xcassets */; };
@@ -85,6 +86,8 @@
 		498A0AA11D9A94690036BA2A /* SX_MenuModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_MenuModel.m; sourceTree = "<group>"; };
 		498A0AA31D9A94DE0036BA2A /* SX_MenuTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SX_MenuTableViewCell.h; sourceTree = "<group>"; };
 		498A0AA41D9A94DE0036BA2A /* SX_MenuTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SX_MenuTableViewCell.m; sourceTree = "<group>"; };
+		498AC2A71DADC11C0000883F /* NSString+Regex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Regex.h"; sourceTree = "<group>"; };
+		498AC2A81DADC11C0000883F /* NSString+Regex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Regex.m"; sourceTree = "<group>"; };
 		499A39631D8FCFCE0048321B /* SX_YMXK_A.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SX_YMXK_A.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		499A39671D8FCFCE0048321B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		499A39691D8FCFCE0048321B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -631,6 +634,8 @@
 		49FD0A021DA6400000C1ADFD /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				498AC2A71DADC11C0000883F /* NSString+Regex.h */,
+				498AC2A81DADC11C0000883F /* NSString+Regex.m */,
 				49FD0A051DA6400000C1ADFD /* NSDate+Categories.h */,
 				49FD0A061DA6400000C1ADFD /* NSDate+Categories.m */,
 				49FD0A071DA6400000C1ADFD /* NSDate+EasyExtend.h */,
@@ -791,6 +796,7 @@
 				49C8C3941D98BAD80069CF0D /* SX_NewsDetailViewController.m in Sources */,
 				49FA37AF1DA764B200ABECF9 /* SX_TextViewController.m in Sources */,
 				498A0AA21D9A94690036BA2A /* SX_MenuModel.m in Sources */,
+				498AC2A91DADC11C0000883F /* NSString+Regex.m in Sources */,
 				499A396B1D8FCFCE0048321B /* AppDelegate.m in Sources */,
 				49E97F4E1DAB4819007284C7 /* SX_SubscribeTopicViewController.m in Sources */,
 				49F8DC581D97732200A7534C /* SX_SubscribeDetailViewController.m in Sources */,

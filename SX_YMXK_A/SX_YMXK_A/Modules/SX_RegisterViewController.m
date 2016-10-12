@@ -30,17 +30,10 @@ UITextFieldDelegate
 }
 
 - (void)getUsername {
-    NSDictionary *dic = @{@"deviceType":@"iPhone6,2",
-                          @"deviceId":@"E88673B2-DFA0-4D08-A3BD-F7E8CE5F88C1",
-                          @"os":@"iOS",
-                          @"osVersion":@"9.3.5",
-                          @"app":@"GSApp",
-                          @"appVersion":@"2.3.3",
-                          @"request":@{}
+    NSDictionary *dic = @{
                           };
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
-    NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/GetRandomUserName" body:str block:^(id result) {
+
+    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/GetRandomUserName" body:dic block:^(id result) {
         _usernameTextField.text = [[result objectForKey:@"result"] objectForKey:@"userName"];
     }];
 }
@@ -200,20 +193,12 @@ UITextFieldDelegate
         _label.text = @"两次输入密码不相同!";
     }
     else {
-        NSDictionary *dic = @{@"deviceType":@"iPhone6,2",
-                              @"deviceId":@"E88673B2-DFA0-4D08-A3BD-F7E8CE5F88C1",
-                              @"os":@"iOS",
-                              @"osVersion":@"9.3.5",
-                              @"app":@"GSApp",
-                              @"appVersion":@"2.3.3",
-                              @"request":@{@"phoneNumber":_phoneNumber,
+        NSDictionary *dic = @{@"phoneNumber":_phoneNumber,
                                            @"userName":_usernameTextField.text,
                                            @"password":_passwordTextField.text,
-                                           @"varifyToken":_varifyToken}
+                                           @"varifyToken":_varifyToken
                               };
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
-        NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/Register" body:str block:^(id result) {
+        [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/Register" body:dic block:^(id result) {
             NSNumber *errorCode = [result objectForKey:@"errorCode"];
             if ([errorCode isEqual:@0]) {
                 NSString *loginToken = [[result objectForKey:@"result"] objectForKey:@"loginToken"];

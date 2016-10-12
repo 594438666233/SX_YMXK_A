@@ -7,36 +7,42 @@
 //
 
 #import "SX_DataRequest.h"
-#import <AFNetworking.h>
 
 @implementation SX_DataRequest
 
-//+ (void)GETRequestWithString:(NSString *)string block:(void(^)(id))block {
-//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-//    [manager GET:string parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//        block(responseObject);
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        block(error);
-//    }];
-//}
 
-//+ (void)POSTRequestWithString:(NSString *)string body:(NSString *)body block:(void (^)(id))block {
-//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-//    [manager POST:string parameters:body progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//        block(responseObject);
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        block(error);
-//    }];
-//}
++ (NSString *)uuid {
+    CFUUIDRef puuid = CFUUIDCreate(nil);
+    CFStringRef uuidString = CFUUIDCreateString(nil, puuid);
+    NSString *result = (NSString *)CFBridgingRelease(CFStringCreateCopy(NULL, uuidString));
+    CFRelease(puuid);
+    CFRelease(uuidString);
+    return result;
+}
 
-+ (void)POSTRequestWithString:(NSString *)string body:(NSString *)body block:(void (^)(id))block {
 
+
++ (void)POSTRequestWithString:(NSString *)string body:(NSDictionary *)body block:(void (^)(id))block {
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+//    [dic setObject:@"iPhone6,2" forKey:@"deviceType"];
+    [dic setObject:[[UIDevice currentDevice] name] forKey:@"deviceType"];
+    [dic setObject:[self uuid] forKey:@"deviceId"];
+//    [dic setObject:@"iOS" forKey:@"os"];
+    [dic setObject:[[UIDevice currentDevice] systemName] forKey:@"os"];
+    [dic setObject:[[UIDevice currentDevice] systemVersion] forKey:@"osVersion"];
+    [dic setObject:@"GSApp" forKey:@"app"];
+    [dic setObject:@"2.3.3" forKey:@"appVersion"];
+    [dic setObject:body forKey:@"request"];
+
+    
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
     
     NSURL *url = [NSURL URLWithString:string];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
-    request.HTTPBody = [body dataUsingEncoding:NSUTF8StringEncoding];
+    request.HTTPBody = [str dataUsingEncoding:NSUTF8StringEncoding];
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{

@@ -144,20 +144,12 @@ UITextFieldDelegate
 }
 
 - (void)getVerifyCodeAction {
-    NSDictionary *dic = @{@"deviceType":@"iPhone6,2",
-                          @"deviceId":@"E88673B2-DFA0-4D08-A3BD-F7E8CE5F88C1",
-                          @"os":@"iOS",
-                          @"osVersion":@"9.3.5",
-                          @"app":@"GSApp",
-                          @"appVersion":@"2.3.3",
-                          @"request":@{@"codetype":@1,
+    NSDictionary *dic = @{@"codetype":@1,
                                        @"phoneNumber":[NSString stringWithFormat:@"%@", _phoneNumber],
                                        @"email":@"" ,
-                                       @"username":@""}
+                                       @"username":@""
                           };
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
-    NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/GetVerificationCode" body:str block:nil];
+    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/GetVerificationCode" body:dic block:nil];
     
     
     
@@ -209,20 +201,13 @@ UITextFieldDelegate
 
 
 - (void)nextAction {
-    NSDictionary *dic = @{@"deviceType":@"iPhone6,2",
-                          @"deviceId":@"E88673B2-DFA0-4D08-A3BD-F7E8CE5F88C1",
-                          @"os":@"iOS",
-                          @"osVersion":@"9.3.5",
-                          @"app":@"GSApp",
-                          @"appVersion":@"2.3.3",
-                          @"request":@{@"codeType":@1,
+    NSDictionary *dic = @{@"codeType":@1,
                                        @"phone":_phoneNumber,
                                        @"email":@"",
-                                       @"veriCode":_verifyCodeTextField.text}
+                                       @"veriCode":_verifyCodeTextField.text
                           };
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
-    NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/CheckCode" body:str block:^(id result) {
+
+    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/CheckCode" body:dic block:^(id result) {
         NSString *message = [result objectForKey:@"errorMessage"];
         NSNumber *errorCode = [result objectForKey:@"errorCode"];
         if ([errorCode isEqual:@0]) {

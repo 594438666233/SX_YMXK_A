@@ -39,20 +39,13 @@ UITableViewDelegate
 
 
 - (void)getTableViewSource:(NSInteger)pageIndex {
-    NSDictionary *dic = @{@"deviceType":@"iPhone6,2",
-                          @"deviceId":@"E88673B2-DFA0-4D08-A3BD-F7E8CE5F88C1",
-                          @"os":@"iOS",
-                          @"osVersion":@"9.3.5",
-                          @"app":@"GSApp",
-                          @"appVersion":@"2.3.3",
-                          @"request":@{@"parentNodeId":@"dingYue",
+    NSDictionary *dic = @{@"parentNodeId":@"dingYue",
                                        @"nodeIds":[NSString stringWithFormat:@"%ld", self.subsribeResult.sourceId],
                                        @"type":@"dingyueList",
                                        @"pageIndex":[NSString stringWithFormat:@"%ld", pageIndex],
-                                       @"elementsCountPerPage":@"20"}};
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
-    NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/AllChannelList" body:str block:^(id result) {
+                                       @"elementsCountPerPage":@"20"};
+
+    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/AllChannelList" body:dic block:^(id result) {
         NSArray *array = [result objectForKey:@"result"];
         if (pageIndex == 1) {
             [_tableViewDataArray removeAllObjects];
@@ -182,14 +175,6 @@ UITableViewDelegate
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

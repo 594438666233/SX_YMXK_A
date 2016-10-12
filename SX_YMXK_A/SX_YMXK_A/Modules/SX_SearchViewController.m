@@ -57,20 +57,13 @@ UIScrollViewDelegate
 }
 
 - (void)getTableViewSource:(NSInteger)pageIndex searchKey:(NSString *) searchKey searchType:(NSString *)searchType {
-    NSDictionary *dic = @{@"deviceType":@"iPhone6,2",
-                          @"deviceId":@"E88673B2-DFA0-4D08-A3BD-F7E8CE5F88C1",
-                          @"os":@"iOS",
-                          @"osVersion":@"9.3.5",
-                          @"app":@"GSApp",
-                          @"appVersion":@"2.3.3",
-                          @"request":@{@"searchType":searchType,
+    NSDictionary *dic = @{@"searchType":searchType,
                                        @"searchKey":searchKey,
                                        @"pageIndex":[NSNumber numberWithInteger:pageIndex],
                                        @"elementsCountPerPage":@20
-                                       }};
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
-    NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/TwoSearch" body:str block:^(id result) {
+                                       };
+
+    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/TwoSearch" body:dic block:^(id result) {
         NSArray *array = [result objectForKey:@"result"];
         if (_tableViewDataArray.count != 0 && pageIndex == 1) {
             [_tableViewDataArray removeAllObjects];

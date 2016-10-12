@@ -55,17 +55,10 @@ UITableViewDelegate
 }
 
 - (void)getDetailSource {
-    NSDictionary *dic = @{@"deviceType":@"iPhone6,2",
-                          @"deviceId":@"E88673B2-DFA0-4D08-A3BD-F7E8CE5F88C1",
-                          @"os":@"iOS",
-                          @"osVersion":@"9.3.5",
-                          @"app":@"GSApp",
-                          @"appVersion":@"2.3.3",
-                          @"request":@{@"contentId":[NSString stringWithFormat:@"%ld", _contentId]
-                                       }};
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
-    NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/TwoGameDetails" body:str block:^(id result) {
+    NSDictionary *dic = @{@"contentId":[NSString stringWithFormat:@"%ld", _contentId]
+                                       };
+
+    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/TwoGameDetails" body:dic block:^(id result) {
         NSDictionary *dic = [result objectForKey:@"result"];
         self.gameDetailResult = [SX_GameDetailResult modelWithDic:dic];
         _gameDetailResult.contentId = _contentId;
@@ -77,20 +70,12 @@ UITableViewDelegate
 }
 
 - (void)getTableViewSource:(NSInteger)pageIndex contentId:(NSInteger)contentId contentType:(NSString *)contentType {
-    NSDictionary *dic = @{@"deviceType":@"iPhone6,2",
-                          @"deviceId":@"E88673B2-DFA0-4D08-A3BD-F7E8CE5F88C1",
-                          @"os":@"iOS",
-                          @"osVersion":@"9.3.5",
-                          @"app":@"GSApp",
-                          @"appVersion":@"2.3.3",
-                          @"request":@{@"contentId":[NSNumber numberWithInteger:contentId],
+    NSDictionary *dic = @{@"contentId":[NSNumber numberWithInteger:contentId],
                                        @"contentType":contentType,
                                        @"pageIndex":[NSNumber numberWithInteger:pageIndex],
                                        @"elementsCountPerPage":@20
-                                       }};
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
-    NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/TwoCorrelation" body:str block:^(id result) {
+                                       };
+    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/TwoCorrelation" body:dic block:^(id result) {
         NSArray *array = [result objectForKey:@"result"];
         if (_tableViewDataArray.count != 0 && pageIndex == 1) {
             [_tableViewDataArray removeAllObjects];

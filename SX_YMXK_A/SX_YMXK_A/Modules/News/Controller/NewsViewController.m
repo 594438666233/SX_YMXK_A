@@ -58,19 +58,11 @@ UICollectionViewDelegate
 
 
 - (void)getTableViewSource:(NSInteger)pageIndex nodeIds:(NSInteger)nodeIds{
-    NSDictionary *dic = @{@"deviceType":@"iPhone6,2",
-                          @"deviceId":@"E88673B2-DFA0-4D08-A3BD-F7E8CE5F88C1",
-                          @"os":@"iOS",
-                          @"osVersion":@"9.3.5",
-                          @"app":@"GSApp",
-                          @"appVersion":@"2.3.3",
-                          @"request":@{@"parentNodeId":@"news",
+    NSDictionary *dic = @{@"parentNodeId":@"news",
                                        @"nodeIds":[NSString stringWithFormat:@"%ld", nodeIds],
                                        @"pageIndex":[NSString stringWithFormat:@"%ld", pageIndex],
-                                       @"elementsCountPerPage":@"20"}};
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
-    NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/AllChannelList" body:str block:^(id result) {
+                                       @"elementsCountPerPage":@"20"};
+    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/AllChannelList" body:dic block:^(id result) {
         NSArray *array = [result objectForKey:@"result"];
         if (pageIndex == 1) {
             [_dataArray removeAllObjects];
@@ -87,17 +79,9 @@ UICollectionViewDelegate
 }
 
 - (void)getCollectionViewSource {
-    NSDictionary *dic = @{@"deviceType":@"iPhone6,2",
-                          @"deviceId":@"E88673B2-DFA0-4D08-A3BD-F7E8CE5F88C1",
-                          @"os":@"iOS",
-                          @"osVersion":@"9.3.5",
-                          @"app":@"GSApp",
-                          @"appVersion":@"2.3.3",
-                          @"request":@{@"type":@0}
-                          };
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
-    NSString *str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/allchannel" body:str block:^(id result) {
+    NSDictionary *dic = @{@"type":@0};
+
+    [SX_DataRequest POSTRequestWithString:@"http://appapi2.gamersky.com/v2/allchannel" body:dic block:^(id result) {
         NSArray *array = [result objectForKey:@"result"];
         SX_NavigationResult *result1 = [[SX_NavigationResult alloc] init];
         result1.nodeId = 0;
