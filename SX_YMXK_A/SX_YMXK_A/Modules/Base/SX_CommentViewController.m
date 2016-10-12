@@ -177,6 +177,7 @@ UITableViewDelegate
     } nightMode:^(UIView *view) {
         cell.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.85];
     }];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 

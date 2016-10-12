@@ -108,6 +108,7 @@ SX_CommentCellDelegate
     cell.comment = comment;
     cell.topic_delegate = self;
     cell.backgroundColor = [UIColor clearColor];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 

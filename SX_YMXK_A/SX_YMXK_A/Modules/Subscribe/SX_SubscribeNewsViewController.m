@@ -120,6 +120,7 @@ UITableViewDelegate
     SX_NewsResult *result = _tableViewDataArray[indexPath.row];
     cell.xinwenNewsResult = result;
     cell.backgroundColor = [UIColor clearColor];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
